@@ -3,7 +3,7 @@ const input = document.querySelector("#taskInput");
 const addButton = document.getElementById("addButton");
 const sortBtn = document.getElementById("sortBtn");
 const clearAllBtn = document.getElementById("clearAllBtn");
-const TasksUlElem = document.getElementById("tasks");
+const tasksUlElem = document.getElementById("tasks");
 const countTasksElem = document.getElementById("count");
 const todoListH1Elem = document.querySelector("h1");
 const watingForTasksElem = createWelcomeMsg();//create wating for tasks greet
@@ -21,6 +21,8 @@ handleEnterPress();
 
 
 function onButtonAddClicked() {
+
+
   const todayDate = getTodayDate()
   const dateElem = document.createElement('i')
   dateElem.innerHTML = todayDate;
@@ -39,10 +41,11 @@ function onButtonAddClicked() {
     return;
   }
 
-  TasksUlElem.appendChild(liTaskElem);//append new task to the list
+  tasksUlElem.appendChild(liTaskElem);//append new task to the list
+  let numTasks = tasksUlElem.childElementCount;//number of current tasks in the list
   input.value = "";//Clear the input when a new item is added
 
-  let numTasks = TasksUlElem.childElementCount;//number of current tasks in the list
+  
   
   numTasks > 0
     ? (clearAllBtn.style.visibility = "visible")
@@ -83,6 +86,7 @@ function onButtonAddClicked() {
     setTimeout(() => {//i used setTimeout because i added animation
       liTaskElem.remove();
       numTasks--;
+      console.log('here',numTasks)
       countTasksElem.innerText =
         "you have" + " " + numTasks.toString() + " " + "task(s)";
       if (numTasks === 0) {
@@ -93,6 +97,7 @@ function onButtonAddClicked() {
         clearAllBtn.style.visibility = "hidden";
       }
       if (numTasks === 1) {
+          console.log(numTasks)
         sortBtn.style.visibility = "hidden";
       }
     }, 500);
@@ -104,7 +109,7 @@ function onButtonAddClicked() {
 }
 
 function sortTasksListByName() {
-  const taksElements = [...TasksUlElem.childNodes];
+  const taksElements = [...tasksUlElem.childNodes];
   taksElements.sort((task1, task2) => {
     const text1 = task1.querySelector("span").innerHTML;
     const text2 = task2.querySelector("span").innerHTML;
@@ -112,15 +117,15 @@ function sortTasksListByName() {
   });
 
   taksElements.forEach((task) => task.remove());
-  taksElements.forEach((task) => TasksUlElem.appendChild(task));
+  taksElements.forEach((task) => tasksUlElem.appendChild(task));
 }
 
 function clearAllTasks() {
   countTasksElem.style.visibility = "hidden";
-  TasksUlElem.classList.toggle("removed-item");
+  tasksUlElem.classList.toggle("removed-item");
   setTimeout(() => {//i used setTimeout because i added animation
-    TasksUlElem.innerHTML = "";//remove all the tasks
-    TasksUlElem.classList.remove("removed-item");
+    tasksUlElem.innerHTML = "";//remove all the tasks
+    tasksUlElem.classList.remove("removed-item");
     watingForTasksElem.style.visibility = "visible";
   }, 500);
   clearAllBtn.style.visibility = "hidden";
@@ -128,7 +133,7 @@ function clearAllTasks() {
 }
 
 function handleEmptyState() {
-  if (TasksUlElem.childElementCount === 0) {
+  if (tasksUlElem.childElementCount === 0) {
     countTasksElem.style.visibility = "hidden";
   }
   const div = document.createElement("div");
