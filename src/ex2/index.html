@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Listy</title>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TodoList</title>
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="app-container">
-      <div class="list-container">
-        <h1 class="app-name">Todo App</h1>
-        <div class="list-controls">
-          <input
-            type="text"
-            id="list-item-input"
-            placeholder="Add your new todo"
-          />
-          <button type="button" id="list-item-submit">+</button>
-        </div>
-        <ul id="list"></ul>
-      </div>
+    <!-- FONT-AWESOME  -->
+	<script src="https://kit.fontawesome.com/434f764404.js" crossorigin="anonymous"></script>
+   
+</head>
+
+<body>
+
+<section class="main-section">
+    <div class="todoApp"id=todoApp>
+        <h1 class="">My Todo List</h1>
+
+            
+        
+        <span id="newtask" class ="newTask">
+         
+            <input id ='taskInput' type="text" placeholder="Task to be done..">
+            <button id="addButton"class = 'add' > <i class="fas fa-plus"></i></button>
+            <button id ="sortBtn"> Sort by name</button>
+            <ul id="tasks"></ul>
+            <footer>
+            <span id ='count'></span>
+            <button id ="clearAllBtn"> Clear All</button>
+            </footer>
+        </span>
+        
     </div>
-  </body>
-  <script src="main.js"></script>
+</section>
+
+
+
+
+
+</body>
+<script type = "module" src="main.js"></script>
+<!-- <script type = "module" src="ItemManager.js"></script> -->
 </html>
