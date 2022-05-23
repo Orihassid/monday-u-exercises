@@ -19,6 +19,7 @@ class Main {
     this.clearAllBtn.style.visibility = "hidden";
     this.countTasksElem.classList = "count";
     this.watingForTasksElem = this.createWelcomeMsg()
+    this.handleEnterPress();
   }
   addItem()
   {
@@ -26,8 +27,8 @@ class Main {
         this.itemManager.addItem(this.input.value);
         this.watingForTasksElem.style.visibility = "hidden";
         this.countTasksElem.style.visibility = "visible";
-       // this.itemManager.getPokemon(this.input.value)
-        //console.log(this.itemManager.itemsArr)
+
+        
        
       });
   }
@@ -42,6 +43,18 @@ class Main {
     elementDiv.appendChild(parentDiv);
     return parentDiv;
   }
+
+
+   handleEnterPress(){
+    this.input.addEventListener("keypress", (event)=> {
+      // If the user presses the "Enter" key on the keyboard
+      if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        this.addButton.click();
+      }
+    })}
 }
 
 const main = new Main();
