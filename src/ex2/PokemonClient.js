@@ -1,35 +1,40 @@
 class PokemonClinet {
   constructor() {}
   fetchPokemon(arr) {
-    if (arr.length === 1) {
-      
-     return  this.getSinglePokemon(arr);
-    } else return this.getMultiPokemons(arr);
-  }
-  async getSinglePokemon(arr) {
-    const response = await fetch("https:pokeapi.co/api/v2/pokemon/" + arr[0]);
-    const pokemon = await response.json();
-    return [pokemon.name]
-    
-  }
-   getMultiPokemons(arr) {
-
-    const responses = [];
-    const result = [];
- 
+    const respones = [];
     arr.forEach((id) => {
-      const data = fetch("https:pokeapi.co/api/v2/pokemon/" + id);
-      console.log(data);
-      responses.push(data);
+      const data = fetch("https:pokeapi.co/api/v2/pokemon/"+ id);
+      respones.push(data);
     });
-        Promise.all(responses).then((res) =>Promise.all (res.map(r=>r.json())))
-      .then(jsonObjects=>{ console.log(jsonObjects) })
-      
-      
-
-    
-
+    Promise.all(respones)
+      .then((res) => Promise.all(res.map((r) => r.json())))
+      .then((jsonObjects) => {
+        console.log(jsonObjects);
+      });
+    //  return somthimg
   }
+
+  //   if (arr.length === 1) {
+
+  //    return  this.getSinglePokemon(arr);
+  //   } else return this.getMultiPokemons(arr);
+  // }
+  // async getSinglePokemon(arr) {
+  //   const response = await fetch("https:pokeapi.co/api/v2/pokemon/" + arr[0]);
+  //   const pokemon = await response.json();
+  //   return [pokemon.name]
+
+  // }
+  //  getMultiPokemons(arr) {
+
+  //   const responses = [];
+  //   const result = [];
+
+  //   arr.forEach((id) => {
+  //     const data = fetch("https:pokeapi.co/api/v2/pokemon/" + id);
+  //     console.log(data);
+  //     responses.push(data);
+  //   });
 }
 
 export default PokemonClinet;

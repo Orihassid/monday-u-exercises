@@ -4,33 +4,42 @@ import ItemManager from "./ItemManager.js";
 class Main {
   constructor() {
     this.itemManager = new ItemManager();
-    this.addButton = document.getElementById("addButton");
     this.input = document.getElementById("taskInput");
+    this.addButton = document.getElementById("addButton");
+    this.watingForTasksElem = this.createWelcomeMsg();
+    this.todoListH1Elem = document.querySelector("h1");
     this.sortBtn = document.getElementById("sortBtn");
     this.clearAllBtn = document.getElementById("clearAllBtn");
-    this.tasksUlElem = document.getElementById("tasks");
-    this.countTasksElem = document.getElementById("count");
-    this.todoListH1Elem = document.querySelector("h1");
-    this.watingForTasksElem = null //create wating for tasks greet
   }
-
   init() {
-    this.sortBtn.style.visibility = "hidden";
-    this.clearAllBtn.style.visibility = "hidden";
-    this.countTasksElem.classList = "count";
-    this.watingForTasksElem = this.createWelcomeMsg()
     this.handleEnterPress();
+    //this.sortBtn.addEventListener("click", this.sortTasksListByName());
+    this.clearAllBtn.addEventListener("click", () => {
+      this.itemManager.clearAllTasks();
+    });
+    this.addButton.addEventListener("click", () => {
+      this.watingForTasksElem.style.visibility = "visible";
+      this.inputValidation(this.input.value, this.itemManager.itemsArr);
+      this.itemManager.addItem(this.input.value);
+      this.input.value = "";
+    });
   }
-  addItem()
-  {
-        this.addButton.addEventListener("click", () => {
-        this.itemManager.addItem(this.input.value);
-        this.watingForTasksElem.style.visibility = "hidden";
-        this.countTasksElem.style.visibility = "visible";
-
-        
-       
-      });
+  inputValidation(input, itemsArr) {
+    if (input.trim() === "") {
+      if (itemsArr.length === 0) {
+        //this.countTasksElem.style.visibility = "hidden";
+      }
+      const div = document.createElement("div");
+      const i = document.createElement("i");
+      div.classList = "error-msg";
+      div.appendChild(i);
+      this.todoListH1Elem.appendChild(div);
+      div.innerText = "You can't add an empty task!";
+      setTimeout(() => {
+        div.remove();
+        i.remove();
+      }, 4000);
+    } else return;
   }
   createWelcomeMsg() {
     const childDiv = document.createElement("div");
@@ -44,17 +53,14 @@ class Main {
     return parentDiv;
   }
 
-
-   handleEnterPress(){
-    this.input.addEventListener("keypress", (event)=> {
-      // If the user presses the "Enter" key on the keyboard
+  handleEnterPress() {
+    this.input.addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
-        // Cancel the default action, if needed
         event.preventDefault();
-        // Trigger the button element with a click
         this.addButton.click();
       }
-    })}
+    });
+  }
 }
 
 const main = new Main();
@@ -63,7 +69,4 @@ document.addEventListener("DOMContentLoaded", function () {
   // you should create an `init` method in your class
   // the method should add the event listener to your "add" button
   main.init();
-  main.addItem()
 });
-
-

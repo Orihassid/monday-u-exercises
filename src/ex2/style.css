@@ -94,6 +94,7 @@ ul li.checked {
     transform: rotate(45deg);
     height: 15px;
     width: 7px;
+   
   } 
 .new-item {
   list-style: none;
@@ -120,6 +121,7 @@ ul li.checked {
   border: none;
   outline: none;
   cursor: pointer;
+  
 }
 
 .todoApp .form-btns {
