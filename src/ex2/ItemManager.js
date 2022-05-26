@@ -6,8 +6,9 @@ class ItemManager {
     this.newItems = [];
   }
 
-  clearAllTasks() {
+  deleteAllItems() {
     this.itemsArr = [];
+    this.newItems = [];
   }
 
   generateId() {

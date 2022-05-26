@@ -15,8 +15,7 @@ class Main {
   init() {
     this.handleEnterPress();
     this.sortBtn.addEventListener("click", this.sortTasksListByName());
-    this.clearAllBtn.addEventListener("click", () => {
-      this.itemManager.clearAllTasks();
+    this.clearAllBtn.addEventListener("click", () => { this.clearAllTasks();
     });
     this.addButton.addEventListener("click", async () => {
       this.watingForTasksElem.style.visibility = "visible";
@@ -41,6 +40,20 @@ class Main {
 
       this.input.value = "";
     });
+  }
+
+
+  clearAllTasks()
+  {
+    this.itemManager.deleteAllItems();
+    //countTasksElem.style.visibility = "hidden";
+  this.tasksUlElem.classList.toggle("removed-item");
+  setTimeout(() => {//i used setTimeout because i added animation
+    this.tasksUlElem.innerHTML = "";//remove all the tasks
+    this.tasksUlElem.classList.remove("removed-item");
+  }, 500);
+  //clearAllBtn.style.visibility = "hidden";
+  //sortBtn.style.visibility = "hidden";
   }
 
   handleEmptyState() {
