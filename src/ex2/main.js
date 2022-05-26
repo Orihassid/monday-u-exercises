@@ -14,21 +14,17 @@ class Main {
   }
   init() {
     this.handleEnterPress();
-    this.sortBtn.addEventListener("click", this.sortTasksListByName());
-    this.clearAllBtn.addEventListener("click", () => { this.clearAllTasks();
-    });
+    this.sortBtn.addEventListener("click",()=> this.sortTasksListByName());
+    this.clearAllBtn.addEventListener("click", () =>  this.clearAllTasks());
     this.addButton.addEventListener("click", async () => {
       this.watingForTasksElem.style.visibility = "visible";
       if (!this.input.value.trim()) {
-        //if the user value is empty
         this.handleEmptyState();
         return;
       }
       const { isPokemon, arr } = this.validation(this.input.value);
-      console.log(isPokemon, arr, "noder");
       try {
         const itemToRender = await this.itemManager.addItem(isPokemon, arr);
-        console.log("item to render", itemToRender);
         if (itemToRender === null) {
           this.input.value = "";
           return;
@@ -105,7 +101,18 @@ class Main {
     // sortBtn.style.visibility = "hidden";
   }
 
-  sortTasksListByName() {}
+  sortTasksListByName() {
+    const taksElements = [...this.tasksUlElem.childNodes];
+  taksElements.sort((task1, task2) => {
+    const text1 = task1.querySelector("span").innerHTML;
+    const text2 = task2.querySelector("span").innerHTML;
+    return text1.toLowerCase().localeCompare(text2.toLowerCase());
+  });
+
+  taksElements.forEach((task) => task.remove());
+  taksElements.forEach((task) => this.tasksUlElem.appendChild(task));
+}
+  
 
   addItem(newItemsToRender) {
     for (const val of newItemsToRender) {
