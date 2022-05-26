@@ -21,8 +21,7 @@ class ItemManager {
   }
 
   async addItem(isPokemon, arr) {
-    const itemId = this.generateId();
-
+    this.newItems = [];
     if (isPokemon) {
       const filteredArr = this.getItemsToAdd(arr);
       if (filteredArr.length == 0) {
@@ -31,40 +30,42 @@ class ItemManager {
       } else {
         try {
           const pokemons = await this.pokemonClinet.fetchPokemon(filteredArr);
-          this.itemsArr = this.itemsArr.concat(
-            pokemons.map((pokemon) => {
+            pokemons.forEach((pokemon) => {
+              const itemId = this.generateId();
               const obj = {
                 itemId: itemId,
-                isPokemon: isPokemon,
+                isPokemon: true,
                 item: pokemon,
               };
               this.itemsArr.push(obj);
+              this.newItems.push(obj)
               return obj;
             })
-          );
-          return { itemId: itemId, isPokemon, items: pokemons };
+          
         } catch (e) {
-          console.log(e);
+          const itemId = this.generateId();
           const obj = {
             itemId: itemId,
             isPokemon: false,
             item: "pokemon not found",
           };
           this.itemsArr.push(obj);
-
-          throw "pokemon not found";
+          this.newItems.push(obj)
         }
       }
     } else {
-      this.itemsArr.push({ isPokemon: false, item: arr[0] });
-      return { itemId: itemId, isPokemon, items: arr };
+      const itemId = this.generateId();
+      this.itemsArr.push({ itemId:itemId, isPokemon: false, item: arr[0] });
+      this.newItems.push( { itemId:itemId, isPokemon: false, item: arr[0] } )
     }
+    console.log('itemsArr',this.itemsArr)
+    console.log('newItens',this.newItems)
   }
 
-  deleteItem(item) {
-    console.log("here", item);
+  deleteItem(itemId) {
+    console.log("delete", itemId);
     const idx = this.itemsArr.findIndex((elem) => {
-      if (elem == item) return true;
+      if (elem.itemId == itemId) return true;
     });
     this.itemsArr.splice(idx, 1);
     console.log(idx, this.itemsArr);

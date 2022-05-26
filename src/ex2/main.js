@@ -20,18 +20,21 @@ class Main {
     });
     this.addButton.addEventListener("click", async () => {
       this.watingForTasksElem.style.visibility = "visible";
-      this.emptyInputValidation(this.input.value, this.itemManager.itemsArr);
+      if (!this.input.value.trim()) {
+        //if the user value is empty
+        this.handleEmptyState();
+        return;
+      }
       const { isPokemon, arr } = this.validation(this.input.value);
       console.log(isPokemon, arr, "noder");
       try {
         const itemToRender = await this.itemManager.addItem(isPokemon, arr);
         console.log("item to render", itemToRender);
-        if (itemToRender == null) {
+        if (itemToRender === null) {
           this.input.value = "";
           return;
         }
-
-        this.addItem(itemToRender.items, itemToRender.isPokemon);
+        this.addItem(this.itemManager.newItems);
       } catch (err) {
         this.addItem([err], false);
       }
@@ -40,22 +43,20 @@ class Main {
     });
   }
 
-  emptyInputValidation(input, itemsArr) {
-    if (input.trim() === "") {
-      if (itemsArr.length === 0) {
-        //this.countTasksElem.style.visibility = "hidden";
-      }
-      const div = document.createElement("div");
-      const i = document.createElement("i");
-      div.classList = "error-msg";
-      div.appendChild(i);
-      this.todoListH1Elem.appendChild(div);
-      div.innerText = "You can't add an empty task!";
-      setTimeout(() => {
-        div.remove();
-        i.remove();
-      }, 4000);
-    } else return;
+  handleEmptyState() {
+    if (this.itemManager.itemsArr.length === 0) {
+      //this.countTasksElem.style.visibility = "hidden";
+    }
+    const div = document.createElement("div");
+    const i = document.createElement("i");
+    div.classList = "error-msg";
+    div.appendChild(i);
+    this.todoListH1Elem.appendChild(div);
+    div.innerText = "You can't add an empty task!";
+    setTimeout(() => {
+      div.remove();
+      i.remove();
+    }, 4000);
   }
   createWelcomeMsg() {
     const childDiv = document.createElement("div");
@@ -91,32 +92,27 @@ class Main {
     // sortBtn.style.visibility = "hidden";
   }
 
-  sortTasksListByName() {
-    
-  }
+  sortTasksListByName() {}
 
-  addItem(item, isPokemon) {
-    for (const val of item) {
-      this.renderItem(val, isPokemon);
+  addItem(newItemsToRender) {
+    for (const val of newItemsToRender) {
+      this.renderItem(val);
     }
   }
-  renderItem(item, isPokemon) {
+  renderItem(val) {
     const liTaskElem = document.createElement("li"); //create new list item html element
     const textElement = document.createElement("span"); //document.createTextNode(input.value); // create text html element with user task input name
-    if (isPokemon) {
-      console.log("hey", item.name);
-      textElement.innerText = `catch ${item.name}`;
-      liTaskElem.setAttribute("id", `pokemon`);
+    if (val.isPokemon) {
+      textElement.innerText = `catch ${val.item.name}`;
     } else {
-      textElement.innerText = item;
-      liTaskElem.setAttribute("id", `item`);
+      textElement.innerText = val.item;
     }
-
+    liTaskElem.setAttribute("id", `${val.itemId}`);
     liTaskElem.appendChild(textElement); // append text element to list item element
     liTaskElem.classList = "new-item";
     this.addDateElement(liTaskElem);
     this.tasksUlElem.appendChild(liTaskElem); //append new task to the list
-    this.createDeleteButton(liTaskElem, item);
+    this.createDeleteButton(liTaskElem);
     this.clickOnItem(liTaskElem, textElement);
     //countTasksElem.innerHTML = "you have" + " " + numTasks.toString() + " " + "task(s)";
   }
@@ -124,6 +120,9 @@ class Main {
   addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton, itemToDelete) {
     deleteButton.addEventListener("click", () => {
       liTaskElem.classList.toggle("removed-item");
+      const itemId = liTaskElem.id
+      this.itemManager.deleteItem(itemId);
+      
       setTimeout(() => {
         //i used setTimeout because i added animation
         liTaskElem.remove();
@@ -167,12 +166,12 @@ class Main {
     );
   }
 
-  createDeleteButton(liTaskElem, item) {
+  createDeleteButton(liTaskElem) {
     const deleteButton = document.createElement("button");
     deleteButton.style.visibility = "hidden";
     deleteButton.className = "delete fa fa-trash";
     liTaskElem.appendChild(deleteButton);
-    this.addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton, item);
+    this.addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton);
     //Change the background and cursor type of an item when hovered on
     liTaskElem.addEventListener("mouseover", () => {
       deleteButton.style.visibility = "visible";
