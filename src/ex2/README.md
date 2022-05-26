@@ -18,7 +18,7 @@ But this kind of work requires a bit more code organization, so...
 
 ### The requirements:
 
-- [ ] Refactor your current code to use classes with methods (you can copy+paste the code to a new file and refactor there - just make sure to update the `scripts` tag in your `index.html`)
+- [x] Refactor your current code to use classes with methods (you can copy+paste the code to a new file and refactor there - just make sure to update the `scripts` tag in your `index.html`)
 - [x] Create an ItemManager class (in a new file) to manage the item adding/removing + pokemon fetching - this class does _not_ deal with the DOM
 - [x] Store todos in an array (class attribute) - this should be in the ItemManager class
 - [x] Render todos from the array using a separate render method
@@ -35,7 +35,7 @@ When you finish it should look like this:
 
 ### Bonus
 
-- [] Add a delete all option - make sure you're actually deleting the data, not just removing from the DOM
+- [x] Add a delete all option - make sure you're actually deleting the data, not just removing from the DOM
 - [x] Validate that the user isn't adding the same pokemon todo more than once
 - [ ] Get more nested data from the pokemon API and display it as part of the todo item (e.g. “catch bulbasaur the grass/leaf type pokemon”)
   - you'll have to explore the API to understand where to extract that data from =]

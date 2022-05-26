@@ -72,7 +72,9 @@ body {
 }
 .todoApp ul {
   padding-left: 0px;
+
 }
+
 
 
 /* When clicked on, add a background color and strike out text */
@@ -94,6 +96,7 @@ ul li.checked {
     transform: rotate(45deg);
     height: 15px;
     width: 7px;
+  
    
   } 
 .new-item {
@@ -112,7 +115,6 @@ ul li.checked {
   transition: 2s ease;
 }
 .todoApp .delete {
-  float: right;
   height: 100%;
   background-color: #e74a57;
   color: #fff;
@@ -123,6 +125,7 @@ ul li.checked {
   cursor: pointer;
   
 }
+
 
 .todoApp .form-btns {
   display: flex;
@@ -137,6 +140,8 @@ ul li.checked {
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;
+  visibility: hidden;
+  
 }
 #clearAllBtn {
   background-color: #4a8ee7;
@@ -147,6 +152,8 @@ ul li.checked {
   margin: 10px 0;
   float: right;
   cursor: pointer;
+  visibility: hidden;
+ 
 }
 
 .removed-item {
@@ -163,6 +170,8 @@ ul li.checked {
 .todoApp li:hover {
   background-color: #4a8ee7;
   cursor: pointer;
+  visibility: visible;
+
 }
 
 @keyframes new-item-animation {
@@ -216,7 +225,13 @@ ul li.checked {
   animation-duration: 2s;
     
 }
-
+img{
+  
+width: 40px;
+height: 40px;
+margin-bottom: 0%;
+margin-left: 30%;
+}
 
 
   .wrapper {
@@ -260,4 +275,7 @@ ul li.checked {
   .date{
       padding: 10px;
       font-size: 9px;
+  }
+  .tasks_spans{
+    position: fixed;
   }
