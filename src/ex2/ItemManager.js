@@ -1,34 +1,66 @@
 import PokemonClinet from "./PokemonClient.js";
-import UiLogics from "./UiLogics.js";
 class ItemManager {
   constructor() {
     this.itemsArr = [];
     this.pokemonClinet = new PokemonClinet();
-    this.uiLogics = new UiLogics();
+    this.newItems = [];
   }
 
-  clearAllTasks()
-  {
+  clearAllTasks() {
     this.itemsArr = [];
-    this.uiLogics.deleteAllTasks();
   }
 
+  generateId() {
+    let max_id = 0;
 
+    this.itemsArr.forEach((item) => {
+      max_id = Math.max(max_id, item.itemId);
+    });
+    const newId = max_id + 1;
+    return newId;
+  }
 
-  addItem(item) {
-    if(item.trim()===''){return}
-    const { isPokemon, arr } = this.validation(item);
+  async addItem(isPokemon, arr) {
+    const itemId = this.generateId();
+
     if (isPokemon) {
-      const pokemonsObjectArray = this.pokemonClinet.fetchPokemon(arr);
-      //push to items arr
-      this.uiLogics.addItem(pokemonsObjectArray);
-    } else {
-      //push to itemsarr regular todo
-      this.uiLogics.addItem(arr); 
-    }
+      const filteredArr = this.getItemsToAdd(arr);
+      if (filteredArr.length == 0) {
+        console.log(filteredArr, "filterded");
+        return null;
+      } else {
+        try {
+          const pokemons = await this.pokemonClinet.fetchPokemon(filteredArr);
+          this.itemsArr = this.itemsArr.concat(
+            pokemons.map((pokemon) => {
+              const obj = {
+                itemId: itemId,
+                isPokemon: isPokemon,
+                item: pokemon,
+              };
+              this.itemsArr.push(obj);
+              return obj;
+            })
+          );
+          return { itemId: itemId, isPokemon, items: pokemons };
+        } catch (e) {
+          console.log(e);
+          const obj = {
+            itemId: itemId,
+            isPokemon: false,
+            item: "pokemon not found",
+          };
+          this.itemsArr.push(obj);
 
-    
+          throw "pokemon not found";
+        }
+      }
+    } else {
+      this.itemsArr.push({ isPokemon: false, item: arr[0] });
+      return { itemId: itemId, isPokemon, items: arr };
+    }
   }
+
   deleteItem(item) {
     console.log("here", item);
     const idx = this.itemsArr.findIndex((elem) => {
@@ -38,22 +70,13 @@ class ItemManager {
     console.log(idx, this.itemsArr);
   }
 
-  validation(item) {
-    const arr = item.split(/\s*,\s*/);
-    console.log("here455", arr);
-    let flag = false;
-    arr.forEach((element) => {
-      if (!this.isNum(element)) {
-        return;
-      }
-      flag = true;
-    });
-   
-    return { isPokemon: flag, arr: arr };
-  }
-
-  isNum(val) {
-    return !isNaN(val);
+  getItemsToAdd(arr) {
+    const pokemonsIdArr = this.itemsArr
+      .filter((obj) => obj.isPokemon)
+      .map((obj) => obj.item.id.toString());
+    console.log(this.itemsArr);
+    console.log(pokemonsIdArr);
+    return arr.filter((id) => !pokemonsIdArr.includes(id));
   }
 }
 
