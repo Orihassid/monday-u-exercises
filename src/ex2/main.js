@@ -156,7 +156,6 @@ class Main {
       liTaskElem.classList.toggle("removed-item");
       const itemId = liTaskElem.id;
       this.itemManager.deleteItem(itemId);
-      console.log(this.itemManager.itemsArr.length, "length");
       this.countTasksHandler(this.itemManager.itemsArr.length);
 
       setTimeout(() => {
@@ -197,7 +196,6 @@ class Main {
 
   validation(item) {
     const arr = item.split(/\s*,\s*/);
-    console.log(arr, "mew");
     let flag = false;
     arr.forEach((element) => {
       if (!this.isNum(element)) {
@@ -211,7 +209,7 @@ class Main {
   getTodayDate() {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
     const yyyy = today.getFullYear();
 
     today = mm + "/" + dd + "/" + yyyy;
