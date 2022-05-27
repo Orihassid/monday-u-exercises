@@ -128,7 +128,6 @@ class Main {
     const textElement = document.createElement("span");
     textElement.classList = "tasks_spans";
     liTaskElem.appendChild(textElement);
-    this.addDateElement(liTaskElem);
     if (val.isPokemon) {
       textElement.innerText = `catch ${val.item.name}`;
       const img = this.getPokemonImage(val.item);
@@ -165,13 +164,6 @@ class Main {
     return;
   }
 
-  addDateElement(liTaskElem) {
-    const todayDate = this.getTodayDate();
-    const dateElem = document.createElement("i");
-    dateElem.innerText = todayDate;
-    dateElem.classList = "date";
-    liTaskElem.append(dateElem);
-  }
 
   clickOnItem(liTaskElem, textElement) {
     //add an event only to the li elemnt
@@ -188,7 +180,6 @@ class Main {
 
   createDeleteButton(liTaskElem) {
     const deleteButton = document.createElement("button");
-    // deleteButton.style.visibility = "hidden";
     deleteButton.className = "delete fa fa-trash";
     liTaskElem.appendChild(deleteButton);
     this.addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton);
@@ -206,15 +197,6 @@ class Main {
     return { isPokemon: flag, arr: arr };
   }
 
-  getTodayDate() {
-    let today = new Date();
-    const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const yyyy = today.getFullYear();
-
-    today = mm + "/" + dd + "/" + yyyy;
-    return today;
-  }
 
   isNum(val) {
     return !isNaN(val);

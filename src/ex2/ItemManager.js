@@ -21,17 +21,19 @@ class ItemManager {
     return newId;
   }
 
-
   async addItem(isPokemon, arr) {
     this.newItems = [];
-    if(!isPokemon)//check pokemon by name
-    {
-      const res =  await this.pokemonClinet.checkByPokemonName(arr[0])
-      if(res){
-      const itemId = this.generateId();
-      this.itemsArr.push({ itemId: itemId, isPokemon: true, item: res });
-      this.newItems.push({ itemId: itemId, isPokemon: true, item: res });
-      return;
+    if (!isPokemon) {
+      //check pokemon by name
+      const res = await this.pokemonClinet.checkByPokemonName(arr[0]);
+      if (res) {
+        const isExist = this.isExistInItemsArr(res);
+        if (!isExist) {
+          const obj = this.setObj(true, res);
+          this.itemsArr.push(obj);
+          this.newItems.push(obj);
+        }
+        return;
       }
     }
     if (isPokemon) {
@@ -42,37 +44,42 @@ class ItemManager {
         try {
           const pokemons = await this.pokemonClinet.fetchPokemon(filteredArr);
           pokemons.forEach((pokemon) => {
-            const itemId = this.generateId();
-            const obj = {
-              itemId: itemId,
-              isPokemon: true,
-              item: pokemon,
-            };
+            const obj = this.setObj(isPokemon, pokemon);
             this.itemsArr.push(obj);
             this.newItems.push(obj);
             return obj;
           });
         } catch (e) {
           let str = "";
-          const itemId = this.generateId();
           filteredArr.forEach((elem) => {
             str += elem + " ";
           });
-          const obj = {
-            itemId: itemId,
-            isPokemon: false,
-            item: `pokemon with id: ${str} was not found`,
-          };
+          const obj = this.setObj(
+            false,
+            `pokemon with id: ${str} was not found`
+          );
+
           this.itemsArr.push(obj);
           this.newItems.push(obj);
         }
       }
-    } else{
-      const itemId = this.generateId();
-      this.itemsArr.push({ itemId: itemId, isPokemon: false, item: arr[0] });
-      this.newItems.push({ itemId: itemId, isPokemon: false, item: arr[0] });
+    } else {
+      const obj = this.setObj(false, arr[0]);
+      this.itemsArr.push(obj);
+      this.newItems.push(obj);
     }
+  }
+
   
+
+  setObj(isPokemon, item) {
+    const itemId = this.generateId();
+    const obj = {
+      itemId: itemId,
+      isPokemon: isPokemon,
+      item: item,
+    };
+    return obj;
   }
 
   deleteItem(itemId) {
@@ -87,6 +94,15 @@ class ItemManager {
       .filter((obj) => obj.isPokemon)
       .map((obj) => obj.item.id.toString());
     return arr.filter((id) => !pokemonsIdArr.includes(id));
+  }
+  isExistInItemsArr(obj) {
+    let res = false;
+    this.itemsArr.forEach((elem) => {
+      if (elem.isPokemon) {
+        if (elem.item.id === obj.id) res = true;
+      }
+    });
+    return res;
   }
 }
 
