@@ -1,7 +1,8 @@
 import fetch from "node-fetch";
 import { Command } from "commander";
-import add from  "./addCommand.js"
-import itemManager from './itemManager.js'
+import {validation} from  "./addCommand.js"
+import {addItem,itemsArr} from './itemManager.js'
+import { errorMonitor } from "stream";
 
 // async function fetchCityWeatherData(cityName, units) {
 //   try {
@@ -38,27 +39,24 @@ function getCommanderProgram() {
   program.command("add")
   .description("add task to list")
   .argument("<string>","Task name")
-  .action((taskName,options)=>{
+  .action(async (taskName,options)=>{
     
-    const { isPokemon, arr } = add.validation(taskName);
+    const { isPokemon, arr } = validation(taskName);
       try {
-        const itemToRender = await this.itemManager.addItem(isPokemon, arr);
+        const itemToRender = await addItem(isPokemon, arr);
         if (itemToRender === null) {
-          this.input.value = "";
           return;
         }
-        this.addItem(itemManager.newItems);
+       
       } catch (err) {
-        this.addItem([err], false);
+        console.log(err)
       }
-      this.input.value = "";
-   
-
-  
+     console.log('new todo added successfully!')
     }
 
 
 )
+
 
   // program
   //   .command("get-detailed-forecast")

@@ -1,8 +1,8 @@
-import PokemonClinet from "./PokemonClient.js";
+import {fetchPokemon,checkByPokemonName} from "./pokemonClient.js";
 
-let itemsArr = [];
-const pokemonClinet = new PokemonClinet();
-newItems = [];
+
+export let itemsArr = [];
+export let newItems = [];
 
 function deleteAllItems() {
   itemsArr = [];
@@ -19,11 +19,11 @@ function generateId() {
   return newId;
 }
 
-async function addItem(isPokemon, arr) {
+export async function addItem(isPokemon, arr) {
   newItems = [];
   if (!isPokemon) {
     //check pokemon by name
-    const res = await pokemonClinet.checkByPokemonName(arr[0]);
+    const res = await checkByPokemonName(arr[0]);
     if (res) {
       const isExist = isExistInItemsArr(res);
       if (!isExist) {
@@ -40,7 +40,7 @@ async function addItem(isPokemon, arr) {
       return null;
     } else {
       try {
-        const pokemons = await pokemonClinet.fetchPokemon(filteredArr);
+        const pokemons = await fetchPokemon(filteredArr);
         pokemons.forEach((pokemon) => {
           const obj = setObj(isPokemon, pokemon);
           itemsArr.push(obj);
@@ -98,6 +98,4 @@ function isExistInItemsArr(obj) {
   return res;
 }
 
-module.exports = {
-  addItem: addItem,
-};
+

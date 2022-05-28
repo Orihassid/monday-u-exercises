@@ -1,7 +1,8 @@
 
 
 
-function validation(item) {
+
+export function validation(item) {
     const arr = item.split(/\s*,\s*/);
     let flag = false;
     arr.forEach((element) => {
@@ -20,7 +21,4 @@ function validation(item) {
 
 
 
-  module.exports = {
-    validation:validation,
-   
-}
+ 
