@@ -1,5 +1,5 @@
 
-    
+    import fetch from "node-fetch";
     export async function  fetchPokemon(arr) {
       const respones = [];
       arr.forEach((id) => {
@@ -18,6 +18,7 @@
         );
   
         const pokemonsArrList = await response.json();
+      
   
         let res = null;
         for (const obj of pokemonsArrList.results) {
@@ -30,7 +31,8 @@
   
         return res;
       } catch (err) {
-        throw new Error("failed to fetch pokemo by his name");
+         
+        throw new Error("failed to fetch pokemon by his name");
       }
     }
 

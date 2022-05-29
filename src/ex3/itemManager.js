@@ -1,4 +1,5 @@
-import {fetchPokemon,checkByPokemonName} from "./pokemonClient.js";
+import { fetchPokemon, checkByPokemonName } from "./pokemonClient.js";
+import { promises as fs } from "fs";
 
 
 export let itemsArr = [];
@@ -20,6 +21,10 @@ function generateId() {
 }
 
 export async function addItem(isPokemon, arr) {
+  const todoJsonFile = await fs.readFile("tasks.json");
+  itemsArr = JSON.parse(todoJsonFile)
+
+
   newItems = [];
   if (!isPokemon) {
     //check pokemon by name
@@ -27,8 +32,9 @@ export async function addItem(isPokemon, arr) {
     if (res) {
       const isExist = isExistInItemsArr(res);
       if (!isExist) {
-        const obj = setObj(true, res);
+        const obj = setObj(true, res.name,res.sprites.front_default,res.id);
         itemsArr.push(obj);
+        await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
         newItems.push(obj);
       }
       return;
@@ -41,9 +47,10 @@ export async function addItem(isPokemon, arr) {
     } else {
       try {
         const pokemons = await fetchPokemon(filteredArr);
-        pokemons.forEach((pokemon) => {
-          const obj = setObj(isPokemon, pokemon);
+        pokemons.forEach(async (pokemon) => {
+          const obj = setObj(isPokemon, pokemon.name,pokemon.sprites.front_default,pokemon.id);
           itemsArr.push(obj);
+          await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
           newItems.push(obj);
           return obj;
         });
@@ -53,7 +60,7 @@ export async function addItem(isPokemon, arr) {
           str += elem + " ";
         });
         const obj = setObj(false, `pokemon with id: ${str} was not found`);
-
+        await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
         itemsArr.push(obj);
         newItems.push(obj);
       }
@@ -62,15 +69,20 @@ export async function addItem(isPokemon, arr) {
     const obj = setObj(false, arr[0]);
     itemsArr.push(obj);
     newItems.push(obj);
+    await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
+    return newItems;
   }
 }
 
-function setObj(isPokemon, item) {
+function setObj(isPokemon, item,imageUrl = '',pokemonId = '') {
   const itemId = generateId();
   const obj = {
     itemId: itemId,
     isPokemon: isPokemon,
     item: item,
+    imageUrl:imageUrl,
+    pokemonId:pokemonId
+
   };
   return obj;
 }
@@ -85,17 +97,15 @@ function deleteItem(itemId) {
 function getItemsToAdd(arr) {
   const pokemonsIdArr = itemsArr
     .filter((obj) => obj.isPokemon)
-    .map((obj) => obj.item.id.toString());
+    .map((obj) => obj.pokemonId.toString());
   return arr.filter((id) => !pokemonsIdArr.includes(id));
 }
 function isExistInItemsArr(obj) {
   let res = false;
   itemsArr.forEach((elem) => {
     if (elem.isPokemon) {
-      if (elem.item.id === obj.id) res = true;
+      if (elem.pokemonId == obj.id) res = true;
     }
   });
   return res;
 }
-
-

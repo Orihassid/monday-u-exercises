@@ -1,8 +1,11 @@
-import fetch from "node-fetch";
+
 import { Command } from "commander";
-import {validation} from  "./addCommand.js"
-import {addItem,itemsArr} from './itemManager.js'
-import { errorMonitor } from "stream";
+import {add } from "./addCommand.js";
+
+import {getList} from "./getCommand.js"
+
+
+
 
 // async function fetchCityWeatherData(cityName, units) {
 //   try {
@@ -22,41 +25,36 @@ import { errorMonitor } from "stream";
 //   }
 // }
 
-
-
-
 function getCommanderProgram() {
   const program = new Command();
+  
 
   program
     .name("todo-app")
     .description("Use the todo list app to add/get your tasks!")
     .version("1.0.0");
 
-  program.command("help")
-  .description("");
+  program.command("help").description("");
 
-  program.command("add")
-  .description("add task to list")
-  .argument("<string>","Task name")
-  .action(async (taskName,options)=>{
-    
-    const { isPokemon, arr } = validation(taskName);
-      try {
-        const itemToRender = await addItem(isPokemon, arr);
-        if (itemToRender === null) {
-          return;
-        }
-       
-      } catch (err) {
-        console.log(err)
-      }
-     console.log('new todo added successfully!')
-    }
+  program
+    .command("add")
+    .description("add task to list")
+    .argument("<string>", "Task name")
+    .action(async (taskName, options) => {
+
+      add(taskName)
+      
+    });
 
 
-)
-
+    program
+    .command("get")
+    .description("get all todos")
+    .action( (options) => {
+       getList();
+    })
+      
+     
 
   // program
   //   .command("get-detailed-forecast")

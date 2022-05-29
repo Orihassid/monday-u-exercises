@@ -70,8 +70,6 @@ class ItemManager {
     }
   }
 
-  
-
   setObj(isPokemon, item) {
     const itemId = this.generateId();
     const obj = {
