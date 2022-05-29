@@ -19,6 +19,7 @@ export async function add(taskName) {
 
   console.log("new todo added successfully!");
 }
+
 export function validation(item) {
   const arr = item.split(/\s*,\s*/);
   let flag = false;

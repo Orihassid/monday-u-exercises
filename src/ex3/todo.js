@@ -1,7 +1,7 @@
 
 import { Command } from "commander";
 import {add } from "./addCommand.js";
-
+import { deleteTodo } from "./deleteCommand.js";
 import {getList} from "./getCommand.js"
 
 

@@ -87,11 +87,15 @@ function setObj(isPokemon, item,imageUrl = '',pokemonId = '') {
   return obj;
 }
 
-function deleteItem(itemId) {
+export async function deleteItem(itemId) {
+
+  const todoJsonFile = await fs.readFile("tasks.json");
+  itemsArr = JSON.parse(todoJsonFile)
   const idx = itemsArr.findIndex((elem) => {
     if (elem.itemId == itemId) return true;
   });
   itemsArr.splice(idx, 1);
+  await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
 }
 
 function getItemsToAdd(arr) {
