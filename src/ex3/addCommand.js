@@ -1,10 +1,11 @@
-import { addItem, itemsArr } from "./itemManager.js";
-import conf from "conf";
-import { promises as fs } from "fs";
+import { addItem } from "./itemManager.js";
+
+import chalk from "chalk";
+
 
 export async function add(taskName) {
   const { isPokemon, arr } = validation(taskName);
-  console.log(isPokemon, arr);
+
 
   try {
     const itemToRender = await addItem(isPokemon, arr);

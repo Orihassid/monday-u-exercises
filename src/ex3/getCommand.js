@@ -1,6 +1,6 @@
 
 
-
+import { promises as fs } from "fs";
 
 
 export async  function getList() {
@@ -11,14 +11,13 @@ export async  function getList() {
     return;
   }
     else{
- 
   listArr.forEach((element) => {
     if (element.isPokemon) {
       const obj = {
         itemId: element.itemId,
         itemString: `Catch ${element.item}`,
       };
-     
+      console.log(`${obj.itemId}. ${obj.itemString}`)
       
     }
       else{
@@ -26,10 +25,10 @@ export async  function getList() {
             itemId: element.itemId,
             itemString: `${element.item}`,
       }
-     
+      console.log(`${obj.itemId}. ${obj.itemString}`)
     
     }
-    console.log(`${elem.itemId}. ${elem.itemStr}`)
+   
     
   });
   

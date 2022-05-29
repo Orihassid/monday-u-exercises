@@ -34,8 +34,7 @@ function getCommanderProgram() {
     .description("Use the todo list app to add/get your tasks!")
     .version("1.0.0");
 
-  program.command("help").description("");
-
+  
   program
     .command("add")
     .description("add task to list")
@@ -52,6 +51,15 @@ function getCommanderProgram() {
     .description("get all todos")
     .action( (options) => {
        getList();
+    })
+
+
+    program
+    .command("delete")
+    .description("delete todo by giving the id task")
+    .argument("<number>", "Task id")
+    .action( (id,options) => {
+      deleteTodo(id)
     })
       
      
