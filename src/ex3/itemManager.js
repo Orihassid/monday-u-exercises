@@ -1,13 +1,8 @@
 import { fetchPokemon, checkByPokemonName } from "./pokemonClient.js";
 import { promises as fs } from "fs";
 
-export let itemsArr = [];
-export let newItems = [];
-
-function deleteAllItems() {
-  itemsArr = [];
-  newItems = [];
-}
+ let itemsArr = [];
+ 
 
 function generateId() {
   let max_id = 0;
@@ -27,7 +22,6 @@ export async function addItem(isPokemon, arr) {
     await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
   }
 
-  newItems = [];
   if (!isPokemon) {
     //check pokemon by name
     const res = await checkByPokemonName(arr[0]);
@@ -37,7 +31,6 @@ export async function addItem(isPokemon, arr) {
         const obj = setObj(true, res.name, res.sprites.front_default, res.id);
         itemsArr.push(obj);
         await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
-        newItems.push(obj);
       }
       return;
     }
@@ -45,7 +38,7 @@ export async function addItem(isPokemon, arr) {
   if (isPokemon) {
     const filteredArr = getItemsToAdd(arr);
     if (filteredArr.length == 0) {
-      return null;
+      return ;
     } else {
       try {
         const pokemons = await fetchPokemon(filteredArr);
@@ -57,8 +50,6 @@ export async function addItem(isPokemon, arr) {
             pokemon.id
           );
           itemsArr.push(obj);
-
-          newItems.push(obj);
           return obj;
         });
         await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
@@ -70,15 +61,12 @@ export async function addItem(isPokemon, arr) {
         const obj = setObj(false, `pokemon with id: ${str} was not found`);
         await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
         itemsArr.push(obj);
-        newItems.push(obj);
       }
     }
   } else {
     const obj = setObj(false, arr[0]);
     itemsArr.push(obj);
-    newItems.push(obj);
     await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
-    return newItems;
   }
 }
 
@@ -95,13 +83,20 @@ function setObj(isPokemon, item, imageUrl = "", pokemonId = "") {
 }
 
 export async function deleteItem(itemId) {
+  try{
   const todoJsonFile = await fs.readFile("tasks.json");
   itemsArr = JSON.parse(todoJsonFile);
+  
   const idx = itemsArr.findIndex((elem) => {
     if (elem.itemId == itemId) return true;
   });
   itemsArr.splice(idx, 1);
-  await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
+  await fs.writeFile("tasks.json", JSON.stringify(itemsArr));}
+  catch(err)
+  {
+    return err
+  }
+
 }
 
 function getItemsToAdd(arr) {
