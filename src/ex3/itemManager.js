@@ -1,7 +1,6 @@
 import { fetchPokemon, checkByPokemonName } from "./pokemonClient.js";
 import { promises as fs } from "fs";
 
-
 export let itemsArr = [];
 export let newItems = [];
 
@@ -21,9 +20,12 @@ function generateId() {
 }
 
 export async function addItem(isPokemon, arr) {
-  const todoJsonFile = await fs.readFile("tasks.json");
-  itemsArr = JSON.parse(todoJsonFile)
-
+  try {
+    const todoJsonFile = await fs.readFile("tasks.json");
+    itemsArr = JSON.parse(todoJsonFile);
+  } catch (err) {
+    await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
+  }
 
   newItems = [];
   if (!isPokemon) {
@@ -32,7 +34,7 @@ export async function addItem(isPokemon, arr) {
     if (res) {
       const isExist = isExistInItemsArr(res);
       if (!isExist) {
-        const obj = setObj(true, res.name,res.sprites.front_default,res.id);
+        const obj = setObj(true, res.name, res.sprites.front_default, res.id);
         itemsArr.push(obj);
         await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
         newItems.push(obj);
@@ -48,12 +50,18 @@ export async function addItem(isPokemon, arr) {
       try {
         const pokemons = await fetchPokemon(filteredArr);
         pokemons.forEach(async (pokemon) => {
-          const obj = setObj(isPokemon, pokemon.name,pokemon.sprites.front_default,pokemon.id);
+          const obj = setObj(
+            isPokemon,
+            pokemon.name,
+            pokemon.sprites.front_default,
+            pokemon.id
+          );
           itemsArr.push(obj);
-          await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
+
           newItems.push(obj);
           return obj;
         });
+        await fs.writeFile("tasks.json", JSON.stringify(itemsArr));
       } catch (e) {
         let str = "";
         filteredArr.forEach((elem) => {
@@ -74,23 +82,21 @@ export async function addItem(isPokemon, arr) {
   }
 }
 
-function setObj(isPokemon, item,imageUrl = '',pokemonId = '') {
+function setObj(isPokemon, item, imageUrl = "", pokemonId = "") {
   const itemId = generateId();
   const obj = {
     itemId: itemId,
     isPokemon: isPokemon,
     item: item,
-    imageUrl:imageUrl,
-    pokemonId:pokemonId
-
+    imageUrl: imageUrl,
+    pokemonId: pokemonId,
   };
   return obj;
 }
 
 export async function deleteItem(itemId) {
-
   const todoJsonFile = await fs.readFile("tasks.json");
-  itemsArr = JSON.parse(todoJsonFile)
+  itemsArr = JSON.parse(todoJsonFile);
   const idx = itemsArr.findIndex((elem) => {
     if (elem.itemId == itemId) return true;
   });

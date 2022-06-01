@@ -7,24 +7,6 @@ import {getList} from "./getCommand.js"
 
 
 
-// async function fetchCityWeatherData(cityName, units) {
-//   try {
-//     const queryString = new URLSearchParams({
-//       q: cityName,
-//       units,
-//       appId: API_KEY,
-//     }).toString();
-//     const requestUrl = `${WEATHER_API_BASE_URL}/weather?${queryString}`;
-//     const response = await fetch(requestUrl);
-//     const weatherData = await response.json();
-
-//     return weatherData;
-//   } catch (err) {
-//     mondayuLogger.log("Error on weather data fetch:", err);
-//     throw err;
-//   }
-// }
-
 function getCommanderProgram() {
   const program = new Command();
   

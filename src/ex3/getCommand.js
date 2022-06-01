@@ -1,6 +1,7 @@
 
 
 import { promises as fs } from "fs";
+import asciifyImage from "asciify-image"
 
 
 export async  function getList() {
@@ -16,6 +17,9 @@ export async  function getList() {
       const obj = {
         itemId: element.itemId,
         itemString: `Catch ${element.item}`,
+        itemAsciiUrl: asciifyImage(element.imageUrl,{fit:"original"},(err,convertedImage)=>{
+          console.log(convertedImage)
+        })
       };
       console.log(`${obj.itemId}. ${obj.itemString}`)
       
@@ -25,7 +29,7 @@ export async  function getList() {
             itemId: element.itemId,
             itemString: `${element.item}`,
       }
-      console.log(`${obj.itemId}. ${obj.itemString}`)
+      console.log(`${obj.itemId}. ${obj.itemString} ${obj.itemAsciiUrl||''}`)
     
     }
    
