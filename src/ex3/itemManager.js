@@ -91,11 +91,13 @@ export async function deleteItem(itemId) {
     const todoJsonFile = await fs.readFile("tasksDB.json");
     itemsArr = JSON.parse(todoJsonFile);
 
-    const idx = this.itemsArr.findIndex((item) => item.itemId === itemId);
+    const idx = itemsArr.findIndex((item) => item.itemId === itemId);
+    if (idx == -1) throw "err";
+
     itemsArr.splice(idx, 1);
     await fs.writeFile("tasksDB.json", JSON.stringify(itemsArr));
   } catch (err) {
-    console.log(err);
+    throw `There is no task with id: ${itemId} `;
   }
 }
 
@@ -106,12 +108,5 @@ function getItemsToAdd(arr) {
   return arr.filter((id) => !pokemonsIdArr.includes(id));
 }
 function isExistInItemsArr(obj) {
-  // let res = false;
-  // itemsArr.forEach((elem) => {
-  //   if (elem.isPokemon) {
-  //     if (elem.pokemonId == obj.id) res = true;
-  //   }
-  // });
-  // return res;
-  return this.itemsArr.some((item) => item.isPokemon && item.item.id === obj.id)
+  return itemsArr.some((item) => item.isPokemon && item.item.id === obj.id);
 }

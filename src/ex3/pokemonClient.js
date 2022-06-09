@@ -1,16 +1,19 @@
 import fetch from "node-fetch";
 export async function fetchPokemon(arr) {
-  const respones = [];
-  arr.forEach((id) => {
-    const data = fetch(`https:pokeapi.co/api/v2/pokemon/${id}`);
-    respones.push(data);
-  });
+  try{
+  const respones = arr.map((id) => fetch(`https:pokeapi.co/api/v2/pokemon/${id}`));
   return Promise.all(respones).then((res) =>
     Promise.all(res.map((r) => r.json()))
   );
+  }
+  catch(err)
+  {
+    console.log('failed to fetch pokemon by id')
+  }
 }
 
 export async function checkByPokemonName(name) {
+
   let respones = [];
   try {
     respones = await fetch(
