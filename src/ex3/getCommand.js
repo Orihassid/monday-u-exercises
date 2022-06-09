@@ -4,14 +4,14 @@ import chalk from "chalk";
 
 export async function getList() {
   try {
-    const todoJsonFile = await fs.readFile("tasks.json");
+    const todoJsonFile = await fs.readFile("tasksDB.json");
     const listArr = JSON.parse(todoJsonFile);
     if (listArr.length === 0) {
       console.log(chalk.greenBright("Your list is empty"));
     }
     listArr.forEach((element) => {
       if (element.isPokemon) {
-        const obj = {
+        const task = {
           itemId: element.itemId,
           itemString: `Catch ${element.item}`,
           itemAsciiUrl: asciifyImage(
@@ -22,15 +22,15 @@ export async function getList() {
             }
           ),
         };
-        console.log(chalk.blue(`${obj.itemId}. ${obj.itemString}`));
+        console.log(chalk.blue(`${task.itemId}. ${task.itemString}`));
       } else {
-        const obj = {
+        const task = {
           itemId: element.itemId,
           itemString: `${element.item}`,
         };
         console.log(
-          chalk.yellow(`${obj.itemId}. ${obj.itemString}`),
-          ` ${obj.itemAsciiUrl || ""}`
+          chalk.yellow(`${task.itemId}. ${task.itemString}`),
+          ` ${task.itemAsciiUrl || ""}`
         );
       }
     });

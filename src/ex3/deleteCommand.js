@@ -5,6 +5,6 @@ export async function  deleteTodo(taskId)
 {
 
     await deleteItem(taskId)
-    console.log('item deleted successfully! ')
+    console.log(chalk.yellow('item deleted successfully! '))
 
 }
