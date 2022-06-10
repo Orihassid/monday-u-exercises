@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TodoList</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- FONT-AWESOME  -->
+    <script
+      src="https://kit.fontawesome.com/434f764404.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <section class="main-section">
+      <div class="todoApp" id="todoApp">
+        <h1 class="">My Todo List</h1>
+
+        <span id="newtask" class="newTask">
+          <input id="taskInput" type="text" placeholder="Task to be done.." />
+          <button id="addButton" class="add">
+            <i class="fas fa-plus"></i>
+          </button>
+          <button id="sortBtn">Sort by name</button>
+          <ul id="tasks"></ul>
+          <footer>
+            <span id="count" class="count"></span>
+            <button id="clearAllBtn">Clear All</button>
+          </footer>
+        </span>
+      </div>
+    </section>
+  </body>
+  <script type="module" src="main.js"></script>
+  <!-- <script type = "module" src="ItemManager.js"></script> -->
+</html>
