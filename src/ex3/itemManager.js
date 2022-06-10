@@ -91,7 +91,8 @@ export async function deleteItem(itemId) {
     const todoJsonFile = await fs.readFile("tasksDB.json");
     itemsArr = JSON.parse(todoJsonFile);
 
-    const idx = itemsArr.findIndex((item) => item.itemId === itemId);
+    const idx = itemsArr.findIndex((item) => item.itemId == itemId);
+
     if (idx == -1) throw "err";
 
     itemsArr.splice(idx, 1);
