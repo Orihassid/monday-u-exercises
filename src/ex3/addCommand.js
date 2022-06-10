@@ -16,7 +16,7 @@ export function validation(item) {
     }
     flag = true;
   });
-  //const flag = arr.some((item) => !isNum(item));
+  
 
   return { isPokemon: flag, arr: arr };
 }
