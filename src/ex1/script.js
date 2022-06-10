@@ -97,7 +97,6 @@ function onButtonAddClicked() {
         clearAllBtn.style.visibility = "hidden";
       }
       if (numTasks === 1) {
-          console.log(numTasks)
         sortBtn.style.visibility = "hidden";
       }
     }, 500);
