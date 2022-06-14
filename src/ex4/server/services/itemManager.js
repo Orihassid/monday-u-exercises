@@ -1,6 +1,6 @@
 // The ItemManager should go here. Remember that you have to export it.
 
-import PokemonClinet from "../clients/pokemonClient.js";
+import pokemonClinet from "../clients/pokemonClient.js";
 import { promises as fs } from "fs";
 class ItemManager {
   constructor() {
@@ -22,6 +22,7 @@ class ItemManager {
   }
 
   async addItem(isPokemon, arr) {
+    console.log(isPokemon,arr)
     try {
       const todoJsonFile = await fs.readFile("tasksDB.json");
       this.itemsArr = JSON.parse(todoJsonFile);
@@ -31,7 +32,8 @@ class ItemManager {
 
     if (!isPokemon) {
       //check pokemon by name
-      const res = await PokemonClinet.checkByPokemonName(arr[0]);
+      const res = await pokemonClinet.checkByPokemonName(arr[0]);
+      console.log('hddedede',res)
       if (res) {
         const isExist = this.isExistInItemsArr(res);
         if (!isExist) {
@@ -48,19 +50,23 @@ class ItemManager {
       }
     }
     if (isPokemon) {
+      console.log('here')
       const filteredArr = this.getItemsToAdd(arr);
-      if (filteredArr.length == 0) return;
+      console.log('here2',filteredArr)
+      if (filteredArr.length === 0) return;
       try {
-        const pokemons = await PokemonClinet.fetchPokemon(filteredArr);
-        pokemons.forEach(async (pokemon) => {
-          const task = initItem(
+        console.log('itmes:')
+        const pokemons = await pokemonClinet.fetchPokemon(filteredArr);
+        console.log('itmessssssssssssssss:',pokemons)
+        pokemons.forEach( (pokemon) => {
+          const task = this.initTask(
             isPokemon,
             pokemon.name,
             pokemon.sprites.front_default,
             pokemon.id
           );
           this.itemsArr.push(task);
-          return task;
+         
         });
         await fs.writeFile("tasksDB.json", JSON.stringify(this.itemsArr));
       } catch (e) {
