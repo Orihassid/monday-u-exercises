@@ -1,19 +1,23 @@
 // The Pokemon Client (using axios) goes here
 import fetch from "node-fetch";
+import axios from "axios";
 
 class PokemonClinet {
   constructor() {}
   async  fetchPokemon(arr){
 
     try{
-      const respones = arr.map((id) => fetch(`https:pokeapi.co/api/v2/pokemon/${id}`));
-      return Promise.all(respones).then((res) =>
-        Promise.all(res.map((r) => r.json()))
-      );
+      const respones = arr.map((id) => axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      .then((response)=>response.data))
+
+
+      
+      return Promise.all(respones)
+      
       }
       catch(err)
       {
-        console.log('failed to fetch pokemon by id')
+        throw new Error('failed to fetch pokemon by id')
       }
     }
 

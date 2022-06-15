@@ -2,14 +2,17 @@
 //import ItemManager from "../services/itemManager.js";
 import express from 'express';
 import itemRouter from './server/routes/api.js';
+import errorHandler from './server//middleware/error_handler.js';
+import cors from 'cors'
 const  port = 8080;
 const app = express();
 
 
-app.use([express.json()]);
-app.use('/static',express.static( 'dist'));
-app.use('/item', itemRouter);
 
+app.use([cors(),express.json()]);
+app.use(express.static( 'dist'));
+app.use('/item', itemRouter);
+app.use(errorHandler);
 process.on('unhandledRejection', (reason, promise) => {
     console.log("Unhandled Rejection", reason.message);
     throw reason

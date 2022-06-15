@@ -1,17 +1,35 @@
-
-
+import itemManager from "../services/itemManager.js";
 import ItemManager from "../services/itemManager.js";
 import { validation } from "../utils/utils.js";
 
-export default async function createItem(req,res) {
-    console.log('create123')
+export async function createItem(req, res, next) {
+  try {
     const item = req.body.item;
-    console.log('hryyryr',item)
     const { isPokemon, arr } = validation(item);
-    await ItemManager.addItem(isPokemon,arr);
+    await ItemManager.addItem(isPokemon, arr);
     res.status(200).json(req.body);
+  } catch (err) {
+    next(err);
+  }
 }
 
+export async function deleteItem(req, res, next) {
+  try {
+    const itemId = req.params.id;
+    await ItemManager.deleteItem(itemId);
+    res.status(200).json(itemId);
+  } catch (err) {
+    next(err);
+  }
+}
+export async function getAllItems(req, res, next) {
+  try {
+    const items = await itemManager.getAllItems();
+    res.status(200).json(items);
+  } catch (err) {
+    next(err);
+  }
+}
 
 // async function readItemFile() {
 //     try {
@@ -30,9 +48,3 @@ export default async function createItem(req,res) {
 //         console.error(`Failed to write to file ${error.message}`);
 //     }
 // }
-
-
-
-
-  
-   

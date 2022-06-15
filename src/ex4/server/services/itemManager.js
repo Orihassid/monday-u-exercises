@@ -8,7 +8,18 @@ class ItemManager {
     this.newItems = [];
   }
 
+async getAllItems()
+{
+  try {
+    const todoJsonFile = await fs.readFile("tasksDB.json");
+    this.itemsArr = JSON.parse(todoJsonFile);
+    return this.itemsArr
+  } catch (err) {
+    return this.itemsArr
+  }
+ 
 
+}
   
 
   generateId() {
@@ -56,7 +67,8 @@ class ItemManager {
       if (filteredArr.length === 0) return;
       try {
         console.log('itmes:')
-        const pokemons = await pokemonClinet.fetchPokemon(filteredArr);
+        const pokemons = await  pokemonClinet.fetchPokemon(filteredArr);
+
         console.log('itmessssssssssssssss:',pokemons)
         pokemons.forEach( (pokemon) => {
           const task = this.initTask(

@@ -3,13 +3,13 @@
 
 import express from 'express';
 const itemRouter = express.Router();
-import  createItem  from '../controllers/itemsController.js';
+import  {createItem,deleteItem,getAllItems}  from '../controllers/itemsController.js';
 
 
 itemRouter.post('/',createItem);
-// itemRouter.get('/:id', auth, getJedi);
+ itemRouter.get('/',getAllItems );
 // itemRouter.post('/',
 // itemRouter.put('/:id', auth, replaceJedi)
-// itemRouter.delete('/:id', auth, deleteJedi);
+ itemRouter.delete('/:id',deleteItem);
 
 export default itemRouter;
