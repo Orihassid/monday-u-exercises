@@ -38,6 +38,24 @@ class ItemClinet {
       throw new Error("failed to delete item");
     }
   }
+
+async deleteAllItems()
+{
+    try {
+        await fetch('/item' ,{
+         method: "delete",
+         headers: { "Content-Type": "application/json" },
+       });
+     } catch (err) {
+       throw new Error("failed to delete all items ");
+     }
+   }
+
 }
+
+
+
+
+
 
 export default new ItemClinet();

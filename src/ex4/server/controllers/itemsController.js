@@ -5,8 +5,8 @@ import { validation } from "../utils/utils.js";
 export async function createItem(req, res, next) {
   try {
     const item = req.body.item;
-    const { isPokemon, arr } = validation(item);
-    const data  = await ItemManager.addItem(isPokemon, arr);
+    const { isPokemon, elementsArr } = validation(item);
+    const data  = await ItemManager.addItem(isPokemon, elementsArr);
     res.status(201).json(data);
   } catch (err) {
     next(err);
@@ -31,6 +31,18 @@ export async function getAllItems(req, res, next) {
     next(err);
   }
 }
+
+export async function deleteAllItems(req, res, next) {
+    try {
+      await ItemManager.deleteAllItems();
+      res.status(200).json('all items deleted');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+
+
 
 // async function readItemFile() {
 //     try {

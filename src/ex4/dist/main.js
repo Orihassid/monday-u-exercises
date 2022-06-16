@@ -42,17 +42,16 @@ class Main {
   }
 
   
-  clearAllTasks() {
-    this.itemManager.deleteAllItems();
-    this.countTasksHandler(this.itemManager.itemsArr.length);
+ async  clearAllTasks() {
+   await  itemClient.deleteAllItems();
     this.tasksUlElem.classList.toggle("removed-item");
     setTimeout(() => {
-      //i used setTimeout because i added animation
-      this.tasksUlElem.innerHTML = ""; //remove all the tasks
+     
+      this.tasksUlElem.innerHTML = ""; 
       this.tasksUlElem.classList.remove("removed-item");
+      this.countTasksHandler();
     }, 500);
-    this.clearAllBtn.style.visibility = "hidden";
-    this.sortBtn.style.visibility = "hidden";
+   
   }
 
   addAlert(alertMsg, miilis) {
@@ -92,7 +91,8 @@ class Main {
       }
     });
   }
-  countTasksHandler(numTasks) {
+  countTasksHandler() {
+    const numTasks = this.tasksUlElem.childElementCount;
     if (numTasks === 0) {
       this.countTasksElem.style.visibility = "hidden";
       this.clearAllBtn.style.visibility = "hidden";
@@ -122,10 +122,11 @@ class Main {
   }
 
   addItem(newItemsToRender) {
-    // this.countTasksHandler(this.itemManager.itemsArr.length);
+ 
     for (const val of newItemsToRender) {
       this.renderItem(val);
     }
+    this.countTasksHandler();
   }
   renderItem(val) {
     const liTaskElem = document.createElement("li");
@@ -159,10 +160,11 @@ class Main {
       liTaskElem.classList.toggle("removed-item");
       const itemId = liTaskElem.id;
        await itemClient.deleteItem(itemId);
-      //this.countTasksHandler(this.itemManager.itemsArr.length);
+     
 
       setTimeout(() => {
         liTaskElem.remove();
+        this.countTasksHandler();
       }, 500);
     });
     return;

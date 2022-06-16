@@ -19,6 +19,14 @@ class ItemManager {
     }
   }
 
+  async deleteAllItems() {
+    this.itemsArr = [];
+    this.newItems = [];
+    await fs.writeFile(this.jsonFile,JSON.stringify(this.itemsArr));
+  }
+
+
+
   generateId() {
     let maxId = 0;
 
@@ -116,9 +124,9 @@ class ItemManager {
       const todoJsonFile = await fs.readFile(this.jsonFile);
       this.itemsArr = JSON.parse(todoJsonFile);
 
-      const idx = this.itemsArr.findIndex((item) => item.itemId == itemId);
+      const idx = this.itemsArr.findIndex((item) => item.itemId === itemId);
 
-      if (idx == -1) throw "err";
+      if (idx === -1) throw "err";
 
       this.itemsArr.splice(idx, 1);
       await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
