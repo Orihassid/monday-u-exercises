@@ -16,7 +16,6 @@ export async function createItem(req, res, next) {
 export async function deleteItem(req, res, next) {
   try {
     const itemId = parseInt(req.params.id);
-    console.log(itemId)
     await ItemManager.deleteItem(itemId);
     res.status(200).json(itemId);
   } catch (err) {
@@ -41,23 +40,3 @@ export async function deleteAllItems(req, res, next) {
     }
   }
 
-
-
-
-// async function readItemFile() {
-//     try {
-//         const data = await fs.readFile(itemFile);
-//         console.log(data.toString());
-//         return JSON.parse(data.toString());
-//     } catch (error) {
-//         console.error(`Got an error trying to read the file: ${error.message}`);
-//     }
-// }
-
-// async function writeItemFile(content) {
-//     try {
-//         await fs.writeFile(itemFile, JSON.stringify(content));
-//     } catch (error) {
-//         console.error(`Failed to write to file ${error.message}`);
-//     }
-// }

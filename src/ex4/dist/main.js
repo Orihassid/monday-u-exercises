@@ -12,9 +12,11 @@ class Main {
     this.clearAllBtn = document.getElementById("clearAllBtn");
     this.tasksUlElem = document.getElementById("tasks");
     this.countTasksElem = document.getElementById("count");
+    this.loader = document.querySelector("#loading");
   }
   async init() {
     const itemsArr = await itemClient.fetchItems();
+
 
     if (itemsArr.length != 0) {
       this.addItem(itemsArr);
@@ -31,7 +33,11 @@ class Main {
       }
 
       try {
+
+        this.loader.classList.add("display");
         const itemsArr = await itemClient.createItem(this.input.value);
+        this.loader.classList.remove("display");
+       
         this.input.value =""
         this.addItem(itemsArr);
       } catch (err) {
@@ -190,8 +196,20 @@ class Main {
     this.addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton);
   }
 
+
   
+
+
+
+ 
 }
+
+
+
+
+
+  
+
 
 const main = new Main();
 
