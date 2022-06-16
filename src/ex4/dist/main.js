@@ -1,8 +1,9 @@
 
+import itemClient from "./clients/itemClient.js";
+
 // Implement the `Main` class here
 class Main {
   constructor() {
-   
     this.input = document.getElementById("taskInput");
     this.addButton = document.getElementById("addButton");
     this.watingForTasksElem = this.createWelcomeMsg();
@@ -13,58 +14,34 @@ class Main {
     this.countTasksElem = document.getElementById("count");
   }
   async init() {
-    const items = await this.fetchItems();
-    console.log(items)
-    if(items.length!=0)
-    {
-        this.addItem(items);
-        return;
+    const itemsArr = await itemClient.fetchItems();
+
+    if (itemsArr.length != 0) {
+      this.addItem(itemsArr);
     }
     this.handleEnterPress();
     this.sortBtn.addEventListener("click", () => this.sortTasksListByName());
     this.clearAllBtn.addEventListener("click", () => this.clearAllTasks());
     this.addButton.addEventListener("click", async () => {
-      
       this.watingForTasksElem.style.visibility = "visible";
       if (!this.input.value.trim()) {
         const alertMsg = "you cant add an empty task!";
         this.addAlert(alertMsg);
         return;
       }
-    
+
       try {
-      
-        if (itemToRender === null) {
-          this.input.value = "";
-          return;
-        }
-        this.addItem(this.itemManager.newItems);
+        const itemsArr = await itemClient.createItem(this.input.value);
+        this.input.value =""
+        this.addItem(itemsArr);
       } catch (err) {
         this.addItem([err], false);
       }
-      this.input.value = "";
+     
     });
   }
 
-
-
-  async fetchItems(){
-    const response = await fetch('/item',
-        {
-            method: 'get',
-            headers: { 'Content-Type': 'application/json'
-        }});
-
-    
-    if(response.status != 200)
-    {
-        throw new Error(' Error fetching items')
-    }
-    
-    const data = await response.json();
-    return data
-}
-
+  
   clearAllTasks() {
     this.itemManager.deleteAllItems();
     this.countTasksHandler(this.itemManager.itemsArr.length);
@@ -145,7 +122,7 @@ class Main {
   }
 
   addItem(newItemsToRender) {
-   // this.countTasksHandler(this.itemManager.itemsArr.length);
+    // this.countTasksHandler(this.itemManager.itemsArr.length);
     for (const val of newItemsToRender) {
       this.renderItem(val);
     }
@@ -156,8 +133,8 @@ class Main {
     textElement.classList = "tasks_spans";
     liTaskElem.appendChild(textElement);
     if (val.isPokemon) {
-      textElement.innerText = `catch ${val.item.name}`;
-      const img = this.getPokemonImage(val.item);
+      textElement.innerText = `catch ${val.item}`;
+      const img = this.getPokemonImage(val);
       liTaskElem.appendChild(img);
     } else {
       textElement.innerText = val.item;
@@ -177,12 +154,12 @@ class Main {
     return img;
   }
 
-  addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton) {
-    deleteButton.addEventListener("click", () => {
+  async addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton) {
+    deleteButton.addEventListener("click", async () => {
       liTaskElem.classList.toggle("removed-item");
       const itemId = liTaskElem.id;
-      this.itemManager.deleteItem(itemId);
-      this.countTasksHandler(this.itemManager.itemsArr.length);
+       await itemClient.deleteItem(itemId);
+      //this.countTasksHandler(this.itemManager.itemsArr.length);
 
       setTimeout(() => {
         liTaskElem.remove();
@@ -190,7 +167,6 @@ class Main {
     });
     return;
   }
-
 
   clickOnItem(liTaskElem, textElement) {
     //add an event only to the li elemnt
@@ -212,22 +188,7 @@ class Main {
     this.addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton);
   }
 
-  validation(item) {
-    const arr = item.split(/\s*,\s*/);
-    let flag = false;
-    arr.forEach((element) => {
-      if (!this.isNum(element)) {
-        return;
-      }
-      flag = true;
-    });
-    return { isPokemon: flag, arr: arr };
-  }
-
-
-  isNum(val) {
-    return !isNaN(val);
-  }
+  
 }
 
 const main = new Main();

@@ -24,26 +24,27 @@ class PokemonClinet {
   async checkByPokemonName(name) {
     let respones = [];
     try {
-      respones = await fetch(
-        `https:pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
+      respones = await axios.get(
+        `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`
+        
       );
     } catch (err) {
-      console.log("failed to fetch pokemon list");
+      throw new Error("failed to fetch pokemon list");
     }
     try {
-      const pokemonsArrList = await respones.json();
+      const pokemonsArrList =  respones.data;
 
       let res = null;
       for (const obj of pokemonsArrList.results) {
         if (obj.name === name.toLowerCase()) {
-          const response = await fetch(obj.url);
-          const pokemonObj = await response.json();
+          const response = await axios.get(obj.url);
+          const pokemonObj =  response.data;
           res = pokemonObj;
         }
       }
       return res;
     } catch (err) {
-      console.log("failed to fetch pokemon by his name");
+      throw new Error("failed to fetch pokemon by his name");
     }
   }
 }

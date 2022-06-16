@@ -6,8 +6,8 @@ export async function createItem(req, res, next) {
   try {
     const item = req.body.item;
     const { isPokemon, arr } = validation(item);
-    await ItemManager.addItem(isPokemon, arr);
-    res.status(200).json(req.body);
+    const data  = await ItemManager.addItem(isPokemon, arr);
+    res.status(201).json(data);
   } catch (err) {
     next(err);
   }
@@ -15,7 +15,8 @@ export async function createItem(req, res, next) {
 
 export async function deleteItem(req, res, next) {
   try {
-    const itemId = req.params.id;
+    const itemId = parseInt(req.params.id);
+    console.log(itemId)
     await ItemManager.deleteItem(itemId);
     res.status(200).json(itemId);
   } catch (err) {
