@@ -12,7 +12,7 @@ class ItemManager {
   async getAllItems() {
     try {
       const todoJsonFile = await fs.readFile(this.jsonFile);
-      this.itemsArr = JSON.parse(todoJsonFile);
+      this.itemsArr = JSON.parse(todoJsonFile.toString());
       return this.itemsArr;
     } catch (err) {
       return this.itemsArr;
@@ -28,7 +28,7 @@ class ItemManager {
   async readFile() {
     try {
       const todoJsonFile = await fs.readFile(this.jsonFile);
-      this.itemsArr = JSON.parse(todoJsonFile);
+      this.itemsArr = JSON.parse(todoJsonFile.toString());
     } catch (err) {
       await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
     }
