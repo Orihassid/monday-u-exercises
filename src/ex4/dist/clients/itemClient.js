@@ -3,6 +3,7 @@ class ItemClinet {
   constructor() {}
 
   async createItem(item) {
+    try{
     const response = await fetch("/item", {
       method: "post",
       body: JSON.stringify({ item }),
@@ -12,8 +13,14 @@ class ItemClinet {
       return await response.json();
     }
   }
+  catch(err)
+  {
+    throw new Error('faild to create item')
+  }
+  }
 
   async fetchItems() {
+    try{
     const response = await fetch("/item", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -26,6 +33,11 @@ class ItemClinet {
     const data = await response.json();
 
     return data;
+    }
+    catch(err)
+    {
+      throw new Error ('failed to fetch items')
+    }
   }
 
   async deleteItem(itemId) {

@@ -15,12 +15,7 @@ class Main {
     this.loader = document.querySelector("#loading");
   }
   async init() {
-    const itemsArr = await itemClient.fetchItems();
-
-
-    if (itemsArr.length != 0) {
-      this.addItem(itemsArr);
-    }
+    await this.fetchAllItems();
     this.handleEnterPress();
     this.sortBtn.addEventListener("click", () => this.sortTasksListByName());
     this.clearAllBtn.addEventListener("click", () => this.clearAllTasks());
@@ -47,6 +42,22 @@ class Main {
     });
   }
 
+
+  async fetchAllItems()
+
+{
+  try{
+    console.log('here!')
+    const itemsArr = await itemClient.fetchItems();
+    if (itemsArr.length != 0) {
+      this.addItem(itemsArr);
+    }
+    }
+    catch(err)
+    {
+      throw err;
+    }
+}
   
  async  clearAllTasks() {
    await  itemClient.deleteAllItems();
