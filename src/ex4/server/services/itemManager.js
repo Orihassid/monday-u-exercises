@@ -29,19 +29,18 @@ class ItemManager {
         pokemonIdArr.forEach((pokemonId) => {
           cacheData.push(parseInt(pokemonId));
         });
-        await this.writeTofile(cacheFilePath,cacheData)
+        await this.writeTofile(cacheFilePath, cacheData);
         autoDeleteCache();
         return false;
       } else {
         cacheData = JSON.parse(await fs.readFile(cacheFilePath));
-
         const isPokemonExist = cacheData.some(
           (pokemonId) => pokemonId === parseInt(pokemonIdArr[0])
         );
         if (isPokemonExist) return true;
         else {
           cacheData.push(parseInt(pokemonIdArr[0]));
-          await this.writeTofile(cacheFilePath,cacheData)
+          await this.writeTofile(cacheFilePath, cacheData);
           autoDeleteCache();
           return false;
         }
@@ -53,17 +52,16 @@ class ItemManager {
   async deleteAllItems() {
     this.itemsArr = [];
     this.newItems = [];
-    await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
+    await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
   }
 
-  
   async readFile() {
     try {
       if (await fsExists(this.taskDbFilePathName)) {
         const todoJsonFile = await fs.readFile(this.taskDbFilePathName);
         this.itemsArr = JSON.parse(todoJsonFile.toString());
       } else {
-       await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
+        await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
       }
     } catch (err) {
       throw new Error(err);
@@ -80,26 +78,19 @@ class ItemManager {
         pokemon.id
       );
       this.itemsArr.push(task);
-      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
-
-     
+      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
       return [task];
     }
     return this.newItems;
   }
 
-async writeTofile(fileName,data)
-{
-  try{
-  await fs.writeFile(fileName, JSON.stringify(data));
+  async writeTofile(fileName, data) {
+    try {
+      await fs.writeFile(fileName, JSON.stringify(data));
+    } catch (err) {
+      throw new Error(err);
+    }
   }
-  catch(err)
-  {
-    throw new Error(err);
-  }
-}
-
-
 
   async fetchPokemonByNumberId(filteredArr) {
     try {
@@ -115,7 +106,7 @@ async writeTofile(fileName,data)
         this.itemsArr.push(task);
         this.newItems.push(task);
       });
-      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
+      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
     } catch (e) {
       let pokemonId = "";
       filteredArr.forEach((task) => {
@@ -127,7 +118,7 @@ async writeTofile(fileName,data)
       );
       this.itemsArr.push(task);
       this.newItems.push(task);
-      await this.writeTofile(this.taskDbFilePathName,this.itemsArr);
+      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
     }
     return this.newItems;
   }
@@ -143,7 +134,7 @@ async writeTofile(fileName,data)
 
   async addItem(isPokemon, inputArr) {
     this.newItems = [];
-     await this.readFile();
+    await this.readFile();
     if (!isPokemon) {
       //check pokemon by name
       const isPokemon = await pokemonClinet.checkByPokemonName(inputArr[0]);
@@ -160,7 +151,7 @@ async writeTofile(fileName,data)
       const task = this.initTask(false, inputArr[0]);
       this.itemsArr.push(task);
       this.newItems.push(task);
-      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
+      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
       return this.newItems;
     }
   }
@@ -179,16 +170,29 @@ async writeTofile(fileName,data)
 
   async deleteItem(itemId) {
     try {
-      this.readFile();
+      await this.readFile();
       const idx = this.itemsArr.findIndex((item) => item.itemId === itemId);
       if (idx === -1) throw "err";
+      if(this.itemsArr[idx].isPokemon)
+      await this.deleteFromCache(this.itemsArr[idx].pokemonId);
       this.itemsArr.splice(idx, 1);
-      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
+      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
     } catch (err) {
       throw `There is no task with id: ${itemId} `;
     }
+  }
 
-
+  async deleteFromCache(pokemonId) {
+    const cacheFilePath = "./server/DB/cache.json";
+    if (await fsExists(cacheFilePath)) {
+      const cacheJsonFile = await fs.readFile(cacheFilePath);
+      const cacheArr = JSON.parse(cacheJsonFile.toString())
+      const idx = cacheArr.findIndex((id) => pokemonId === id);
+      console.log(idx)
+      if (idx === -1) return;
+      cacheArr.splice(idx, 1);
+      this.writeTofile(cacheFilePath, cacheArr);
+    }
   }
 
   getItemsToAdd(arr) {

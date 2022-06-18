@@ -47,7 +47,6 @@ class Main {
 
 {
   try{
-    console.log('here!')
     const itemsArr = await itemClient.fetchItems();
     if (itemsArr.length != 0) {
       this.addItem(itemsArr);
