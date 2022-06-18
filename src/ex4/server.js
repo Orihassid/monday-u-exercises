@@ -1,5 +1,6 @@
 // Express boilerplate, hosting the `dist` file, connecting to the routes
 import express from 'express';
+import bodyParser from 'body-parser';
 import itemRouter from './server/routes/api.js';
 import errorHandler from './server//middleware/error_handler.js';
 import {logger} from './server//middleware/logger.js'
@@ -10,6 +11,8 @@ const app = express();
 
 
 app.use([logger,cors(),express.json(),errorHandler]);
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
 app.use(express.static( 'dist'));
 app.use('/item', itemRouter);
 process.on('unhandledRejection', (reason, promise) => {
