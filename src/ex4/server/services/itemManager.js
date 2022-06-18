@@ -1,36 +1,72 @@
 // The ItemManager should go here. Remember that you have to export it.
-
+import autoDeleteCache from "../cache/cache.js";
+import fsExists from "fs.promises.exists";
 import pokemonClinet from "../clients/pokemonClient.js";
 import { promises as fs } from "fs";
 class ItemManager {
   constructor() {
     this.itemsArr = [];
     this.newItems = [];
-    this.jsonFile = "tasksDB.json";
+    this.taskDbFilePathName = "./server/DB/tasksDB.json";
   }
 
   async getAllItems() {
     try {
-      const todoJsonFile = await fs.readFile(this.jsonFile);
-      this.itemsArr = JSON.parse(todoJsonFile.toString());
+      if (await fsExists(this.taskDbFilePathName)) {
+        const todoJsonFile = await fs.readFile(this.taskDbFilePathName);
+        this.itemsArr = JSON.parse(todoJsonFile.toString());
+      }
       return this.itemsArr;
     } catch (err) {
-      return this.itemsArr;
+      throw new Error(err);
     }
   }
+  async isPokemonIdInCache(pokemonIdArr) {
+    const cacheFilePath = "./server/DB/cache.json";
+    let cacheData = [];
+    try {
+      if (!(await fsExists(cacheFilePath))) {
+        pokemonIdArr.forEach((pokemonId) => {
+          cacheData.push(parseInt(pokemonId));
+        });
+        await this.writeTofile(cacheFilePath,cacheData)
+        autoDeleteCache();
+        return false;
+      } else {
+        cacheData = JSON.parse(await fs.readFile(cacheFilePath));
 
+        const isPokemonExist = cacheData.some(
+          (pokemonId) => pokemonId === parseInt(pokemonIdArr[0])
+        );
+        if (isPokemonExist) return true;
+        else {
+          cacheData.push(parseInt(pokemonIdArr[0]));
+          await this.writeTofile(cacheFilePath,cacheData)
+          autoDeleteCache();
+          return false;
+        }
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
   async deleteAllItems() {
     this.itemsArr = [];
     this.newItems = [];
-    await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
+    await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
   }
 
+  
   async readFile() {
     try {
-      const todoJsonFile = await fs.readFile(this.jsonFile);
-      this.itemsArr = JSON.parse(todoJsonFile.toString());
+      if (await fsExists(this.taskDbFilePathName)) {
+        const todoJsonFile = await fs.readFile(this.taskDbFilePathName);
+        this.itemsArr = JSON.parse(todoJsonFile.toString());
+      } else {
+       await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
+      }
     } catch (err) {
-      await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
+      throw new Error(err);
     }
   }
 
@@ -44,12 +80,27 @@ class ItemManager {
         pokemon.id
       );
       this.itemsArr.push(task);
+      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
 
-      await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
+     
       return [task];
     }
     return this.newItems;
   }
+
+async writeTofile(fileName,data)
+{
+  try{
+  await fs.writeFile(fileName, JSON.stringify(data));
+  }
+  catch(err)
+  {
+    throw new Error(err);
+  }
+}
+
+
+
   async fetchPokemonByNumberId(filteredArr) {
     try {
       const pokemons = await pokemonClinet.fetchPokemon(filteredArr);
@@ -64,7 +115,7 @@ class ItemManager {
         this.itemsArr.push(task);
         this.newItems.push(task);
       });
-      await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
+      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
     } catch (e) {
       let pokemonId = "";
       filteredArr.forEach((task) => {
@@ -76,7 +127,7 @@ class ItemManager {
       );
       this.itemsArr.push(task);
       this.newItems.push(task);
-      await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
+      await this.writeTofile(this.taskDbFilePathName,this.itemsArr);
     }
     return this.newItems;
   }
@@ -92,7 +143,7 @@ class ItemManager {
 
   async addItem(isPokemon, inputArr) {
     this.newItems = [];
-    this.readFile();
+     await this.readFile();
     if (!isPokemon) {
       //check pokemon by name
       const isPokemon = await pokemonClinet.checkByPokemonName(inputArr[0]);
@@ -100,13 +151,16 @@ class ItemManager {
     }
     if (isPokemon) {
       const filteredArr = this.getItemsToAdd(inputArr);
+
       if (filteredArr.length === 0) return this.newItems;
+      const res = await this.isPokemonIdInCache(filteredArr);
+      if (res == true) return this.newItems;
       return this.fetchPokemonByNumberId(filteredArr);
     } else {
       const task = this.initTask(false, inputArr[0]);
       this.itemsArr.push(task);
       this.newItems.push(task);
-      await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
+      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
       return this.newItems;
     }
   }
@@ -129,10 +183,12 @@ class ItemManager {
       const idx = this.itemsArr.findIndex((item) => item.itemId === itemId);
       if (idx === -1) throw "err";
       this.itemsArr.splice(idx, 1);
-      await fs.writeFile(this.jsonFile, JSON.stringify(this.itemsArr));
+      await this.writeTofile(this.taskDbFilePathName,this.itemsArr)
     } catch (err) {
       throw `There is no task with id: ${itemId} `;
     }
+
+
   }
 
   getItemsToAdd(arr) {

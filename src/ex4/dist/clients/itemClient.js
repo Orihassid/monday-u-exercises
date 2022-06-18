@@ -52,10 +52,4 @@ async deleteAllItems()
    }
 
 }
-
-
-
-
-
-
 export default new ItemClinet();

@@ -4,13 +4,20 @@
   "description": "You know what they say about #4: you'll remember it *for*ever (ha)",
   "main": "server.js",
   "type": "module",
-  "nodemonConfig":{"ignore":["tasksDB.json"]},
+  "nodemonConfig": {
+    "ignore": [
+      "./server/DB/tasksDB.json",
+      "./server/DB/cache.json"
+    ]
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
-    "node-fetch": "^3.2.6"
+    "fs.promises.exists": "^1.1.3",
+    "node-fetch": "^3.2.6",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"

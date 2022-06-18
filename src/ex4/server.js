@@ -9,10 +9,9 @@ const app = express();
 
 
 
-app.use([logger,cors(),express.json()]);
+app.use([logger,cors(),express.json(),errorHandler]);
 app.use(express.static( 'dist'));
 app.use('/item', itemRouter);
-app.use(errorHandler);
 process.on('unhandledRejection', (reason, promise) => {
     console.log("Unhandled Rejection", reason.message);
     throw reason
@@ -28,7 +27,6 @@ process.on('uncaughtException', (error) => {
 let msg = ` listening at port ${port}`
 
 app.listen(port, () => { console.log( msg ) ; })
-//start_server();
 
 
 
