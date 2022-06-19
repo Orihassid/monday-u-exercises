@@ -9,7 +9,6 @@ const  port = 8080;
 const app = express();
 
 
-
 app.use([logger,cors(),express.json(),errorHandler]);
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
