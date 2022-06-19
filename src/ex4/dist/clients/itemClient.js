@@ -40,7 +40,7 @@ class ItemClinet {
     }
   }
 
-  async deleteItem(itemId) {
+  async בdeleteItem(itemId) {
     try {
        await fetch(`/item/${itemId}`, {
         method: "delete",
