@@ -64,4 +64,4 @@ async deleteAllItems()
    }
 
 }
-export default new ItemClinet();
+module.exports  = new ItemClinet();

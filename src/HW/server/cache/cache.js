@@ -1,8 +1,8 @@
-import  fs  from "fs";
-import path from "path";
-import rimraf from "rimraf";
+const   fs = require( "fs");
+const  path  = require("path");
+const rimraf  =  require( "rimraf");
 
-export default function autoDeleteCache() {
+ function autoDeleteCache() {
 
   const cacheDir = "./server/DB";
   const cacheFileName = "cache.json";
@@ -26,4 +26,8 @@ export default function autoDeleteCache() {
       });
     });
   });
+}
+module.exports = {
+  autoDeleteCache
+
 }

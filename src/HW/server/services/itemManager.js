@@ -1,8 +1,8 @@
 // The ItemManager should go here. Remember that you have to export it.
-import autoDeleteCache from "../cache/cache.js";
-import fsExists from "fs.promises.exists";
-import pokemonClinet from "../clients/pokemonClient.js";
-import { promises as fs } from "fs";
+const  autoDeleteCache  = require("../cache/cache.js");
+const  fsExists  =  require("fs.promises.exists");
+const  pokemonClinet  = require( "../clients/pokemonClient.js");
+const fs = require("fs").promises
 class ItemManager {
   constructor() {
     this.itemsArr = [];
@@ -207,4 +207,4 @@ class ItemManager {
     );
   }
 }
-export default new ItemManager();
+module.exports  =  new ItemManager();

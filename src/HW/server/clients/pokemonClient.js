@@ -1,5 +1,5 @@
 // The Pokemon Client (using axios) goes here
-import axios from "axios";
+ const axios =  require("axios");
 
 class PokemonClinet {
   constructor() {}
@@ -44,4 +44,4 @@ class PokemonClinet {
   }
 }
 
-export default new PokemonClinet();
+module.exports = new PokemonClinet();

@@ -1,5 +1,5 @@
 
-import itemClient from "./clients/itemClient.js";
+ const itemClient  =require("./clients/itemClient.js");
 
 // Implement the `Main` class here
 class Main {

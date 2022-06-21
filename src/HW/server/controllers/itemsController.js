@@ -1,8 +1,8 @@
-import itemManager from "../services/itemManager.js";
-import ItemManager from "../services/itemManager.js";
-import { validation } from "../utils/utils.js";
 
-export async function createItem(req, res, next) {
+const  ItemManager  = require( "../services/itemManager.js");
+const  validation   = require( "../utils/utils.js");
+
+async function createItem(req, res, next) {
   try {
     const item = req.body.item;
     const { isPokemon, elementsArr } = validation(item);
@@ -13,7 +13,7 @@ export async function createItem(req, res, next) {
   }
 }
 
-export async function deleteItem(req, res, next) {
+ async function deleteItem(req, res, next) {
   try {
     const itemId = parseInt(req.params.id);
     await ItemManager.deleteItem(itemId);
@@ -22,7 +22,7 @@ export async function deleteItem(req, res, next) {
     next(err);
   }
 }
-export async function getAllItems(req, res, next) {
+ async function getAllItems(req, res, next) {
   try {
     const items = await itemManager.getAllItems();
     res.status(200).json(items);
@@ -31,12 +31,20 @@ export async function getAllItems(req, res, next) {
   }
 }
 
-export async function deleteAllItems(req, res, next) {
+ async function deleteAllItems(req, res, next) {
     try {
       await ItemManager.deleteAllItems();
       res.status(200).json('all items deleted');
     } catch (err) {
       next(err);
     }
+  }
+
+  module.exports = {
+    createItem,
+    deleteItem,
+    getAllItems,
+    deleteAllItems
+    
   }
 
