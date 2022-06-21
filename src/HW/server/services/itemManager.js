@@ -80,7 +80,8 @@ class ItemManager {
         pokemon.id
       );
       this.itemsArr.push(task);
-      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
+      await Item.bulkCreate([task]);
+     // await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
       return [task];
     }
     return this.newItems;
@@ -128,7 +129,7 @@ class ItemManager {
     let maxId = 0;
 
     this.itemsArr.forEach((item) => {
-      maxId = Math.max(maxId, item.itemId);
+      maxId = Math.max(maxId, item.item_id);
     });
     const newId = maxId + 1;
     return newId;
@@ -155,7 +156,7 @@ class ItemManager {
       this.newItems.push(task);
 
       await Item.bulkCreate(this.newItems);
-      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
+      //await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
       return this.newItems;
     }
   }
