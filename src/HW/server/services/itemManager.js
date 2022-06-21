@@ -159,5 +159,16 @@ class ItemManager {
       throw new Error(err);
     }
   }
+  async  updateStatusInDb(itemId, newStatus){
+  try{
+    let status = newStatus
+    await Item.update({status},{ where: { itemId: itemId } })
+  }
+  catch(err)
+  {
+  throw new Error(err)
+  }
+  
+  }
 }
 module.exports = new ItemManager();
