@@ -108,7 +108,7 @@ class ItemManager {
       const filteredArr = this.getItemsToAdd(inputArr);
 
       if (filteredArr.length === 0) return newItemsToRender;
-      return this.fetchPokemonByNumberId(filteredArr);
+      return this.fetchPokemonByNumberId(filteredArr,newItemsToRender);
     } else {
       const task = this.initTask(false, inputArr[0]);
       this.itemsArr.push(task);
@@ -157,7 +157,7 @@ class ItemManager {
       throw new Error(err);
     }
   }
-  async function updateStatusInDb(itemId, newStatus){
+  async  updateStatusInDb(itemId, newStatus){
   try{
     let status = newStatus
     await Item.update({status},{ where: { itemId: itemId } })

@@ -39,12 +39,25 @@ async function createItem(req, res, next) {
       next(err);
     }
   }
+  async function updateStatus(req, res, next)
+  {
+    try {
+      const itemId = req.params.id
+      const newStatus = req.body.status
+      console.log(itemId,newStatus)
+      await ItemManager.updateStatusInDb(itemId,newStatus);
+      res.status(200).json('status changed');
+    } catch (err) {
+      next(err);
+    }
+  }
 
   module.exports = {
     createItem,
     deleteItem,
     getAllItems,
-    deleteAllItems
+    deleteAllItems,
+    updateStatus
     
   }
 
