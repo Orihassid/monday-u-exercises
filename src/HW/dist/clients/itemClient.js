@@ -1,5 +1,5 @@
 // Create an ItemClient class here. This is what makes requests to your express server (your own custom API!)
-class ItemClinet {
+class itemClient {
   constructor() {}
 
   async createItem(item) {
@@ -9,6 +9,7 @@ class ItemClinet {
       body: JSON.stringify({ item }),
       headers: { "Content-Type": "application/json" },
     });
+    
     if (response.status == 201) {
       return await response.json();
     }
@@ -40,7 +41,7 @@ class ItemClinet {
     }
   }
 
-  async בdeleteItem(itemId) {
+  async deleteItem(itemId) {
     try {
        await fetch(`/item/${itemId}`, {
         method: "delete",
@@ -64,4 +65,4 @@ async deleteAllItems()
    }
 
 }
-module.exports  = new ItemClinet();
+

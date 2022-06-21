@@ -1,11 +1,11 @@
 
 const  ItemManager  = require( "../services/itemManager.js");
-const  validation   = require( "../utils/utils.js");
+const  valid   = require( "../utils/utils.js");
 
 async function createItem(req, res, next) {
   try {
     const item = req.body.item;
-    const { isPokemon, elementsArr } = validation(item);
+    const { isPokemon, elementsArr } = valid.validation(item);
     const data  = await ItemManager.addItem(isPokemon, elementsArr);
     res.status(201).json(data);
   } catch (err) {
@@ -24,7 +24,7 @@ async function createItem(req, res, next) {
 }
  async function getAllItems(req, res, next) {
   try {
-    const items = await itemManager.getAllItems();
+    const items = await ItemManager.getAllItems();
     res.status(200).json(items);
   } catch (err) {
     next(err);

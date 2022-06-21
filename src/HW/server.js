@@ -2,14 +2,15 @@
 const express =  require('express');
 const  bodyParser =require( 'body-parser');
 const itemRouter = require( './server/routes/api.js');
-const  errorHandler = require('./server/middleware/error_handler.js');
-const  {logger}  = require('./server/middleware/logger.js')
+const  {errorHandler} = require('./server/middleware/error_handler');
+const  {logger}  = require('./server/middleware/logger')
 const  cors = require('cors')
 const  port = 8080;
 const app = express();
 
-
-app.use([logger,cors(),express.json(),errorHandler]);
+app.use(logger)
+app.use([cors(),express.json()]);
+app.use(errorHandler)
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(express.static( 'dist'));

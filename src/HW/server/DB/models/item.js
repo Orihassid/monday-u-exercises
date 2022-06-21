@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-export default  (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
     /**
      * Helper method for defining associations.
@@ -22,7 +22,7 @@ export default  (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Item',
-    tableName:'items',
+    tableName:'Items',
     timestamps: false
   });
   Item.removeAttribute("id")

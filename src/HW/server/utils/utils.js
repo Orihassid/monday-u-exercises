@@ -7,7 +7,7 @@
     return { isPokemon: flag, elementsArr: elementsArr };
 }
 module.exports = {
-    validation
+    validation,
 }
 
 

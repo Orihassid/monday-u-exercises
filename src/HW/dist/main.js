@@ -1,9 +1,9 @@
 
- const itemClient  =require("./clients/itemClient.js");
 
 // Implement the `Main` class here
 class Main {
   constructor() {
+    this.itemClient = new itemClient();
     this.input = document.getElementById("taskInput");
     this.addButton = document.getElementById("addButton");
     this.watingForTasksElem = this.createWelcomeMsg();
@@ -13,8 +13,10 @@ class Main {
     this.tasksUlElem = document.getElementById("tasks");
     this.countTasksElem = document.getElementById("count");
     this.loader = document.querySelector("#loading");
+   
   }
   async init() {
+
     await this.fetchAllItems();
     this.handleEnterPress();
     this.sortBtn.addEventListener("click", () => this.sortTasksListByName());
@@ -30,7 +32,7 @@ class Main {
       try {
 
         this.loader.classList.add("display");
-        const itemsArr = await itemClient.createItem(this.input.value);
+        const itemsArr = await this.itemClient.createItem(this.input.value);
         this.loader.classList.remove("display");
        
         this.input.value =""
@@ -44,10 +46,9 @@ class Main {
 
 
   async fetchAllItems()
-
 {
   try{
-    const itemsArr = await itemClient.fetchItems();
+    const itemsArr = await this.itemClient.fetchItems();
     if (itemsArr.length != 0) {
       this.addItem(itemsArr);
     }
@@ -59,7 +60,7 @@ class Main {
 }
   
  async  clearAllTasks() {
-   await  itemClient.deleteAllItems();
+   await this. itemClient.deleteAllItems();
     this.tasksUlElem.classList.toggle("removed-item");
     setTimeout(() => {
      
@@ -149,14 +150,14 @@ class Main {
     const textElement = document.createElement("span");
     textElement.classList = "tasks_spans";
     liTaskElem.appendChild(textElement);
-    if (val.isPokemon) {
-      textElement.innerText = `catch ${val.item}`;
+    if (val.is_pokemon) {
+      textElement.innerText = `catch ${val.item_name}`;
       const img = this.getPokemonImage(val);
       liTaskElem.appendChild(img);
     } else {
-      textElement.innerText = val.item;
+      textElement.innerText = val.item_name;
     }
-    liTaskElem.setAttribute("id", `${val.itemId}`);
+    liTaskElem.setAttribute("id", `${val.item_id}`);
     liTaskElem.classList = "new-item";
 
     this.tasksUlElem.appendChild(liTaskElem); //append new task to the list
@@ -165,7 +166,7 @@ class Main {
   }
 
   getPokemonImage(pokemonObj) {
-    const url = pokemonObj.imageUrl;
+    const url = pokemonObj.image_url;
     const img = document.createElement("img");
     img.setAttribute("src", url);
     return img;
@@ -175,7 +176,7 @@ class Main {
     deleteButton.addEventListener("click", async () => {
       liTaskElem.classList.toggle("removed-item");
       const itemId = liTaskElem.id;
-       await itemClient.deleteItem(itemId);
+       await this.itemClient.deleteItem(itemId);
      
 
       setTimeout(() => {
