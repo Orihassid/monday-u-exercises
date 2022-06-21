@@ -15,41 +15,14 @@ class ItemManager {
   async getAllItems() {
     try {
       this.itemsArr = await Item.findAll({ raw: true });
-      console.log("getallItems", this.itemsArr);
       return this.itemsArr;
     } catch (err) {
       throw new Error(err);
     }
   }
-  async isPokemonIdInCache(pokemonIdArr) {
-    const cacheFilePath = "./server/DB/cache.json";
-    let cacheData = [];
-    try {
-      if (!(await fsExists(cacheFilePath))) {
-        pokemonIdArr.forEach((pokemonId) => {
-          cacheData.push(parseInt(pokemonId));
-        });
-        await this.writeTofile(cacheFilePath, cacheData);
-        // autoDeleteCache();
-        return false;
-      } else {
-        cacheData = JSON.parse(await fs.readFile(cacheFilePath));
-        const isPokemonExist = cacheData.some(
-          (pokemonId) => pokemonId === parseInt(pokemonIdArr[0])
-        );
-        if (isPokemonExist) return true;
-        else {
-          cacheData.push(parseInt(pokemonIdArr[0]));
-          await this.writeTofile(cacheFilePath, cacheData);
-          //autoDeleteCache();
-          return false;
-        }
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
+  
   async deleteAllItems() {
+    try{
     this.itemsArr = [];
     this.newItems = [];
     await Item.destroy({
@@ -57,21 +30,12 @@ class ItemManager {
       truncate: true,
     });
   }
-
-  async readFile() {
-    try {
-      if (await fsExists(this.taskDbFilePathName)) {
-        const todoJsonFile = await fs.readFile(this.taskDbFilePathName);
-        this.itemsArr = JSON.parse(todoJsonFile.toString());
-      } else {
-        await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
-      }
-    } catch (err) {
-      throw new Error(err);
-    }
+  catch(err)
+  throw new Error(err)
   }
 
   async checkByPokemonName(pokemon) {
+    try{
     const isExist = await this.isExistInDb(pokemon.id);
     if (!isExist) {
       const task = this.initTask(
@@ -85,6 +49,11 @@ class ItemManager {
       return [task];
     }
     return this.newItems;
+  }
+  catch(err)
+  {
+    throw new Error(err);
+  }
   }
 
   async fetchPokemonByNumberId(filteredArr) {
@@ -102,7 +71,6 @@ class ItemManager {
         this.newItems.push(task);
       });
       await Item.bulkCreate(this.newItems);
-      // await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
     } catch (e) {
       let pokemonId = "";
       filteredArr.forEach((task) => {
@@ -142,8 +110,6 @@ class ItemManager {
       const filteredArr = this.getItemsToAdd(inputArr);
 
       if (filteredArr.length === 0) return this.newItems;
-      // const res = await this.isPokemonIdInCache(filteredArr);
-      // if (res == true) return this.newItems;
       return this.fetchPokemonByNumberId(filteredArr);
     } else {
       const task = this.initTask(false, inputArr[0]);
@@ -163,7 +129,6 @@ class ItemManager {
       isPokemon: isPokemon,
       pokemonId: pokemonId,
     };
-    console.log("task", task);
     return task;
   }
 
