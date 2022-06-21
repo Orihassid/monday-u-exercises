@@ -42,6 +42,7 @@ class itemClient {
   }
 
   async deleteItem(itemId) {
+
     try {
        await fetch(`/item/${itemId}`, {
         method: "delete",

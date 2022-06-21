@@ -8,20 +8,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      item_id: {
+      itemId: {
+        type: Sequelize.STRING
+      },
+      itemName: {
+        type: Sequelize.STRING
+      },
+      imageUrl: {
+        type: Sequelize.STRING
+      },
+      isPokemon: {
+        type: Sequelize.BOOLEAN
+      },
+      pokemonId: {
         type: Sequelize.INTEGER
-      },
-      item_name: {
-        type: Sequelize.STRING
-      },
-      image_url: {
-        type: Sequelize.STRING
-      },
-      is_pokemon: {
-        type: Sequelize.BOOLEAN
-      },
-      status: {
-        type: Sequelize.BOOLEAN
       },
       
     });

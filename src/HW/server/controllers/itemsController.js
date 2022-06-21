@@ -15,7 +15,7 @@ async function createItem(req, res, next) {
 
  async function deleteItem(req, res, next) {
   try {
-    const itemId = parseInt(req.params.id);
+    const itemId =(req.params.id);
     await ItemManager.deleteItem(itemId);
     res.status(200).json(itemId);
   } catch (err) {

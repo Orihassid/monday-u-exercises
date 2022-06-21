@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Item.init({
-    itemId: DataTypes.INTEGER,
+    itemId: DataTypes.STRING,
     itemName: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
     isPokemon: DataTypes.BOOLEAN,
-    status: DataTypes.BOOLEAN
+    pokemonId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Item',
