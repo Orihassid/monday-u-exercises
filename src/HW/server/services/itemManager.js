@@ -81,7 +81,6 @@ class ItemManager {
       );
       this.itemsArr.push(task);
       await Item.bulkCreate([task]);
-     // await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
       return [task];
     }
     return this.newItems;
@@ -109,7 +108,8 @@ class ItemManager {
         this.itemsArr.push(task);
         this.newItems.push(task);
       });
-      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
+      await Item.bulkCreate(this.newItems);
+      // await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
     } catch (e) {
       let pokemonId = "";
       filteredArr.forEach((task) => {
@@ -121,7 +121,7 @@ class ItemManager {
       );
       this.itemsArr.push(task);
       this.newItems.push(task);
-      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
+      Item.bulkCreate(this.newItems);
     }
     return this.newItems;
   }
@@ -129,7 +129,7 @@ class ItemManager {
     let maxId = 0;
 
     this.itemsArr.forEach((item) => {
-      maxId = Math.max(maxId, item.item_id);
+      maxId = Math.max(maxId, item.itemId);
     });
     const newId = maxId + 1;
     return newId;
@@ -154,7 +154,6 @@ class ItemManager {
       const task = this.initTask(false, inputArr[0]);
       this.itemsArr.push(task);
       this.newItems.push(task);
-
       await Item.bulkCreate(this.newItems);
       //await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
       return this.newItems;
@@ -164,26 +163,22 @@ class ItemManager {
   initTask(isPokemon, item, imageUrl = "", pokemonId = "") {
     const itemId = this.generateId();
     const task = {
-      item_id: itemId,
-      item_name: item,
-      image_url: imageUrl,
-      pokemon_id: pokemonId,
-      is_pokemon: isPokemon,
+      itemId: itemId,
+      itemName: item,
+      imageUrl: imageUrl,
+      pokemonId: pokemonId,
+      isPokemon: isPokemon,
       status:false
     };
-    console.log('here',task)
     return task;
   }
 
   async deleteItem(itemId) {
     try {
-      await this.readFile();
       const idx = this.itemsArr.findIndex((item) => item.itemId === itemId);
       if (idx === -1) throw "err";
-      if(this.itemsArr[idx].isPokemon)
-      await this.deleteFromCache(this.itemsArr[idx].pokemonId);
       this.itemsArr.splice(idx, 1);
-      await this.writeTofile(this.taskDbFilePathName, this.itemsArr);
+      Item.destroy({ where: { itemId: itemId } })
     } catch (err) {
       throw `There is no task with id: ${itemId} `;
     }

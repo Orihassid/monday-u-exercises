@@ -146,18 +146,19 @@ class Main {
     this.countTasksHandler();
   }
   renderItem(val) {
+    
     const liTaskElem = document.createElement("li");
     const textElement = document.createElement("span");
     textElement.classList = "tasks_spans";
     liTaskElem.appendChild(textElement);
-    if (val.is_pokemon) {
-      textElement.innerText = `catch ${val.item_name}`;
+    if (val.isPokemon) {
+      textElement.innerText = `catch ${val.itemName}`;
       const img = this.getPokemonImage(val);
       liTaskElem.appendChild(img);
     } else {
-      textElement.innerText = val.item_name;
+      textElement.innerText = val.itemName;
     }
-    liTaskElem.setAttribute("id", `${val.item_id}`);
+    liTaskElem.setAttribute("id", `${val.itemId}`);
     liTaskElem.classList = "new-item";
 
     this.tasksUlElem.appendChild(liTaskElem); //append new task to the list
@@ -166,7 +167,8 @@ class Main {
   }
 
   getPokemonImage(pokemonObj) {
-    const url = pokemonObj.image_url;
+    
+    const url = pokemonObj.imageUrl;
     const img = document.createElement("img");
     img.setAttribute("src", url);
     return img;
