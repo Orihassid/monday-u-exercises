@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: DataTypes.STRING,
     isPokemon: DataTypes.BOOLEAN,
     pokemonId: DataTypes.INTEGER,
+    status: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Item',

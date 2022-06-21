@@ -30,8 +30,9 @@ class ItemManager {
       truncate: true,
     });
   }
-  catch(err)
-  throw new Error(err)
+    catch(err){
+      throw new Error(err);
+    }
   }
 
   async checkByPokemonName(pokemon) {
@@ -50,9 +51,8 @@ class ItemManager {
     }
     return this.newItems;
   }
-  catch(err)
-  {
-    throw new Error(err);
+  catch(err){
+  throw new Error(err);
   }
   }
 
@@ -128,6 +128,7 @@ class ItemManager {
       imageUrl: imageUrl,
       isPokemon: isPokemon,
       pokemonId: pokemonId,
+      status:false
     };
     return task;
   }
