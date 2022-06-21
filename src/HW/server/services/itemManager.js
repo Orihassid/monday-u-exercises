@@ -1,10 +1,10 @@
 // The ItemManager should go here. Remember that you have to export it.
 // const  autoDeleteCache  = require("../cache/cache.js");
 
-const  fsExists  =  require("fs.promises.exists");
-const  pokemonClinet  = require( "../clients/pokemonClient.js");
-const {Item} = require('../DB/models')
-const fs = require("fs").promises
+const fsExists = require("fs.promises.exists");
+const pokemonClinet = require("../clients/pokemonClient.js");
+const { Item } = require("../DB/models");
+const fs = require("fs").promises;
 class ItemManager {
   constructor() {
     this.itemsArr = [];
@@ -14,8 +14,8 @@ class ItemManager {
 
   async getAllItems() {
     try {
-      this.itemsArr = await Item.findAll({raw: true})
-      console.log('getallItems',this.itemsArr)
+      this.itemsArr = await Item.findAll({ raw: true });
+      console.log("getallItems", this.itemsArr);
       return this.itemsArr;
     } catch (err) {
       throw new Error(err);
@@ -30,7 +30,7 @@ class ItemManager {
           cacheData.push(parseInt(pokemonId));
         });
         await this.writeTofile(cacheFilePath, cacheData);
-       // autoDeleteCache();
+        // autoDeleteCache();
         return false;
       } else {
         cacheData = JSON.parse(await fs.readFile(cacheFilePath));
@@ -54,8 +54,8 @@ class ItemManager {
     this.newItems = [];
     await Item.destroy({
       where: {},
-      truncate: true
-    })
+      truncate: true,
+    });
   }
 
   async readFile() {
@@ -72,7 +72,7 @@ class ItemManager {
   }
 
   async checkByPokemonName(pokemon) {
-    const isExist = this.isExistInItemsArr(pokemon);
+    const isExist = await this.isExistInDb(pokemon.id);
     if (!isExist) {
       const task = this.initTask(
         true,
@@ -85,14 +85,6 @@ class ItemManager {
       return [task];
     }
     return this.newItems;
-  }
-
-  async writeTofile(fileName, data) {
-    try {
-      await fs.writeFile(fileName, JSON.stringify(data));
-    } catch (err) {
-      throw new Error(err);
-    }
   }
 
   async fetchPokemonByNumberId(filteredArr) {
@@ -127,15 +119,17 @@ class ItemManager {
     return this.newItems;
   }
   generateId() {
-      var dt = new Date().getTime();
-      var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-          var r = (dt + Math.random()*16)%16 | 0;
-          dt = Math.floor(dt/16);
-          return (c=='x' ? r :(r&0x3|0x8)).toString(16);
-      });
-      return uuid;
+    var dt = new Date().getTime();
+    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (dt + Math.random() * 16) % 16 | 0;
+        dt = Math.floor(dt / 16);
+        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+      }
+    );
+    return uuid;
   }
-  
 
   async addItem(isPokemon, inputArr) {
     this.newItems = [];
@@ -168,21 +162,18 @@ class ItemManager {
       imageUrl: imageUrl,
       isPokemon: isPokemon,
       pokemonId: pokemonId,
-    
     };
-    console.log('task',task)
+    console.log("task", task);
     return task;
   }
 
   async deleteItem(itemId) {
     try {
-
-      await Item.destroy({ where: { itemId: itemId } })
+      await Item.destroy({ where: { itemId: itemId } });
     } catch (err) {
       throw `There is no task with id: ${itemId} `;
     }
   }
-
 
   getItemsToAdd(arr) {
     const pokemonsIdArr = this.itemsArr
@@ -190,10 +181,17 @@ class ItemManager {
       .map((obj) => obj.pokemonId.toString());
     return arr.filter((id) => !pokemonsIdArr.includes(id));
   }
-  isExistInItemsArr(obj) {
-    return this.itemsArr.some(
-      (item) => item.isPokemon && item.pokemonId === obj.id
-    );
+  async isExistInDb(pokemonId) {
+    try {
+      const itemFromDb = await Item.findOne({
+        where: { pokemonId: pokemonId },
+        raw: true,
+      });
+      if (itemFromDb!==null&& itemFromDb.pokemonId === pokemonId) return true;
+      else return false;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
-module.exports  =  new ItemManager();
+module.exports = new ItemManager();
