@@ -8,7 +8,6 @@ const fs = require("fs").promises;
 class ItemManager {
   constructor() {
     this.itemsArr = [];
-    this.newItems = [];
     this.taskDbFilePathName = "./server/DB/tasksDB.json";
   }
 
@@ -24,7 +23,6 @@ class ItemManager {
   async deleteAllItems() {
     try{
     this.itemsArr = [];
-    this.newItems = [];
     await Item.destroy({
       where: {},
       truncate: true,
@@ -35,7 +33,7 @@ class ItemManager {
     }
   }
 
-  async checkByPokemonName(pokemon) {
+  async checkByPokemonName(pokemon,newItemsToRender) {
     try{
     const isExist = await this.isExistInDb(pokemon.id);
     if (!isExist) {
@@ -49,14 +47,14 @@ class ItemManager {
       await Item.bulkCreate([task]);
       return [task];
     }
-    return this.newItems;
+    return newItemsToRender;
   }
   catch(err){
   throw new Error(err);
   }
   }
 
-  async fetchPokemonByNumberId(filteredArr) {
+  async fetchPokemonByNumberId(filteredArr,newItemsToRender) {
     try {
       const pokemons = await pokemonClinet.fetchPokemon(filteredArr);
 
@@ -68,9 +66,9 @@ class ItemManager {
           pokemon.id
         );
         this.itemsArr.push(task);
-        this.newItems.push(task);
+        newItemsToRender.push(task);
       });
-      await Item.bulkCreate(this.newItems);
+      await Item.bulkCreate(newItemsToRender);
     } catch (e) {
       let pokemonId = "";
       filteredArr.forEach((task) => {
@@ -81,17 +79,17 @@ class ItemManager {
         `pokemon with id: ${pokemonId} was not found`
       );
       this.itemsArr.push(task);
-      this.newItems.push(task);
-      await Item.bulkCreate(this.newItems);
+      newItemsToRender.push(task);
+      await Item.bulkCreate(newItemsToRender);
     }
-    return this.newItems;
+    return newItemsToRender;
   }
   generateId() {
-    var dt = new Date().getTime();
-    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+    let dt = new Date().getTime();
+    const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
       /[xy]/g,
       function (c) {
-        var r = (dt + Math.random() * 16) % 16 | 0;
+        const r = (dt + Math.random() * 16) % 16 | 0;
         dt = Math.floor(dt / 16);
         return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
       }
@@ -100,23 +98,23 @@ class ItemManager {
   }
 
   async addItem(isPokemon, inputArr) {
-    this.newItems = [];
+    const  newItemsToRender = [];
     if (!isPokemon) {
       //check pokemon by name
       const isPokemon = await pokemonClinet.checkByPokemonName(inputArr[0]);
-      if (isPokemon) return this.checkByPokemonName(isPokemon);
+      if (isPokemon) return this.checkByPokemonName(isPokemon,newItemsToRender);
     }
     if (isPokemon) {
       const filteredArr = this.getItemsToAdd(inputArr);
 
-      if (filteredArr.length === 0) return this.newItems;
+      if (filteredArr.length === 0) return newItemsToRender;
       return this.fetchPokemonByNumberId(filteredArr);
     } else {
       const task = this.initTask(false, inputArr[0]);
       this.itemsArr.push(task);
-      this.newItems.push(task);
-      await Item.bulkCreate(this.newItems);
-      return this.newItems;
+      newItemsToRender.push(task);
+      await Item.bulkCreate(newItemsToRender);
+      return newItemsToRender;
     }
   }
 
@@ -159,14 +157,14 @@ class ItemManager {
       throw new Error(err);
     }
   }
-  async  updateStatusInDb(itemId, newStatus){
+  async function updateStatusInDb(itemId, newStatus){
   try{
     let status = newStatus
     await Item.update({status},{ where: { itemId: itemId } })
   }
   catch(err)
   {
-  throw new Error(err)
+throw new Error(err)
   }
   
   }
