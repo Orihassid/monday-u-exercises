@@ -1,7 +1,6 @@
 // The ItemManager should go here. Remember that you have to export it.
 // const  autoDeleteCache  = require("../cache/cache.js");
 
-const fsExists = require("fs.promises.exists");
 const pokemonClinet = require("../clients/pokemonClient.js");
 const { Item } = require("../DB/models");
 const fs = require("fs").promises;

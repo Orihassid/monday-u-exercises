@@ -44,7 +44,6 @@ async function createItem(req, res, next) {
     try {
       const itemId = req.params.id
       const newStatus = req.body.status
-      console.log(itemId,newStatus)
       await ItemManager.updateStatusInDb(itemId,newStatus);
       res.status(200).json('status changed');
     } catch (err) {

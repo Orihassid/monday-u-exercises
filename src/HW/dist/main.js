@@ -2,7 +2,7 @@
 // Implement the `Main` class here
 class Main {
   constructor() {
-    this.itemClient = new itemClient();
+    this.itemClient = new ItemClient();
     this.input = document.getElementById("taskInput");
     this.addButton = document.getElementById("addButton");
     this.watingForTasksElem = this.createWelcomeMsg();
@@ -149,7 +149,7 @@ class Main {
     const liTaskElem = document.createElement("li");
     const textElement = document.createElement("span");
     textElement.classList = "tasks_spans";
-    const checkBox = this.createCheckBox(liTaskElem);
+    const checkBox = this.createCheckBox(liTaskElem,val.status);
     liTaskElem.append(checkBox);
     liTaskElem.appendChild(textElement);
     if (val.isPokemon) {
@@ -167,18 +167,21 @@ class Main {
     this.clickOnItem(liTaskElem, textElement);
   }
 
-  createCheckBox(liTaskElem)
+  createCheckBox(liTaskElem,status)
   {
+
+    console.log(status)
     const checkbox = document.createElement('input');
     checkbox.type = "checkbox";
-    checkbox.value = 1;
+    checkbox.value = 1
+    checkbox.checked = status;
     this.addOnClickMehodToCheckBox(checkbox,liTaskElem);
     return checkbox;
   }
   addOnClickMehodToCheckBox(checkbox,liTaskElem)
   {
     checkbox.addEventListener('change', async(e) => {
-
+    
       if (e.target.checked) {
         await this.itemClient.updateStatus(liTaskElem.id,true)
         
