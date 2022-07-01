@@ -1,12 +1,12 @@
 
 import ListItem from "../ListItem/ListItem.jsx"
-const List = ({items}) =>
+const List = ({items,deleteItemFromTodoList}) =>
 {
     console.log(items)
     return <div>
         {items.map((item)=>{
             return (<ListItem 
-            item ={item}/>)
+            item ={item} deleteItemFromTodoList = {deleteItemFromTodoList}/>)
 
         })}
 

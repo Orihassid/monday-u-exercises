@@ -38,7 +38,7 @@
 
   export async function  deleteItem(itemId) {
     try {
-      await fetch(`/item/${itemId}`, {
+      await fetch(`${url}/item/${itemId}`, {
         method: "delete",
         headers: { "Content-Type": "application/json" },
       });
