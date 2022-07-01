@@ -59,7 +59,7 @@
   }
   export async function updateStatus(itemId,newStatus) {
     try {
-      const response = await fetch(`/item/${itemId}`, {
+      const response = await fetch(`${url}/item/${itemId}`, {
         method: "put",
         body: JSON.stringify({ status:newStatus }),
         headers: { "Content-Type": "application/json" },

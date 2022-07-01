@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import styles from "./AppContainer.module.css";
-import { fetchItems, createItem, deleteItem } from "../../Services/ItemClient";
+import "./AppContainer.module.css";
+import { fetchItems, createItem, deleteItem,updateStatus } from "../../Services/ItemClient";
 import List from "../List/List";
 import ListControls from "../ListControls/ListControls";
 // import propsType from 'props-type'
@@ -9,6 +9,7 @@ function AppContainer() {
   const [items, setItems] = useState([]);
 
   const renderNewItems = async (item) => {
+    console.log(item);
     const newItems = await createItem(item);
     newItems.forEach((item) => {
       items.push(item);
@@ -30,13 +31,13 @@ function AppContainer() {
   }, []);
 
   return (
-    <div className={styles.wrapper}>
-      <div>
-        <ListControls renderNewItems={renderNewItems} />
-      </div>
-      <div>
-        <List items={items} deleteItemFromTodoList={deleteItemFromTodoList} />
-      </div>
+    <div className="wrapper">
+      <List
+        items={items}
+        deleteItemFromTodoList={deleteItemFromTodoList}
+        updateStatus ={updateStatus}
+      />
+      <ListControls renderNewItems={renderNewItems} />
     </div>
   );
 }
