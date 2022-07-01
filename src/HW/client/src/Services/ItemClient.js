@@ -1,10 +1,10 @@
 // Create an ItemClient class here. This is what makes requests to your express server (your own custom API!)
 
-  
+  const url = "http://localhost:8080"
 
   export  async function createItem(item) {
     try {
-      const response = await fetch("/item", {
+      const response = await fetch(`${url}/item`, {
         method: "post",
         body: JSON.stringify({ item }),
         headers: { "Content-Type": "application/json" },
@@ -20,7 +20,7 @@
 
   export  async function  fetchItems() {
     try {
-      const response = await fetch("http://localhost:8080/item")
+      const response = await fetch(`${url}/item`)
        
 
       if (response.status != 200) {
