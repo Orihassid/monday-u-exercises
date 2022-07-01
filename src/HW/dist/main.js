@@ -1,4 +1,3 @@
-
 // Implement the `Main` class here
 class Main {
   constructor() {
@@ -12,10 +11,8 @@ class Main {
     this.tasksUlElem = document.getElementById("tasks");
     this.countTasksElem = document.getElementById("count");
     this.loader = document.querySelector("#loading");
-   
   }
   async init() {
-
     await this.fetchAllItems();
     this.handleEnterPress();
     this.sortBtn.addEventListener("click", () => this.sortTasksListByName());
@@ -29,45 +26,37 @@ class Main {
       }
 
       try {
-
         this.loader.classList.add("display");
         const itemsArr = await this.itemClient.createItem(this.input.value);
         this.loader.classList.remove("display");
-       
-        this.input.value =""
+
+        this.input.value = "";
         this.addItem(itemsArr);
       } catch (err) {
         this.addItem([err], false);
       }
-     
     });
   }
 
-
-  async fetchAllItems()
-{
-  try{
-    const itemsArr = await this.itemClient.fetchItems();
-    if (itemsArr.length != 0) {
-      this.addItem(itemsArr);
-    }
-    }
-    catch(err)
-    {
+  async fetchAllItems() {
+    try {
+      const itemsArr = await this.itemClient.fetchItems();
+      if (itemsArr.length != 0) {
+        this.addItem(itemsArr);
+      }
+    } catch (err) {
       throw err;
     }
-}
-  
- async  clearAllTasks() {
-   await this. itemClient.deleteAllItems();
+  }
+
+  async clearAllTasks() {
+    await this.itemClient.deleteAllItems();
     this.tasksUlElem.classList.toggle("removed-item");
     setTimeout(() => {
-     
-      this.tasksUlElem.innerHTML = ""; 
+      this.tasksUlElem.innerHTML = "";
       this.tasksUlElem.classList.remove("removed-item");
       this.countTasksHandler();
     }, 500);
-   
   }
 
   addAlert(alertMsg, miilis) {
@@ -138,18 +127,16 @@ class Main {
   }
 
   addItem(newItemsToRender) {
- 
     for (const val of newItemsToRender) {
       this.renderItem(val);
     }
     this.countTasksHandler();
   }
   renderItem(val) {
-    
     const liTaskElem = document.createElement("li");
     const textElement = document.createElement("span");
     textElement.classList = "tasks_spans";
-    const checkBox = this.createCheckBox(liTaskElem,val.status);
+    const checkBox = this.createCheckBox(liTaskElem, val.status);
     liTaskElem.append(checkBox);
     liTaskElem.appendChild(textElement);
     if (val.isPokemon) {
@@ -167,32 +154,25 @@ class Main {
     this.clickOnItem(liTaskElem, textElement);
   }
 
-  createCheckBox(liTaskElem,status)
-  {
-
-    console.log(status)
-    const checkbox = document.createElement('input');
+  createCheckBox(liTaskElem, status) {
+    const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.value = 1
+    checkbox.value = 1;
     checkbox.checked = status;
-    this.addOnClickMehodToCheckBox(checkbox,liTaskElem);
+    this.addOnClickMehodToCheckBox(checkbox, liTaskElem);
     return checkbox;
   }
-  addOnClickMehodToCheckBox(checkbox,liTaskElem)
-  {
-    checkbox.addEventListener('change', async(e) => {
-    
+  addOnClickMehodToCheckBox(checkbox, liTaskElem) {
+    checkbox.addEventListener("change", async (e) => {
       if (e.target.checked) {
-        await this.itemClient.updateStatus(liTaskElem.id,true)
-        
+        await this.itemClient.updateStatus(liTaskElem.id, true);
       } else {
-        await this.itemClient.updateStatus(liTaskElem.id,false)
+        await this.itemClient.updateStatus(liTaskElem.id, false);
       }
     });
   }
 
   getPokemonImage(pokemonObj) {
-    
     const url = pokemonObj.imageUrl;
     const img = document.createElement("img");
     img.setAttribute("src", url);
@@ -203,8 +183,7 @@ class Main {
     deleteButton.addEventListener("click", async () => {
       liTaskElem.classList.toggle("removed-item");
       const itemId = liTaskElem.id;
-       await this.itemClient.deleteItem(itemId);
-     
+      await this.itemClient.deleteItem(itemId);
 
       setTimeout(() => {
         liTaskElem.remove();
@@ -233,10 +212,6 @@ class Main {
     liTaskElem.appendChild(deleteButton);
     this.addOnClickMehodWhenDeleteItem(liTaskElem, deleteButton);
   }
-
-
-  
-
 }
 
 const main = new Main();
