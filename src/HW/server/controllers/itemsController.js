@@ -53,11 +53,9 @@ async function createItem(req, res, next) {
 
   async function editTaskName(req, res, next)
   {
-    console.log('ffffffffffffffffffffffffffffffffffr')
     try {
       const itemId = req.params.id
       const newTaskName = req.body.taskName
-      console.log(newTaskName,'heredddddddd')
       await ItemManager.editTaskNameInDb(itemId,newTaskName);
       res.status(200).json('name changed');
     } catch (err) {

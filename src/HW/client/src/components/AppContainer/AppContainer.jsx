@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./AppContainer.css";
+import List from "../List/List";
+import ListControls from "../ListControls/ListControls";
 import {
   fetchItems,
   createItem,
@@ -7,10 +9,7 @@ import {
   updateStatus,
   editTaskName,
 } from "../../Services/ItemClient";
-import List from "../List/List";
-import ListControls from "../ListControls/ListControls";
 
-// import propsType from 'props-type'
 
 function AppContainer() {
   const [items, setItems] = useState([]);

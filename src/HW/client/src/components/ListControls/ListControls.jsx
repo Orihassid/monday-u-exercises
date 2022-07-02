@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ListControls.css";
 import { Button } from "monday-ui-react-core";
 import "monday-ui-react-core/dist/main.css";
+import PropTypes from 'prop-types';
 
 const ListControls = ({ renderNewItems }) => {
   const [inputValue, setInputValue] = useState("");
@@ -50,4 +51,9 @@ const ListControls = ({ renderNewItems }) => {
     </div>
   );
 };
+
+ListControls.propTypes ={
+  renderNewItems:PropTypes.func
+}
+
 export default ListControls;

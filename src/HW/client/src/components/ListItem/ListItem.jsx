@@ -4,13 +4,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
+import PropTypes from 'prop-types';
 const ListItem = ({
   item,
   deleteItemFromDb,
   updateStatusDb,
   editTaskNameDb,
 }) => {
-  const isPokemon = item.isPokemon;
+  const isPokemon = item.isPokemon === 0 ? false : true;
   const [taskName, setTaskName] = useState(
     isPokemon ? `catch ${item.itemName}` : item.itemName
   );
@@ -29,8 +30,8 @@ const ListItem = ({
   };
   const handleSaveButtonClick = async () => {
     setEditClicked(true);
-    const newTaskName = taskName.replace('catch','')
-    await editTaskNameDb(item.itemId, taskName);
+    const newTaskName = taskName.replace("catch", "");
+    await editTaskNameDb(item.itemId, newTaskName);
   };
 
   const handleInputChange = (e) => {
@@ -94,4 +95,10 @@ const ListItem = ({
   );
 };
 
+ListItem.prototype ={
+  item:PropTypes.object,
+  deleteItemFromDb:PropTypes.func,
+  updateStatusDb:PropTypes.func,
+  editTaskNameDb:PropTypes.func,
+}
 export default ListItem;
