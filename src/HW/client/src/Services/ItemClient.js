@@ -69,7 +69,7 @@
         return await response.json();
       }
     } catch (err) {
-    console.log(err)
+    throw new Error(err)
     }
   }
 

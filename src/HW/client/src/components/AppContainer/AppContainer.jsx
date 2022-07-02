@@ -10,25 +10,31 @@ import {
   editTaskName,
 } from "../../Services/ItemClient";
 
-
 function AppContainer() {
   const [items, setItems] = useState([]);
 
   const renderNewItems = async (item) => {
-    const newItems = await createItem(item);
-    newItems.forEach((item) => {
-      items.push(item);
-    });
-    setItems([...items]);
+    try {
+      const newItems = await createItem(item);
+      newItems.forEach((item) => {
+        items.push(item);
+      });
+      setItems([...items]);
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   const deleteItemFromTodoList = async (itemId) => {
-    await deleteItem(itemId);
-    const idx = items.findIndex((item) => item.itemId === itemId);
-    items.splice(idx, 1);
-    setItems([...items]);
+    try {
+      await deleteItem(itemId);
+      const idx = items.findIndex((item) => item.itemId === itemId);
+      items.splice(idx, 1);
+      setItems([...items]);
+    } catch (err) {
+      throw new Error(err);
+    }
   };
-
 
   useEffect(() => {
     fetchItems().then((fetchedItems) => {

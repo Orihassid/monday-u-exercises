@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 const ListItem = ({
   item,
   deleteItemFromDb,
@@ -17,11 +17,15 @@ const ListItem = ({
   );
   const [isEditClicked, setEditClicked] = useState(true);
 
-  const handleCheckboxChange = (e) => {
-    if (e.target.checked) {
-      updateStatusDb(item.itemId, true);
-    } else {
-      updateStatusDb(item.itemId, false);
+  const handleCheckboxChange = async (e) => {
+    try {
+      if (e.target.checked) {
+        await updateStatusDb(item.itemId, true);
+      } else {
+        await updateStatusDb(item.itemId, false);
+      }
+    } catch (err) {
+      throw new Error("failed to update status with checkbox");
     }
   };
 
@@ -29,11 +33,14 @@ const ListItem = ({
     setEditClicked(false);
   };
   const handleSaveButtonClick = async () => {
-    setEditClicked(true);
-    const newTaskName = taskName.replace("catch", "");
-    await editTaskNameDb(item.itemId, newTaskName);
+    try {
+      setEditClicked(true);
+      const newTaskName = taskName.replace("catch", "");
+      await editTaskNameDb(item.itemId, newTaskName);
+    } catch (err) {
+      throw new Error("failed to edit task in db");
+    }
   };
-
   const handleInputChange = (e) => {
     setTaskName(e.target.value);
   };
@@ -95,10 +102,10 @@ const ListItem = ({
   );
 };
 
-ListItem.prototype ={
-  item:PropTypes.object,
-  deleteItemFromDb:PropTypes.func,
-  updateStatusDb:PropTypes.func,
-  editTaskNameDb:PropTypes.func,
-}
+ListItem.prototype = {
+  item: PropTypes.object,
+  deleteItemFromDb: PropTypes.func,
+  updateStatusDb: PropTypes.func,
+  editTaskNameDb: PropTypes.func,
+};
 export default ListItem;
