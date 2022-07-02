@@ -13,7 +13,7 @@
     border: 1px solid #ddd;
     
   }
-  .addButton {
+  #add-button {
     width: 15%;
     padding: 14px 0px;
     cursor: pointer;

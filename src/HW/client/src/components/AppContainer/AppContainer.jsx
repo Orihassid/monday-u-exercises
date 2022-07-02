@@ -8,10 +8,12 @@ import {
 } from "../../Services/ItemClient";
 import List from "../List/List";
 import ListControls from "../ListControls/ListControls";
+
 // import propsType from 'props-type'
 
 function AppContainer() {
   const [items, setItems] = useState([]);
+  
 
   const renderNewItems = async (item) => {
     console.log(item);
@@ -20,6 +22,7 @@ function AppContainer() {
       items.push(item);
     });
     setItems([...items]);
+   
   };
 
   const deleteItemFromTodoList = async (itemId) => {

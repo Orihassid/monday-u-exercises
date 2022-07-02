@@ -1,17 +1,33 @@
-import { useRef, useState } from "react";
+import {useState } from "react";
 import "./ListControls.css";
+import { Button } from "monday-ui-react-core";
+import "monday-ui-react-core/dist/main.css";
+
 
 const ListControls = ({ renderNewItems }) => {
+
   const [inputValue, setInputValue] = useState("");
-  const handleEnterPress = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      renderNewItems(inputValue);
-      
+  const [loading, setLoading] = useState(false);
+   
+  const handleInputValue = (e)=>{
+    setInputValue(e.target.value.trim())
+    
+  }
+   
+  const handleEnterPress = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setLoading(true)
+       await renderNewItems(inputValue);
+      setLoading(false)
+      setInputValue('')
     }
   };
-  const handlePressClick = () => {
-    renderNewItems(inputValue);
+  const handlePressClick = async () => {
+    setLoading(true)
+       await renderNewItems(inputValue);
+     setLoading(false)
+     setInputValue('')
   };
 
   return (
@@ -19,14 +35,18 @@ const ListControls = ({ renderNewItems }) => {
       <div className="list-controls">
         <input
           type="text"
-         className="taskInput"
+          className="taskInput"
           placeholder="Add your new todo"
           onKeyPress={handleEnterPress}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={handleInputValue}
+          value={inputValue}
         />
-        <button className = "addButton" type="button"  onClick={handlePressClick}>
+        <Button  id ="add-button" type="button" onClick={handlePressClick} loading={loading}>
           +
-        </button>
+        </Button>
+        
+         
+        
       </div>
     </div>
   );

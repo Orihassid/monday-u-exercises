@@ -1,15 +1,14 @@
 import { useState } from "react";
 import "./ListItem.css";
-
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 const ListItem = ({ item, deleteItemFromTodoList, updateStatus }) => {
   const [isPokemon, setIsPokemon] = useState(item.isPokemon);
-  const itemName = isPokemon ? `catch ${item.itemName}` : item.itemName;
-  //const [newName, setNewName] = useState(item.itemName);
+  const [taskName, setTaskName] = useState(isPokemon ? `catch ${item.itemName}` : item.itemName);
+  const [isEditInput, setEditInput] = useState(true);
 
-  console.log("newItem", item.itemName);
+  
   const handleCheckboxChange = (e) => {
     if (e.target.checked) {
       updateStatus(item.itemId, true);
@@ -17,6 +16,18 @@ const ListItem = ({ item, deleteItemFromTodoList, updateStatus }) => {
       updateStatus(item.itemId, false);
     }
   };
+
+  const handleEditButtonClick = ()=>{
+    setEditInput(false)
+    
+  
+  }
+
+  const handleInputChange = (e)=>{
+      setTaskName(e.target.value)
+      //editTodoListTask(item.itemId,taskName)
+  }
+  
   return (
     <div>
       <li id={item.itemId} className="new-item">
@@ -30,13 +41,12 @@ const ListItem = ({ item, deleteItemFromTodoList, updateStatus }) => {
           <input
             className="inputText"
             type="text"
-            readOnly="true"
-            value={itemName}
+            readOnly={isEditInput}
+            value={taskName}
+            onChange = {handleInputChange}
           />
-
           {isPokemon && (
             <a>
-              {" "}
               <img src={item.imageUrl} />
             </a>
           )}
@@ -48,11 +58,11 @@ const ListItem = ({ item, deleteItemFromTodoList, updateStatus }) => {
               deleteItemFromTodoList(item.itemId);
             }} fontSize="inherit" />
       </IconButton>
-        <IconButton aria-label="edit" size="large" color="secondary">
+        <IconButton  onClick={() => {
+              handleEditButtonClick(item.itemId);
+            }} aria-label="edit" size="large" color="secondary">
         <EditIcon className="editIcon"
-            onClick={() => {
-              deleteItemFromTodoList(item.itemId);
-            }} fontSize="inherit" />
+            fontSize="inherit" />
       </IconButton>
          
 
