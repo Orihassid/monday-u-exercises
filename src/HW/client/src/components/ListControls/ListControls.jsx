@@ -1,33 +1,30 @@
-import {useState } from "react";
+import { useState } from "react";
 import "./ListControls.css";
 import { Button } from "monday-ui-react-core";
 import "monday-ui-react-core/dist/main.css";
 
-
 const ListControls = ({ renderNewItems }) => {
-
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
-   
-  const handleInputValue = (e)=>{
-    setInputValue(e.target.value.trim())
-    
-  }
-   
+
+  const handleInputValue = (e) => {
+    setInputValue(e.target.value.trim());
+  };
+
   const handleEnterPress = async (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      setLoading(true)
-       await renderNewItems(inputValue);
-      setLoading(false)
-      setInputValue('')
+      setLoading(true);
+      await renderNewItems(inputValue);
+      setLoading(false);
+      setInputValue("");
     }
   };
   const handlePressClick = async () => {
-    setLoading(true)
-       await renderNewItems(inputValue);
-     setLoading(false)
-     setInputValue('')
+    setLoading(true);
+    await renderNewItems(inputValue);
+    setLoading(false);
+    setInputValue("");
   };
 
   return (
@@ -41,12 +38,14 @@ const ListControls = ({ renderNewItems }) => {
           onChange={handleInputValue}
           value={inputValue}
         />
-        <Button  id ="add-button" type="button" onClick={handlePressClick} loading={loading}>
-          +
+        <Button
+          id="add-button"
+          type="button"
+          onClick={handlePressClick}
+          loading={loading}
+        >
+         +
         </Button>
-        
-         
-        
       </div>
     </div>
   );

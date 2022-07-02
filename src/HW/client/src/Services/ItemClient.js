@@ -59,7 +59,7 @@
   }
   export async function updateStatus(itemId,newStatus) {
     try {
-      const response = await fetch(`${url}/item/${itemId}`, {
+      const response = await fetch(`${url}/item/updatestatus/${itemId}`, {
         method: "put",
         body: JSON.stringify({ status:newStatus }),
         headers: { "Content-Type": "application/json" },
@@ -70,6 +70,25 @@
       }
     } catch (err) {
     console.log(err)
+    }
+  }
+
+
+  export async function editTaskName(itemId,newTaskName)
+  {
+    try {
+      
+      const response = await fetch(`${url}/item/${itemId}`, {
+        method: "put",
+        body: JSON.stringify({ taskName:newTaskName }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.status == 200) {
+        return await response.json();
+      }
+    } catch (err) {
+    throw new Error(err);
     }
   }
 

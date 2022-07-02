@@ -5,6 +5,7 @@ import {
   createItem,
   deleteItem,
   updateStatus,
+  editTaskName,
 } from "../../Services/ItemClient";
 import List from "../List/List";
 import ListControls from "../ListControls/ListControls";
@@ -13,16 +14,13 @@ import ListControls from "../ListControls/ListControls";
 
 function AppContainer() {
   const [items, setItems] = useState([]);
-  
 
   const renderNewItems = async (item) => {
-    console.log(item);
     const newItems = await createItem(item);
     newItems.forEach((item) => {
       items.push(item);
     });
     setItems([...items]);
-   
   };
 
   const deleteItemFromTodoList = async (itemId) => {
@@ -31,6 +29,7 @@ function AppContainer() {
     items.splice(idx, 1);
     setItems([...items]);
   };
+
 
   useEffect(() => {
     fetchItems().then((fetchedItems) => {
@@ -44,13 +43,13 @@ function AppContainer() {
         <h1 className="">My Todo List</h1>
 
         <div>
-        <ListControls renderNewItems={renderNewItems} />
+          <ListControls renderNewItems={renderNewItems} />
           <List
             items={items}
-            deleteItemFromTodoList={deleteItemFromTodoList}
-            updateStatus={updateStatus}
+            deleteItemFromDb={deleteItemFromTodoList}
+            updateStatusDb={updateStatus}
+            editTaskNameDb={editTaskName}
           />
-         
         </div>
       </div>
     </section>

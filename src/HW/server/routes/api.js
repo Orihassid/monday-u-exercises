@@ -6,7 +6,8 @@ const {
   deleteItem,
   getAllItems,
   deleteAllItems,
-  updateStatus
+  updateStatus,
+  editTaskName
 } = require( "../controllers/itemsController.js");
 const itemRouter = express.Router();
 
@@ -14,7 +15,10 @@ itemRouter.post("/", createItem);
 itemRouter.get("/", getAllItems);
 itemRouter.delete("/", deleteAllItems);
 itemRouter.delete("/:id", deleteItem);
-itemRouter.put("/:id", updateStatus);
+itemRouter.put("/:id", editTaskName);
+itemRouter.put("/updatestatus/:id", updateStatus);
+
+
 
 
 module.exports =  itemRouter;

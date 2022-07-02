@@ -1,6 +1,6 @@
 import ListItem from "../ListItem/ListItem.jsx";
 import "./List.css";
-const List = ({ items, deleteItemFromTodoList,updateStatus }) => {
+const List = ({ items, deleteItemFromDb,updateStatusDb,editTaskNameDb }) => {
   return (
     <div>
         <ul className="tasks"> 
@@ -8,13 +8,14 @@ const List = ({ items, deleteItemFromTodoList,updateStatus }) => {
         return (
           <ListItem
             item={item}
-            deleteItemFromTodoList={deleteItemFromTodoList}
-            updateStatus = {updateStatus}
+            deleteItemFromDb={deleteItemFromDb}
+            updateStatusDb = {updateStatusDb}
             key={index}
+            editTaskNameDb={editTaskNameDb}
           />
         );
       })}
-      
+
       </ul>
     </div>
   );

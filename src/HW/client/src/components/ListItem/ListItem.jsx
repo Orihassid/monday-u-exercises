@@ -1,33 +1,42 @@
 import { useState } from "react";
 import "./ListItem.css";
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-const ListItem = ({ item, deleteItemFromTodoList, updateStatus }) => {
-  const [isPokemon, setIsPokemon] = useState(item.isPokemon);
-  const [taskName, setTaskName] = useState(isPokemon ? `catch ${item.itemName}` : item.itemName);
-  const [isEditInput, setEditInput] = useState(true);
+import EditIcon from "@mui/icons-material/Edit";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
+const ListItem = ({
+  item,
+  deleteItemFromDb,
+  updateStatusDb,
+  editTaskNameDb,
+}) => {
+  const isPokemon = item.isPokemon;
+  const [taskName, setTaskName] = useState(
+    isPokemon ? `catch ${item.itemName}` : item.itemName
+  );
+  const [isEditClicked, setEditClicked] = useState(true);
 
-  
   const handleCheckboxChange = (e) => {
     if (e.target.checked) {
-      updateStatus(item.itemId, true);
+      updateStatusDb(item.itemId, true);
     } else {
-      updateStatus(item.itemId, false);
+      updateStatusDb(item.itemId, false);
     }
   };
 
-  const handleEditButtonClick = ()=>{
-    setEditInput(false)
-    
-  
-  }
+  const handleEditButtonClick = () => {
+    setEditClicked(false);
+  };
+  const handleSaveButtonClick = async () => {
+    setEditClicked(true);
+    const newTaskName = taskName.replace('catch','')
+    await editTaskNameDb(item.itemId, taskName);
+  };
 
-  const handleInputChange = (e)=>{
-      setTaskName(e.target.value)
-      //editTodoListTask(item.itemId,taskName)
-  }
-  
+  const handleInputChange = (e) => {
+    setTaskName(e.target.value);
+  };
+
   return (
     <div>
       <li id={item.itemId} className="new-item">
@@ -41,9 +50,9 @@ const ListItem = ({ item, deleteItemFromTodoList, updateStatus }) => {
           <input
             className="inputText"
             type="text"
-            readOnly={isEditInput}
+            readOnly={isEditClicked}
             value={taskName}
-            onChange = {handleInputChange}
+            onChange={handleInputChange}
           />
           {isPokemon && (
             <a>
@@ -52,21 +61,33 @@ const ListItem = ({ item, deleteItemFromTodoList, updateStatus }) => {
           )}
         </div>
         <div>
-        <IconButton aria-label="delete" size="large" color="error">
-        <DeleteIcon className="deleteButton"
-            onClick={() => {
-              deleteItemFromTodoList(item.itemId);
-            }} fontSize="inherit" />
-      </IconButton>
-        <IconButton  onClick={() => {
-              handleEditButtonClick(item.itemId);
-            }} aria-label="edit" size="large" color="secondary">
-        <EditIcon className="editIcon"
-            fontSize="inherit" />
-      </IconButton>
-         
-
-      
+          <IconButton aria-label="delete" size="large" color="error">
+            <DeleteIcon
+              className="deleteButton"
+              onClick={() => {
+                deleteItemFromDb(item.itemId);
+              }}
+              fontSize="inherit"
+            />
+          </IconButton>
+          {isEditClicked && (
+            <IconButton
+              onClick={handleEditButtonClick}
+              aria-label="edit"
+              size="large"
+            >
+              <EditIcon className="editIcon" fontSize="inherit" />
+            </IconButton>
+          )}
+          {!isEditClicked && (
+            <IconButton
+              onClick={handleSaveButtonClick}
+              aria-label="save"
+              size="large"
+            >
+              <SaveIcon className="saveIcon" fontSize="inherit" />
+            </IconButton>
+          )}
         </div>
       </li>
     </div>
