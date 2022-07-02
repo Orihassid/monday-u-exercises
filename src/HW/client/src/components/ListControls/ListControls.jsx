@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import "./ListControls.module.css";
+import "./ListControls.css";
 
 const ListControls = ({ renderNewItems }) => {
   const [inputValue, setInputValue] = useState("");
@@ -19,12 +19,12 @@ const ListControls = ({ renderNewItems }) => {
       <div className="list-controls">
         <input
           type="text"
-          id="list-item-input"
+         className="taskInput"
           placeholder="Add your new todo"
           onKeyPress={handleEnterPress}
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <button type="button" id="list-item-submit" onClick={handlePressClick}>
+        <button className = "addButton" type="button"  onClick={handlePressClick}>
           +
         </button>
       </div>

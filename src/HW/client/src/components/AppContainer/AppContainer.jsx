@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
-import "./AppContainer.module.css";
-import { fetchItems, createItem, deleteItem,updateStatus } from "../../Services/ItemClient";
+import "./AppContainer.css";
+import {
+  fetchItems,
+  createItem,
+  deleteItem,
+  updateStatus,
+} from "../../Services/ItemClient";
 import List from "../List/List";
 import ListControls from "../ListControls/ListControls";
 // import propsType from 'props-type'
@@ -31,14 +36,21 @@ function AppContainer() {
   }, []);
 
   return (
-    <div className="wrapper">
-      <List
-        items={items}
-        deleteItemFromTodoList={deleteItemFromTodoList}
-        updateStatus ={updateStatus}
-      />
-      <ListControls renderNewItems={renderNewItems} />
-    </div>
+    <section className="main-section">
+      <div className="todoApp" id="todoApp">
+        <h1 className="">My Todo List</h1>
+
+        <div>
+        <ListControls renderNewItems={renderNewItems} />
+          <List
+            items={items}
+            deleteItemFromTodoList={deleteItemFromTodoList}
+            updateStatus={updateStatus}
+          />
+         
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -1,8 +1,9 @@
 import ListItem from "../ListItem/ListItem.jsx";
-import "./List.module.css";
+import "./List.css";
 const List = ({ items, deleteItemFromTodoList,updateStatus }) => {
   return (
-    <div className="list-container">
+    <div>
+        <ul className="tasks"> 
       {items.map((item, index) => {
         return (
           <ListItem
@@ -13,6 +14,8 @@ const List = ({ items, deleteItemFromTodoList,updateStatus }) => {
           />
         );
       })}
+      
+      </ul>
     </div>
   );
 };

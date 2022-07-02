@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+
+.list-controls{
+  display: flex
+}
+.taskInput {
+    width: 84%;
+    padding: 15px 10px;
+    outline: none;
+    border-color: #eee;
+    border: none;
+    border: 1px solid #ddd;
+    
+  }
+  .addButton {
+    width: 15%;
+    padding: 14px 0px;
+    cursor: pointer;
+    background-color: #4a8ee7;
+    color: #fff;
+    outline: none;
+    border-color: #4a8ee7;
+    font-size: 20px;
+  }
+  .addButton:active .task {
+    transition: 2s ease;
+  }
