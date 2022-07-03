@@ -19,12 +19,10 @@ function AppContainer() {
   const renderNewItems = async (item) => {
     try {
       const newItems = await createItem(item);
-      console.log(newItems,'rendernew')
       newItems.forEach((item) => {
         items.push(item);
       });
       setItems([...items]);
-      
       setNumOfTasks(items.length);
     } catch (err) {
       throw new Error(err);
@@ -46,7 +44,7 @@ function AppContainer() {
     try {
       await deleteAllItems();
       setItems([]);
-      setNumOfTasks(0)
+      setNumOfTasks(0);
     } catch (err) {
       throw new Error(err);
     }
@@ -54,10 +52,8 @@ function AppContainer() {
 
   useEffect(() => {
     fetchItems().then((fetchedItems) => {
-    
       setItems(fetchedItems);
-      setNumOfTasks(fetchedItems.length)
-      
+      setNumOfTasks(fetchedItems.length);
     });
   }, []);
 

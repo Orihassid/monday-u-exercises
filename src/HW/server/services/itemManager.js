@@ -131,8 +131,10 @@ class ItemManager {
 
   async deleteItem(itemId) {
     try {
-      const idx = this.itemsArr.findIndex((item)=>{item.itmId===itemId})
-      this.itemsArr.splice(idx,1)
+      const idx = this.itemsArr.findIndex((item) => {
+        item.itmId === itemId;
+      });
+      this.itemsArr.splice(idx, 1);
       await Item.destroy({ where: { itemId: itemId } });
     } catch (err) {
       throw `There is no task with id: ${itemId} `;
@@ -151,8 +153,7 @@ class ItemManager {
         where: { pokemonId: pokemonId },
         raw: true,
       });
-      if (itemFromDb !== null && itemFromDb.pokemonId === pokemonId)
-        return true;
+      if (itemFromDb !== null && itemFromDb.pokemonId === pokemonId) return true;
       else return false;
     } catch (err) {
       throw new Error(err);
