@@ -29,12 +29,12 @@ This will make your project:
 * **"Common"** - React is wildly used in the community and has tons of info about different use-cases you may encounter while developing
 
 ### The requirements:
-- [ ] Remove `app.use(express.static(path.join(__dirname, 'dist')))` from your `server.js` file
-- [ ] Delete `src/server/dist` **ONLY** when your new client is up and running 
-- [ ] Initialize your React project in the `src` folder using [create-react-app](https://create-react-app.dev/docs/getting-started/) with the name `client`
-- [ ] Decompose your Todo App into components (controlled and uncontrolled)
-- [ ] Re-Implement the Todo App using hooks
-- [ ] Use [**propTypes** & **defaultProps**](https://reactjs.org/docs/typechecking-with-proptypes.html) to add type-checking to your components
+- [x] Remove `app.use(express.static(path.join(__dirname, 'dist')))` from your `server.js` file
+- [x] Delete `src/server/dist` **ONLY** when your new client is up and running 
+- [x] Initialize your React project in the `src` folder using [create-react-app](https://create-react-app.dev/docs/getting-started/) with the name `client`
+- [x] Decompose your Todo App into components (controlled and uncontrolled)
+- [x] Re-Implement the Todo App using hooks
+- [x] Use [**propTypes** & **defaultProps**](https://reactjs.org/docs/typechecking-with-proptypes.html) to add type-checking to your components
 
 #### Your todo app is now:
 - Very easy to maintain and scale
@@ -42,8 +42,8 @@ This will make your project:
 - More performant out of the box
 
 ### Bonus
-- [ ] Add error handling for communication issues with your backend (Empty state / Loader / Something else)
-- [ ] Use components from the [Vibe Design System](https://github.com/mondaycom/monday-ui-react-core) (monday.com's component library)
+- [x] Add error handling for communication issues with your backend (Empty state / Loader / Something else)
+- [x] Use components from the [Vibe Design System](https://github.com/mondaycom/monday-ui-react-core) (monday.com's component library)
 - [ ] Use [React Router](https://reactrouter.com/docs/en/v6) to add basic routing capabilities to your app
   - [ ] Add Tabs / Navigation bar to help route between pages [Tabs example](https://style.monday.com/?path=/docs/navigation-tabs-tab--overview)
   - Page suggestions
