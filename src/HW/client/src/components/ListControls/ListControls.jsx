@@ -27,17 +27,15 @@ const ListControls = ({ renderNewItems }) => {
     }
   };
   const handlePressClick = async () => {
-    try{
-    setLoading(true);
-    await renderNewItems(inputValue);
-    setLoading(false);
-    setInputValue("");
-  }
-  catch(err)
-  {
-    throw new Error ('failed to render items with button clicked')
-  }
-}
+    try {
+      setLoading(true);
+      await renderNewItems(inputValue);
+      setLoading(false);
+      setInputValue("");
+    } catch (err) {
+      throw new Error("failed to render items with button clicked");
+    }
+  };
 
   return (
     <div>
