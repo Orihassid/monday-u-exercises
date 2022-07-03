@@ -1,5 +1,3 @@
-// The ItemManager should go here. Remember that you have to export it.
-// const  autoDeleteCache  = require("../cache/cache.js");
 
 const pokemonClinet = require("../clients/pokemonClient.js");
 const { Item } = require("../DB/models");

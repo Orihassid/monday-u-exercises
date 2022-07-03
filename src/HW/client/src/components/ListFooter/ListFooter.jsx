@@ -1,6 +1,6 @@
 
 import "./ListFooter.css"
-
+import PropTypes from 'prop-types';
 const ListFooter = ({numOfTasks,clearAllFromDb})=>{
 
    
@@ -12,4 +12,11 @@ const ListFooter = ({numOfTasks,clearAllFromDb})=>{
           </footer>
     )
 }
+ListFooter.propTypes={
+    numOfTasks:PropTypes.number,
+    clearAllFromDb:PropTypes.func
+
+}
+
+
 export default ListFooter
