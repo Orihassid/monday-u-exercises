@@ -15,7 +15,6 @@ app.use(errorHandler)
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(express.static(path.resolve(__dirname, '/client/build')));
-app.use(express.static( 'dist'));
 app.use('/item', itemRouter);
 process.on('unhandledRejection', (reason, promise) => {
     console.log("Unhandled Rejection", reason.message);
