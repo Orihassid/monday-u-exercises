@@ -2,24 +2,30 @@ import { useEffect, useState } from "react";
 import "./AppContainer.css";
 import List from "../List/List";
 import ListControls from "../ListControls/ListControls";
+import ListFooter from "../ListFooter/ListFooter";
 import {
   fetchItems,
   createItem,
   deleteItem,
   updateStatus,
   editTaskName,
+  deleteAllItems,
 } from "../../Services/ItemClient";
 
 function AppContainer() {
   const [items, setItems] = useState([]);
+  const [numOfTasks, setNumOfTasks] = useState(0);
 
   const renderNewItems = async (item) => {
     try {
       const newItems = await createItem(item);
+      console.log(newItems,'rendernew')
       newItems.forEach((item) => {
         items.push(item);
       });
       setItems([...items]);
+      
+      setNumOfTasks(items.length);
     } catch (err) {
       throw new Error(err);
     }
@@ -31,6 +37,16 @@ function AppContainer() {
       const idx = items.findIndex((item) => item.itemId === itemId);
       items.splice(idx, 1);
       setItems([...items]);
+      setNumOfTasks(items.length);
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+  const clearAllFromDb = async () => {
+    try {
+      await deleteAllItems();
+      setItems([]);
+      setNumOfTasks(0)
     } catch (err) {
       throw new Error(err);
     }
@@ -38,7 +54,10 @@ function AppContainer() {
 
   useEffect(() => {
     fetchItems().then((fetchedItems) => {
+    
       setItems(fetchedItems);
+      setNumOfTasks(fetchedItems.length)
+      
     });
   }, []);
 
@@ -55,6 +74,12 @@ function AppContainer() {
             updateStatusDb={updateStatus}
             editTaskNameDb={editTaskName}
           />
+          {numOfTasks > 0 && (
+            <ListFooter
+              numOfTasks={numOfTasks}
+              clearAllFromDb={clearAllFromDb}
+            ></ListFooter>
+          )}
         </div>
       </div>
     </section>

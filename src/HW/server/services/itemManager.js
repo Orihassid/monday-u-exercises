@@ -131,6 +131,8 @@ class ItemManager {
 
   async deleteItem(itemId) {
     try {
+      const idx = this.itemsArr.findIndex((item)=>{item.itmId===itemId})
+      this.itemsArr.splice(idx,1)
       await Item.destroy({ where: { itemId: itemId } });
     } catch (err) {
       throw `There is no task with id: ${itemId} `;
