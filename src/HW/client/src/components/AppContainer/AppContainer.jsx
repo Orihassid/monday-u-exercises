@@ -23,6 +23,7 @@ function AppContainer() {
         items.push(item);
       });
       setItems([...items]);
+
       setNumOfTasks(items.length);
     } catch (err) {
       throw new Error(err);
@@ -56,7 +57,7 @@ function AppContainer() {
       setNumOfTasks(fetchedItems.length);
     });
   }, []);
-
+  
   return (
     <section className="main-section">
       <div className="todoApp" id="todoApp">

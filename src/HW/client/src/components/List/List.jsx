@@ -11,8 +11,8 @@ const List = ({ items, deleteItemFromDb, updateStatusDb, editTaskNameDb }) => {
               item={item}
               deleteItemFromDb={deleteItemFromDb}
               updateStatusDb={updateStatusDb}
-              key={index}
               editTaskNameDb={editTaskNameDb}
+              key={item.itemId}
             />
           );
         })}
