@@ -28,6 +28,15 @@ const itemsEntitiesReducer = (state = initialState, action) => {
               : item
           ),
         };
+        case actionTypes.UPDATE_CHECKBOX:
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.itemId === action.itemId
+            ? { ...item, status: action.payload }
+            : item
+        ),
+      };
 
 
 

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ListItem from "./ListItem";
-import{deleteItemAction,editItemNameAction} from '../../redux/actions/itemsEntitiesActions'
+import{deleteItemAction,editItemNameAction,updateCheckBoxAction} from '../../redux/actions/itemsEntitiesActions'
 
 const mapStateToProps = (state, ownProps) => {
    
@@ -12,7 +12,7 @@ const mapStateToProps = (state, ownProps) => {
   const mapDispatchToProps = (dispatch, ownProps) => {
     return bindActionCreators(
       {
-        deleteItemAction,editItemNameAction,
+        deleteItemAction,editItemNameAction,updateCheckBoxAction
        
       },
       dispatch

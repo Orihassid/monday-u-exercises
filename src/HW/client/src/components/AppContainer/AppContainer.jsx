@@ -5,10 +5,6 @@ import ListControlsConnector from "../ListControls/ListControlsConnector";
 import ListFooter from "../ListFooter/ListFooter";
 import {
   fetchItems,
-  createItem,
-  deleteItem,
-  updateStatus,
-  editTaskName,
   deleteAllItems,
 } from "../../Services/ItemClient";
 

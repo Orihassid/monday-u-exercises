@@ -1,5 +1,5 @@
 import actionTypes from "./constants";
-import { createItem,deleteItem,editTaskName } from "../../Services/ItemClient";
+import { createItem,deleteItem,editTaskName,updateStatus } from "../../Services/ItemClient";
 
 
 const addItems = (newItems) => ({
@@ -41,5 +41,21 @@ export const editItemNameAction = (itemId,newName) => {
   return async (dispatch) => {
     await editTaskName(itemId,newName)
     dispatch(itemToEdit(itemId,newName));
+  };
+};
+
+
+const updateItemStatus = (itemId, checked) => ({
+  type: actionTypes.UPDATE_CHECKBOX,
+  itemId: itemId,
+  payload: checked,
+});
+
+
+export const updateCheckBoxAction = (itemId, checked) => {
+  return async (dispatch) => {
+    await updateStatus(itemId, checked);
+    dispatch(updateItemStatus(itemId, checked));
+  
   };
 };
