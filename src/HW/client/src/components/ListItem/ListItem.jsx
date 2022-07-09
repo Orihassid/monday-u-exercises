@@ -5,29 +5,19 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import PropTypes from "prop-types";
-const ListItem = ({
-  item,
-  deleteItemAction,
-  editItemNameAction,
-
-
-}) => {
+const ListItem = ({ item, deleteItemAction, editItemNameAction }) => {
   const isPokemon = item.isPokemon === 0 ? false : true;
   const [taskName, setTaskName] = useState(
     isPokemon ? `catch ${item.itemName}` : item.itemName
   );
   const [isEditClicked, setEditClicked] = useState(true);
 
-
-
-  
-
   const handleCheckboxChange = async (e) => {
     try {
       if (e.target.checked) {
         //await updateStatusDb(item.itemId, true);
       } else {
-       // await updateStatusDb(item.itemId, false);
+        // await updateStatusDb(item.itemId, false);
       }
     } catch (err) {
       throw new Error("failed to update status with checkbox");
@@ -41,7 +31,7 @@ const ListItem = ({
     try {
       setEditClicked(true);
       const newTaskName = taskName.replace("catch", "");
-     await editItemNameAction(item.itemId, newTaskName);
+      await editItemNameAction(item.itemId, newTaskName);
     } catch (err) {
       throw new Error("failed to edit task in db");
     }
@@ -50,11 +40,9 @@ const ListItem = ({
     setTaskName(e.target.value);
   };
 
-  const handleDeleteClick = async () =>{
-
-   await  deleteItemAction(item.itemId)
-
-  }
+  const handleDeleteClick = async () => {
+    await deleteItemAction(item.itemId);
+  };
 
   return (
     <div>
@@ -84,8 +72,6 @@ const ListItem = ({
             <DeleteIcon
               className="deleteButton"
               onClick={handleDeleteClick}
-              
-            
               fontSize="inherit"
             />
           </IconButton>

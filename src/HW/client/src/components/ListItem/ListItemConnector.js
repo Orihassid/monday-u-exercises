@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ListItem from "./ListItem";
-import{deleteItemAction,editItemNameAction} from '../../actions/itemsEntitiesActions'
+import{deleteItemAction,editItemNameAction} from '../../redux/actions/itemsEntitiesActions'
 
 const mapStateToProps = (state, ownProps) => {
    

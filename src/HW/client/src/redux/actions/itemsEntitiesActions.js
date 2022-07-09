@@ -1,5 +1,5 @@
 import actionTypes from "./constants";
-import { createItem,deleteItem,editTaskName } from "../Services/ItemClient";
+import { createItem,deleteItem,editTaskName } from "../../Services/ItemClient";
 
 
 const addItems = (newItems) => ({

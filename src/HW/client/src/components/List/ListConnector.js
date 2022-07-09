@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import List from "./List";
-import { getItems } from "../../selectors/itemsEntitiesSelectors";
+import { getItems } from "../../redux/selectors/itemsEntitiesSelectors";
 
 
 const mapStateToProps = (state, ownProps) => {
