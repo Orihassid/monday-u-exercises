@@ -1,6 +1,6 @@
 import actionTypes from "./constants";
-import { createItem,deleteItem } from "../Services/ItemClient";
-import { showLoaderAction, hideLoaderAction } from "./itemsViewsActions";
+import { createItem,deleteItem,editTaskName } from "../Services/ItemClient";
+
 
 const addItems = (newItems) => ({
   type: actionTypes.ADD_ITEMS,
@@ -26,5 +26,20 @@ export const deleteItemAction = (itemId) => {
   return async (dispatch) => {
     await deleteItem(itemId)
     dispatch(itemToDelete(itemId));
+  };
+};
+
+
+
+const itemToEdit = (itemId,newName) => ({
+  type: actionTypes.EDIT_ITEM_TO_NEW_NAME,
+  itemId,
+  payload:newName
+});
+
+export const editItemNameAction = (itemId,newName) => {
+  return async (dispatch) => {
+    await editTaskName(itemId,newName)
+    dispatch(itemToEdit(itemId,newName));
   };
 };

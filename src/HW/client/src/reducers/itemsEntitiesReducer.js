@@ -19,6 +19,16 @@ const itemsEntitiesReducer = (state = initialState, action) => {
         ...state,
         items: [...state.items.filter(item=>item.itemId!==action.payload)],
       };
+      case actionTypes.EDIT_ITEM_TO_NEW_NAME:
+        return {
+          ...state,
+          items: state.items.map((item) =>
+            item.itemId === action.itemId
+              ? { ...item, itemName: action.payload }
+              : item
+          ),
+        };
+
 
 
 

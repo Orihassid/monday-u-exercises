@@ -2,6 +2,7 @@ import actionTypes from "../actions/constants";
 
 const initialState = {
     showLoader: false,
+  
     
 };
 
@@ -22,6 +23,7 @@ const itemsViewReducer = (state = initialState, action) => {
    
         };
     }
+    
     default:
       return state;
   }

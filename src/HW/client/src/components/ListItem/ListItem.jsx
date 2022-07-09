@@ -8,8 +8,9 @@ import PropTypes from "prop-types";
 const ListItem = ({
   item,
   deleteItemAction,
-  // updateStatusDb,
-  // editTaskNameDb,
+  editItemNameAction,
+
+
 }) => {
   const isPokemon = item.isPokemon === 0 ? false : true;
   const [taskName, setTaskName] = useState(
@@ -40,7 +41,7 @@ const ListItem = ({
     try {
       setEditClicked(true);
       const newTaskName = taskName.replace("catch", "");
-     // await editTaskNameDb(item.itemId, newTaskName);
+     await editItemNameAction(item.itemId, newTaskName);
     } catch (err) {
       throw new Error("failed to edit task in db");
     }
