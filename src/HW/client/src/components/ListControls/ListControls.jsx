@@ -5,13 +5,12 @@ import "monday-ui-react-core/dist/main.css";
 import PropTypes from "prop-types";
 
 const ListControls = ({
-  items,
   showLoaderAction,
+  hideLoaderAction,
   addItemsAction,
-  showLoder,
+  showLoader,
 }) => {
   const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleInputValue = (e) => {
     setInputValue(e.target.value.trim());
@@ -21,10 +20,10 @@ const ListControls = ({
     try {
       if (e.key === "Enter") {
         e.preventDefault();
-        setLoading(true);
+        showLoaderAction();
 
         await addItemsAction(inputValue);
-        setLoading(false);
+        hideLoaderAction()
         setInputValue("");
       }
     } catch (err) {
@@ -33,9 +32,9 @@ const ListControls = ({
   };
   const handlePressClick = async () => {
     try {
-      setLoading(true);
+      showLoaderAction();
       await addItemsAction(inputValue);
-      setLoading(false);
+      hideLoaderAction();
       setInputValue("");
     } catch (err) {
       throw new Error("failed to render items with button clicked");
@@ -57,7 +56,7 @@ const ListControls = ({
           id="add-button"
           type="button"
           onClick={handlePressClick}
-          loading={loading}
+          loading={showLoader}
         >
           +
         </Button>

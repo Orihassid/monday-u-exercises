@@ -2,6 +2,8 @@ const ACTIONS = {
     SHOW_LOADER:"SHOW_LOADER",
     HIDE_LOADER:"HIDE_LOADER",
     ADD_ITEMS:"ADD_ITEMS",
+    DELETE_ITEM:"DELETE_ITEM"
+    
 };
 
 export default ACTIONS;

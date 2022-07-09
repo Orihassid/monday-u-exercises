@@ -2,7 +2,7 @@ import actionTypes from "../actions/constants";
 
 const initialState = {
     showLoader: false,
-    showToaster:false,
+    
 };
 
 const itemsViewReducer = (state = initialState, action) => {

@@ -7,9 +7,9 @@ import SaveIcon from "@mui/icons-material/Save";
 import PropTypes from "prop-types";
 const ListItem = ({
   item,
-  deleteItemFromDb,
-  updateStatusDb,
-  editTaskNameDb,
+  deleteItemAction,
+  // updateStatusDb,
+  // editTaskNameDb,
 }) => {
   const isPokemon = item.isPokemon === 0 ? false : true;
   const [taskName, setTaskName] = useState(
@@ -17,12 +17,16 @@ const ListItem = ({
   );
   const [isEditClicked, setEditClicked] = useState(true);
 
+
+
+  
+
   const handleCheckboxChange = async (e) => {
     try {
       if (e.target.checked) {
-        await updateStatusDb(item.itemId, true);
+        //await updateStatusDb(item.itemId, true);
       } else {
-        await updateStatusDb(item.itemId, false);
+       // await updateStatusDb(item.itemId, false);
       }
     } catch (err) {
       throw new Error("failed to update status with checkbox");
@@ -36,7 +40,7 @@ const ListItem = ({
     try {
       setEditClicked(true);
       const newTaskName = taskName.replace("catch", "");
-      await editTaskNameDb(item.itemId, newTaskName);
+     // await editTaskNameDb(item.itemId, newTaskName);
     } catch (err) {
       throw new Error("failed to edit task in db");
     }
@@ -44,6 +48,12 @@ const ListItem = ({
   const handleInputChange = (e) => {
     setTaskName(e.target.value);
   };
+
+  const handleDeleteClick = async () =>{
+
+   await  deleteItemAction(item.itemId)
+
+  }
 
   return (
     <div>
@@ -72,9 +82,9 @@ const ListItem = ({
           <IconButton aria-label="delete" size="large" color="error">
             <DeleteIcon
               className="deleteButton"
-              onClick={() => {
-                deleteItemFromDb(item.itemId);
-              }}
+              onClick={handleDeleteClick}
+              
+            
               fontSize="inherit"
             />
           </IconButton>

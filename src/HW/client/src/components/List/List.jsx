@@ -1,17 +1,15 @@
-import ListItem from "../ListItem/ListItem.jsx";
+
 import "./List.css";
 import PropTypes from "prop-types";
-const List = ({ items, deleteItemFromDb, updateStatusDb, editTaskNameDb }) => {
+import ListItemConnector from "../ListItem/ListItemConnector.js";
+const List = ({ items }) => {
   return (
     <div>
       <ul className="tasks">
-        {items.map((item, index) => {
+        {items.map((item) => {
           return (
-            <ListItem
+            <ListItemConnector
               item={item}
-              deleteItemFromDb={deleteItemFromDb}
-              updateStatusDb={updateStatusDb}
-              editTaskNameDb={editTaskNameDb}
               key={item.itemId}
             />
           );

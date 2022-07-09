@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./AppContainer.css";
-import List from "../List/List";
+import ListConnector from "../List/ListConnector";
 import ListControlsConnector from "../ListControls/ListControlsConnector";
 import ListFooter from "../ListFooter/ListFooter";
 import {
@@ -13,35 +13,12 @@ import {
 } from "../../Services/ItemClient";
 
 
+
 function AppContainer() {
   const [items, setItems] = useState([]);
   const [numOfTasks, setNumOfTasks] = useState(0);
 
-  const renderNewItems = async (item) => {
-    try {
-      const newItems = await createItem(item);
-      newItems.forEach((item) => {
-        items.push(item);
-      });
-      setItems([...items]);
-
-      setNumOfTasks(items.length);
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
-  const deleteItemFromTodoList = async (itemId) => {
-    try {
-      await deleteItem(itemId);
-      const idx = items.findIndex((item) => item.itemId === itemId);
-      items.splice(idx, 1);
-      setItems([...items]);
-      setNumOfTasks(items.length);
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
+  
   const clearAllFromDb = async () => {
     try {
       await deleteAllItems();
@@ -66,11 +43,7 @@ function AppContainer() {
 
         <div>
           <ListControlsConnector />
-          <List
-            items={items}
-            deleteItemFromDb={deleteItemFromTodoList}
-            updateStatusDb={updateStatus}
-            editTaskNameDb={editTaskName}
+          <ListConnector
           />
           {numOfTasks > 0 && (
             <ListFooter

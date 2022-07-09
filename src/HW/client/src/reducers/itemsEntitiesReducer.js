@@ -14,6 +14,13 @@ const itemsEntitiesReducer = (state = initialState, action) => {
         items: [...state.items, ...action.payload],
       };
 
+      case actionTypes.DELETE_ITEM:
+      return {
+        ...state,
+        items: [...state.items.filter(item=>item.itemId!==action.payload)],
+      };
+
+
 
     default:
       return state;
