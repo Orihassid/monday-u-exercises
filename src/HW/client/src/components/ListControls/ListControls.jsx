@@ -4,7 +4,12 @@ import { Button } from "monday-ui-react-core";
 import "monday-ui-react-core/dist/main.css";
 import PropTypes from "prop-types";
 
-const ListControls = ({ renderNewItems }) => {
+const ListControls = ({
+  items,
+  showLoaderAction,
+  addItemsAction,
+  showLoder,
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +23,7 @@ const ListControls = ({ renderNewItems }) => {
         e.preventDefault();
         setLoading(true);
 
-        await renderNewItems(inputValue);
+        await addItemsAction(inputValue);
         setLoading(false);
         setInputValue("");
       }
@@ -29,7 +34,7 @@ const ListControls = ({ renderNewItems }) => {
   const handlePressClick = async () => {
     try {
       setLoading(true);
-      await renderNewItems(inputValue);
+      await addItemsAction(inputValue);
       setLoading(false);
       setInputValue("");
     } catch (err) {

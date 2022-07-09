@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./AppContainer.css";
 import List from "../List/List";
-import ListControls from "../ListControls/ListControls";
+import ListControlsConnector from "../ListControls/ListControlsConnector";
 import ListFooter from "../ListFooter/ListFooter";
 import {
   fetchItems,
@@ -11,6 +11,7 @@ import {
   editTaskName,
   deleteAllItems,
 } from "../../Services/ItemClient";
+
 
 function AppContainer() {
   const [items, setItems] = useState([]);
@@ -64,7 +65,7 @@ function AppContainer() {
         <h1 className="">My Todo List</h1>
 
         <div>
-          <ListControls renderNewItems={renderNewItems} />
+          <ListControlsConnector />
           <List
             items={items}
             deleteItemFromDb={deleteItemFromTodoList}
