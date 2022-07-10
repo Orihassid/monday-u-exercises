@@ -10,6 +10,7 @@ const ListItem = ({
   deleteItemAction,
   editItemNameAction,
   updateCheckBoxAction,
+  
 }) => {
   const isPokemon = item.isPokemon === 0 ? false : true;
   const [taskName, setTaskName] = useState(

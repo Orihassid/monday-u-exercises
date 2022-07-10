@@ -1,6 +1,7 @@
 import actionTypes from "../actions/constants";
 
 const initialState = {
+  searchInput:'',
   items: [],
 };
 
@@ -43,6 +44,12 @@ const itemsEntitiesReducer = (state = initialState, action) => {
         return {
           ...state,
           items: [],
+        };
+
+        case actionTypes.UPDATE_SEARCH_INPUT:
+        return {
+          ...state,
+          searchInput: action.payload
         };
 
     default:

@@ -69,7 +69,7 @@ ListControls.propTypes = {
   showLoaderAction:PropTypes.func,
   hideLoaderAction:PropTypes.func,
   addItemsAction:PropTypes.func,
-  showLoader:PropTypes.object
+  showLoader:PropTypes.bool,
 };
 
 export default ListControls;

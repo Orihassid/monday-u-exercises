@@ -4,7 +4,7 @@ import ListItem from "./ListItem";
 import{deleteItemAction,editItemNameAction,updateCheckBoxAction} from '../../redux/actions/itemsEntitiesActions'
 
 const mapStateToProps = (state, ownProps) => {
-   
+     
     return {};
    
   };

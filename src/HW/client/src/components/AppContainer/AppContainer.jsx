@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./AppContainer.css";
 import ListConnector from "../List/ListConnector";
 import ListControlsConnector from "../ListControls/ListControlsConnector";
 import ListFooterConnector from "../ListFooter/ListFooterConnector";
 import PropTypes from "prop-types";
+import SearchConnector from "../Search/SearchConnector.js";
 
 const AppContainer = ({ numOfItems, getItemsAction }) => {
   ;
 
   useEffect(() => {
     getItemsAction();
-  }, []);
+  }, [getItemsAction]);
 
   return (
     <section className="main-section">
@@ -19,6 +20,7 @@ const AppContainer = ({ numOfItems, getItemsAction }) => {
 
         <div>
           <ListControlsConnector />
+          <SearchConnector/>
           <ListConnector />
           {numOfItems > 0 && <ListFooterConnector />}
         </div>
