@@ -4,13 +4,12 @@ import ListConnector from "../List/ListConnector";
 import ListControlsConnector from "../ListControls/ListControlsConnector";
 import ListFooter from "../ListFooter/ListFooter";
 import {
-  fetchItems,
   deleteAllItems,
 } from "../../Services/ItemClient";
 
 
 
-function AppContainer() {
+const  AppContainer = ({ getItemsAction })=> {
   const [items, setItems] = useState([]);
   const [numOfTasks, setNumOfTasks] = useState(0);
 
@@ -26,10 +25,8 @@ function AppContainer() {
   };
 
   useEffect(() => {
-    fetchItems().then((fetchedItems) => {
-      setItems(fetchedItems);
-      setNumOfTasks(fetchedItems.length);
-    });
+    getItemsAction();
+      //setNumOfTasks(fetchedItems.length)  
   }, []);
   
   return (
