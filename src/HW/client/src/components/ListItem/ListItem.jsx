@@ -5,7 +5,12 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import PropTypes from "prop-types";
-const ListItem = ({ item, deleteItemAction, editItemNameAction,updateCheckBoxAction}) => {
+const ListItem = ({
+  item,
+  deleteItemAction,
+  editItemNameAction,
+  updateCheckBoxAction,
+}) => {
   const isPokemon = item.isPokemon === 0 ? false : true;
   const [taskName, setTaskName] = useState(
     isPokemon ? `catch ${item.itemName}` : item.itemName
@@ -17,7 +22,7 @@ const ListItem = ({ item, deleteItemAction, editItemNameAction,updateCheckBoxAct
       if (e.target.checked) {
         await updateCheckBoxAction(item.itemId, true);
       } else {
-         await updateCheckBoxAction(item.itemId, false);
+        await updateCheckBoxAction(item.itemId, false);
       }
     } catch (err) {
       throw new Error("failed to update status with checkbox");
@@ -101,8 +106,8 @@ const ListItem = ({ item, deleteItemAction, editItemNameAction,updateCheckBoxAct
 
 ListItem.prototype = {
   item: PropTypes.object,
-  deleteItemFromDb: PropTypes.func,
-  updateStatusDb: PropTypes.func,
-  editTaskNameDb: PropTypes.func,
+  deleteItemAction: PropTypes.func,
+  editItemNameAction: PropTypes.func,
+  updateCheckBoxAction: PropTypes.func,
 };
 export default ListItem;

@@ -66,7 +66,10 @@ const ListControls = ({
 };
 
 ListControls.propTypes = {
-  renderNewItems: PropTypes.func,
+  showLoaderAction:PropTypes.func,
+  hideLoaderAction:PropTypes.func,
+  addItemsAction:PropTypes.func,
+  showLoader:PropTypes.object
 };
 
 export default ListControls;

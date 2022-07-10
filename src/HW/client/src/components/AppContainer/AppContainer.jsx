@@ -3,14 +3,13 @@ import "./AppContainer.css";
 import ListConnector from "../List/ListConnector";
 import ListControlsConnector from "../ListControls/ListControlsConnector";
 import ListFooterConnector from "../ListFooter/ListFooterConnector";
+import PropTypes from "prop-types";
 
 const AppContainer = ({ numOfItems, getItemsAction }) => {
-  const [items, setItems] = useState([]);
-  const [numOfTasks, setNumOfTasks] = useState(0);
+  ;
 
   useEffect(() => {
     getItemsAction();
-    //setNumOfTasks(fetchedItems.length)
   }, []);
 
   return (
@@ -26,6 +25,10 @@ const AppContainer = ({ numOfItems, getItemsAction }) => {
       </div>
     </section>
   );
+};
+AppContainer.propTypes = {
+  numOfItems:PropTypes.number,
+  getItemsAction:PropTypes.func,
 };
 
 export default AppContainer;
