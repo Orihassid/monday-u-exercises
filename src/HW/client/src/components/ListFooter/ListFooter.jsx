@@ -1,20 +1,24 @@
 
 import "./ListFooter.css"
 import PropTypes from 'prop-types';
-const ListFooter = ({numOfTasks,clearAllFromDb})=>{
+const ListFooter = ({numOfItems,clearAllItemsAction})=>{
 
-   
+
+    const handleClearAllClick = async () => {
+        
+        await clearAllItemsAction();
+      };
 
     return (
         <footer>
-           {numOfTasks>0 && <p  className="count"> Item(s):{numOfTasks} </p>}
-            <button onClick={clearAllFromDb} className="clearAllBtn">Clear All</button>
+           {numOfItems>0 && <p  className="count"> Item(s): {numOfItems} </p>}
+            <button onClick={handleClearAllClick} className="clearAllBtn">Clear All</button>
           </footer>
     )
 }
 ListFooter.propTypes={
-    numOfTasks:PropTypes.number,
-    clearAllFromDb:PropTypes.func
+    numOfItems:PropTypes.number,
+    clearAllItemsAction:PropTypes.func
 
 }
 

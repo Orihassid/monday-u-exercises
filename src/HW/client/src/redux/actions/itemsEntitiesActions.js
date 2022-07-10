@@ -1,5 +1,18 @@
 import actionTypes from "./constants";
-import { createItem,deleteItem,editTaskName,updateStatus,fetchItems } from "../../Services/ItemClient";
+import { createItem,deleteItem,editTaskName,updateStatus,fetchItems,deleteAllItems } from "../../Services/ItemClient";
+
+
+
+const clearAllItems = () => ({
+  type: actionTypes.CLEAR_ALL_ITEMS,
+});
+
+export const clearAllItemsAction = () => {
+  return async (dispatch) => {
+     await deleteAllItems();
+    dispatch(clearAllItems());
+  };
+};
 
 
 const addItems = (newItems) => ({
@@ -74,4 +87,9 @@ export const getItemsAction = () => {
 
     dispatch(addItems(items))
   };
+
+
+
+  
+
 };

@@ -39,6 +39,12 @@ const itemsEntitiesReducer = (state = initialState, action) => {
         ),
       };
 
+      case actionTypes.CLEAR_ALL_ITEMS:
+        return {
+          ...state,
+          items: [],
+        };
+
     default:
       return state;
   }

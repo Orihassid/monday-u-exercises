@@ -2,9 +2,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import AppContainer from "./AppContainer";
 import { getItemsAction } from "../../redux/actions/itemsEntitiesActions";
+import { getItems } from "../../redux/selectors/itemsEntitiesSelectors";
 
 const mapStateToProps = (state, ownProps) => {
-  return {};
+    const numOfItems = getItems(state).length
+  return {numOfItems};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

@@ -2,33 +2,17 @@ import { useEffect, useState } from "react";
 import "./AppContainer.css";
 import ListConnector from "../List/ListConnector";
 import ListControlsConnector from "../ListControls/ListControlsConnector";
-import ListFooter from "../ListFooter/ListFooter";
-import {
-  deleteAllItems,
-} from "../../Services/ItemClient";
+import ListFooterConnector from "../ListFooter/ListFooterConnector";
 
-
-
-const  AppContainer = ({ getItemsAction })=> {
+const AppContainer = ({ numOfItems, getItemsAction }) => {
   const [items, setItems] = useState([]);
   const [numOfTasks, setNumOfTasks] = useState(0);
 
-  
-  const clearAllFromDb = async () => {
-    try {
-      await deleteAllItems();
-      setItems([]);
-      setNumOfTasks(0);
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
   useEffect(() => {
     getItemsAction();
-      //setNumOfTasks(fetchedItems.length)  
+    //setNumOfTasks(fetchedItems.length)
   }, []);
-  
+
   return (
     <section className="main-section">
       <div className="todoApp" id="todoApp">
@@ -36,18 +20,12 @@ const  AppContainer = ({ getItemsAction })=> {
 
         <div>
           <ListControlsConnector />
-          <ListConnector
-          />
-          {numOfTasks > 0 && (
-            <ListFooter
-              numOfTasks={numOfTasks}
-              clearAllFromDb={clearAllFromDb}
-            ></ListFooter>
-          )}
+          <ListConnector />
+          {numOfItems > 0 && <ListFooterConnector />}
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default AppContainer;
