@@ -21,7 +21,6 @@ const ListItem = ({
 
   const handleCheckboxChange = async (e) => {
     try {
-      console.log(e)
       await updateCheckBoxAction(item.itemId, e.target.checked);
     } catch (err) {
       throw new Error("failed to update status with checkbox");
