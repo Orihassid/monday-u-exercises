@@ -13,10 +13,7 @@ const ListItem = ({
   editItemNameAction,
   updateCheckBoxAction,
 }) => {
-  const isPokemon = item.isPokemon === 0 ? false : true;
-  const [taskName, setTaskName] = useState(
-    isPokemon ? `catch ${item.itemName}` : item.itemName
-  );
+  const [taskName, setTaskName] = useState(item.itemName);
   const [isEditClicked, setEditClicked] = useState(true);
 
   const handleCheckboxChange = async (e) => {
@@ -63,7 +60,7 @@ const ListItem = ({
             value={taskName}
             onChange={handleInputChange}
           />
-          {isPokemon && (
+          {item.isPokemon!==0 && (
             <a>
               <img src={item.imageUrl} />
             </a>

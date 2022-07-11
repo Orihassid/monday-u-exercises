@@ -35,7 +35,7 @@ class ItemManager {
       if (!isExist) {
         const task = this.initTask(
           1,
-          pokemon.name,
+          `catch ${pokemon.name}`,
           pokemon.sprites.front_default,
           pokemon.id
         );
@@ -56,7 +56,7 @@ class ItemManager {
       pokemons.forEach((pokemon) => {
         const task = this.initTask(
           1,
-          pokemon.name,
+          `catch ${pokemon.name}`,
           pokemon.sprites.front_default,
           pokemon.id
         );
