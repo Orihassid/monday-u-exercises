@@ -10,7 +10,6 @@ const ListItem = ({
   deleteItemAction,
   editItemNameAction,
   updateCheckBoxAction,
-  
 }) => {
   const isPokemon = item.isPokemon === 0 ? false : true;
   const [taskName, setTaskName] = useState(
@@ -20,11 +19,7 @@ const ListItem = ({
 
   const handleCheckboxChange = async (e) => {
     try {
-      if (e.target.checked) {
-        await updateCheckBoxAction(item.itemId, true);
-      } else {
-        await updateCheckBoxAction(item.itemId, false);
-      }
+      await updateCheckBoxAction(item.itemId, e.target.checked);
     } catch (err) {
       throw new Error("failed to update status with checkbox");
     }

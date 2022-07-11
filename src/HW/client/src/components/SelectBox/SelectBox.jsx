@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 const SelectBox = ({ updateSelectInputAction }) => {
   const handleSelcetClick = (e) => {
     if (e.target.value === "All") updateSelectInputAction(1);
@@ -7,7 +7,7 @@ const SelectBox = ({ updateSelectInputAction }) => {
   };
   return (
     <select name="totdos" id="todos" onChange={handleSelcetClick}>
-      <option defaultValue  value="All">
+      <option defaultValue value="All">
         All
       </option>
       <option value="Done">Done</option>
@@ -16,3 +16,7 @@ const SelectBox = ({ updateSelectInputAction }) => {
 };
 
 export default SelectBox;
+
+SelectBox.prototype = {
+  updateSelectInputAction: PropTypes.func,
+};

@@ -23,3 +23,8 @@ Search.propTypes = {
 };
 
 export default Search;
+
+Search.prototype = {
+  updateSearchInputAction: PropTypes.func,
+  searchInputValue: PropTypes.string,
+};
