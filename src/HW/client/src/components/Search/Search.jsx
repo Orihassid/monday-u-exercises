@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import ListItemConnector from "../ListItem/ListItemConnector";
-const Search = ({ items,updateSearchInputAction,searchInputValue }) => {
+const Search = ({updateSearchInputAction,searchInputValue }) => {
  
 
   const handleInputValue = (e) => {

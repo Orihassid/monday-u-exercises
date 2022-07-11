@@ -1,12 +1,10 @@
-import "./List.css";
 import PropTypes from "prop-types";
 import ListItemConnector from "../ListItem/ListItemConnector.js";
-const List = ({ items, searchInputValue}) => {
+const DoneTasks = ({ searchInputValue, doneItems }) => {
   return (
     <div>
       <ul className="tasks">
-        
-        {items
+        {doneItems
           .filter((item) => item.itemName.includes(searchInputValue))
           .map((item) => {
             return <ListItemConnector item={item} key={item.itemId} />;
@@ -15,9 +13,9 @@ const List = ({ items, searchInputValue}) => {
     </div>
   );
 };
-List.prototype = {
-  items: PropTypes.array,
+DoneTasks.prototype = {
+  doneItems: PropTypes.array,
   searchInputValue: PropTypes.string,
 };
 
-export default List;
+export default DoneTasks;

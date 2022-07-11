@@ -5,10 +5,10 @@ import ListControlsConnector from "../ListControls/ListControlsConnector";
 import ListFooterConnector from "../ListFooter/ListFooterConnector";
 import PropTypes from "prop-types";
 import SearchConnector from "../Search/SearchConnector.js";
+import SelectBoxConnector from "../SelectBox/SelectBoxConnector";
+import DoneTasksConnector from "../DoneTasks/DoneTasksConnector";
 
-const AppContainer = ({ numOfItems, getItemsAction }) => {
-  ;
-
+const AppContainer = ({ numOfItems, getItemsAction ,tasksStatusState}) => {
   useEffect(() => {
     getItemsAction();
   }, [getItemsAction]);
@@ -20,8 +20,9 @@ const AppContainer = ({ numOfItems, getItemsAction }) => {
 
         <div>
           <ListControlsConnector />
-          <SearchConnector/>
-          <ListConnector />
+          {numOfItems > 0 && <SearchConnector />}
+         {tasksStatusState ?  <ListConnector />: <DoneTasksConnector/>}
+          {numOfItems > 0 && <SelectBoxConnector />}
           {numOfItems > 0 && <ListFooterConnector />}
         </div>
       </div>
@@ -29,8 +30,8 @@ const AppContainer = ({ numOfItems, getItemsAction }) => {
   );
 };
 AppContainer.propTypes = {
-  numOfItems:PropTypes.number,
-  getItemsAction:PropTypes.func,
+  numOfItems: PropTypes.number,
+  getItemsAction: PropTypes.func,
 };
 
 export default AppContainer;

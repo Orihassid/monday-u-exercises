@@ -1,14 +1,14 @@
 import actionTypes from "../actions/constants";
 
 const initialState = {
-  searchInput:'',
+  tasksStatus:true,
+  searchInput: "",
   items: [],
 };
 
 const itemsEntitiesReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_ITEMS:
-      console.log("reducers-add item", state.items);
       return {
         ...state,
         items: [...state.items, ...action.payload],
@@ -40,17 +40,34 @@ const itemsEntitiesReducer = (state = initialState, action) => {
         ),
       };
 
-      case actionTypes.CLEAR_ALL_ITEMS:
-        return {
-          ...state,
-          items: [],
-        };
+    case actionTypes.CLEAR_ALL_ITEMS:
+      return {
+        ...state,
+        items: [],
+      };
 
-        case actionTypes.UPDATE_SEARCH_INPUT:
-        return {
-          ...state,
-          searchInput: action.payload
-        };
+    case actionTypes.UPDATE_SEARCH_INPUT:
+      return {
+        ...state,
+        searchInput: action.payload,
+      };
+
+    case actionTypes.UPDATE_SELECT_INPUT:
+      return {
+        ...state,
+        tasksStatus:action.payload
+      };
+
+    // case actionTypes.UPDATE_FILTERED_ITEMS:
+    //   return {
+    //     ...state,
+    //     filteredItmes: [...state.items.filter((item) => item.status === action.payload)]
+    //   };
+    //   case actionTypes.SELECT_ALL_ITEMS:
+    //     return {
+    //       ...state,
+    //       filteredItmes: [...state.items]
+    //     };
 
     default:
       return state;

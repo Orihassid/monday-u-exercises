@@ -8,6 +8,17 @@ import {
   deleteAllItems,
 } from "../../Services/ItemClient";
 
+const updateSelectInput = (selectInput) => ({
+  type: actionTypes.UPDATE_SELECT_INPUT,
+  payload: selectInput,
+});
+
+export const updateSelectInputAction = (selectInput) => {
+  return async (dispatch) => {
+    dispatch(updateSelectInput(selectInput));
+  };
+};
+
 const updateSearchInput = (searchInput) => ({
   type: actionTypes.UPDATE_SEARCH_INPUT,
   payload: searchInput,
