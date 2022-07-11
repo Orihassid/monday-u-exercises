@@ -4,6 +4,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
+import { Checkbox } from "monday-ui-react-core";
+import "monday-ui-react-core/dist/main.css";
 import PropTypes from "prop-types";
 const ListItem = ({
   item,
@@ -19,6 +21,7 @@ const ListItem = ({
 
   const handleCheckboxChange = async (e) => {
     try {
+      console.log(e)
       await updateCheckBoxAction(item.itemId, e.target.checked);
     } catch (err) {
       throw new Error("failed to update status with checkbox");
@@ -49,8 +52,7 @@ const ListItem = ({
     <div>
       <li id={item.itemId} className="new-item">
         <div className="items">
-          <input
-            type="checkbox"
+          <Checkbox
             defaultChecked={item.status}
             onChange={handleCheckboxChange}
           />

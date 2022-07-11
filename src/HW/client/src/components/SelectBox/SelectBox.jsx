@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 const SelectBox = ({ updateSelectInputAction }) => {
   const handleSelcetClick = (e) => {
-    if (e.target.value === "All") updateSelectInputAction(1);
-    else updateSelectInputAction(0);
+    if (e.target.value === "All") updateSelectInputAction(true);
+    else updateSelectInputAction(false);
   };
   return (
     <select name="totdos" id="todos" onChange={handleSelcetClick}>
