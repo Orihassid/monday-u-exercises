@@ -58,17 +58,6 @@ const itemsEntitiesReducer = (state = initialState, action) => {
         tasksStatus:action.payload
       };
 
-    // case actionTypes.UPDATE_FILTERED_ITEMS:
-    //   return {
-    //     ...state,
-    //     filteredItmes: [...state.items.filter((item) => item.status === action.payload)]
-    //   };
-    //   case actionTypes.SELECT_ALL_ITEMS:
-    //     return {
-    //       ...state,
-    //       filteredItmes: [...state.items]
-    //     };
-
     default:
       return state;
   }
