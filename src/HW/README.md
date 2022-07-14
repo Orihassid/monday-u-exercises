@@ -58,7 +58,7 @@ This will make your project:
 
 ### The requirements:
 
-- [ ] Unit tests - test `itemsEntitiesReducer` - add 3 unit tests
+- [x] Unit tests - test `itemsEntitiesReducer` - add 3 unit tests
       you should create a new `__tests__` folder under the reducers folder and a new test file for it
 
   ```
@@ -151,3 +151,4 @@ npm run cypress:open
 A window will open up, click on "E2E Testing"
 
 All done you can now write cypress tests :)
+

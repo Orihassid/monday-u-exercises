@@ -7,7 +7,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Checkbox } from "monday-ui-react-core";
 import "monday-ui-react-core/dist/main.css";
 import PropTypes from "prop-types";
-const ListItem = ({
+ export const ListItem = ({
   item,
   deleteItemAction,
   editItemNameAction,
