@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Search } from "monday-ui-react-core";
 import "monday-ui-react-core/dist/main.css";
-const SearchBox = ({ updateSearchInputAction, searchInputValue }) => {
+export const SearchBox = ({ updateSearchInputAction, searchInputValue }) => {
   const handleInputValue = (value) => {
     updateSearchInputAction(value.trim());
   };

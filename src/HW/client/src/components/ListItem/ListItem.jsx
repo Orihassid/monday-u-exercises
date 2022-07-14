@@ -7,7 +7,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Checkbox } from "monday-ui-react-core";
 import "monday-ui-react-core/dist/main.css";
 import PropTypes from "prop-types";
- export const ListItem = ({
+export const ListItem = ({
   item,
   deleteItemAction,
   editItemNameAction,
@@ -60,19 +60,20 @@ import PropTypes from "prop-types";
             value={taskName}
             onChange={handleInputChange}
           />
-          {item.isPokemon!==0 && (
+          {item.isPokemon !== 0 && (
             <a>
               <img src={item.imageUrl} />
             </a>
           )}
         </div>
         <div>
-          <IconButton aria-label="delete" size="large" color="error">
-            <DeleteIcon
-              className="deleteButton"
-              onClick={handleDeleteClick}
-              fontSize="inherit"
-            />
+          <IconButton
+            aria-label="delete"
+            size="large"
+            color="error"
+            onClick={handleDeleteClick}
+          >
+            <DeleteIcon className="deleteButton" fontSize="inherit" />
           </IconButton>
           {isEditClicked && (
             <IconButton

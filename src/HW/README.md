@@ -67,7 +67,7 @@ This will make your project:
 
   you can use this link for some help https://redux.js.org/usage/writing-tests#reducers
 
-- [ ] Snapshot tests - 2 components
+- [x] Snapshot tests - 2 components
 
       ListItemComponent
       AboutComponent

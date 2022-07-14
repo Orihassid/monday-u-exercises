@@ -13,19 +13,8 @@ const pendingTodo = {
 
 test("renders correctly pending todo", () => {
   const tree = renderer
-    .create(<ListItem item={pendingTodo}  key={pendingTodo.itemId} />)
+    .create(<ListItem item={pendingTodo}  />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
-test("renders correctly given wrong item props", () => {
-
-    const item = {
-        id: 3,
-        text: "Pokemon",
-     };
-  const tree = renderer
-    .create(<ListItem  item={item} key={item.id} />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
