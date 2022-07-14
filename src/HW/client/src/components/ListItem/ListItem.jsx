@@ -54,6 +54,7 @@ export const ListItem = ({
           />
 
           <input
+            data-testid={`item-${item.itemId}`}
             className="inputText"
             type="text"
             readOnly={isEditClicked}
