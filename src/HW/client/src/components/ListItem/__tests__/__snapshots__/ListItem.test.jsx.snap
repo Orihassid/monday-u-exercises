@@ -49,6 +49,7 @@ exports[`renders correctly pending todo 1`] = `
       </label>
       <input
         className="inputText"
+        data-testid="item-1"
         onChange={[Function]}
         readOnly={true}
         type="text"

@@ -41,10 +41,10 @@ describe("List", () => {
 });
 
 test("should call fetchItems function", () => {
-    const getItemsAction = jest.fn(() => items);
+    const mockGetItemsAction = jest.fn(() => items);
     render(
       <Provider store={store}>
-        <AppContainer items={items} getItemsAction={getItemsAction} />
+        <AppContainer items={items} getItemsAction={mockGetItemsAction} />
       </Provider>
     );
     expect(getItemsAction).toHaveBeenCalled();

@@ -2,7 +2,6 @@ import "./List.css";
 import PropTypes from "prop-types";
 import ListItemConnector from "../ListItem/ListItemConnector.js";
 const List = ({ items, searchInputValue}) => {
-  console.log(items)
   return (
     <div>
       <ul className="tasks">
