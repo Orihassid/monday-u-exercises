@@ -47,7 +47,7 @@ test("should call fetchItems function", () => {
         <AppContainer items={items} getItemsAction={mockGetItemsAction} />
       </Provider>
     );
-    expect(getItemsAction).toHaveBeenCalled();
+    expect(mockGetItemsAction).toHaveBeenCalled();
   });
 
 
