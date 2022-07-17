@@ -5,9 +5,9 @@ describe("Add Todo Action", () => {
 
   
     it("Should add a new todo", () => {
-      const newItem = 'Feed the cat';
+      const newItem = 'shopping';
       cy.get('input#taskInput').type(`${newItem}`);
-       cy.get('button#search-icon-legacy').click()
+       cy.get('button#add-button').click()
     });
 
 
