@@ -1,30 +1,24 @@
-import ListItem from "../ListItem/ListItem.jsx";
 import "./List.css";
 import PropTypes from "prop-types";
-const List = ({ items, deleteItemFromDb, updateStatusDb, editTaskNameDb }) => {
+import ListItemConnector from "../ListItem/ListItemConnector.js";
+const List = ({ items, searchInputValue}) => {
   return (
     <div>
       <ul className="tasks">
-        {items.map((item, index) => {
-          return (
-            <ListItem
-              item={item}
-              deleteItemFromDb={deleteItemFromDb}
-              updateStatusDb={updateStatusDb}
-              key={index}
-              editTaskNameDb={editTaskNameDb}
-            />
-          );
-        })}
+        
+        {items
+          .filter((item) => item.itemName.includes(searchInputValue))
+          .map((item) => {
+            
+            return <ListItemConnector item={item} key={item.itemId} />;
+          })}
       </ul>
     </div>
   );
 };
 List.prototype = {
   items: PropTypes.array,
-  deleteItemFromDb: PropTypes.func,
-  updateStatusDb: PropTypes.func,
-  editTaskNameDb: PropTypes.func,
+  searchInputValue: PropTypes.string,
 };
 
 export default List;

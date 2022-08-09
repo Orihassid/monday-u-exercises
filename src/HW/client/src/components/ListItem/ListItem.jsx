@@ -4,26 +4,21 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
+import { Checkbox } from "monday-ui-react-core";
+import "monday-ui-react-core/dist/main.css";
 import PropTypes from "prop-types";
-const ListItem = ({
+export const ListItem = ({
   item,
-  deleteItemFromDb,
-  updateStatusDb,
-  editTaskNameDb,
+  deleteItemAction,
+  editItemNameAction,
+  updateCheckBoxAction,
 }) => {
-  const isPokemon = item.isPokemon === 0 ? false : true;
-  const [taskName, setTaskName] = useState(
-    isPokemon ? `catch ${item.itemName}` : item.itemName
-  );
+  const [taskName, setTaskName] = useState(item.itemName);
   const [isEditClicked, setEditClicked] = useState(true);
 
   const handleCheckboxChange = async (e) => {
     try {
-      if (e.target.checked) {
-        await updateStatusDb(item.itemId, true);
-      } else {
-        await updateStatusDb(item.itemId, false);
-      }
+      await updateCheckBoxAction(item.itemId, e.target.checked);
     } catch (err) {
       throw new Error("failed to update status with checkbox");
     }
@@ -36,7 +31,7 @@ const ListItem = ({
     try {
       setEditClicked(true);
       const newTaskName = taskName.replace("catch", "");
-      await editTaskNameDb(item.itemId, newTaskName);
+      await editItemNameAction(item.itemId, newTaskName);
     } catch (err) {
       throw new Error("failed to edit task in db");
     }
@@ -45,38 +40,41 @@ const ListItem = ({
     setTaskName(e.target.value);
   };
 
+  const handleDeleteClick = async () => {
+    await deleteItemAction(item.itemId);
+  };
+
   return (
     <div>
       <li id={item.itemId} className="new-item">
         <div className="items">
-          <input
-            type="checkbox"
+          <Checkbox
             defaultChecked={item.status}
             onChange={handleCheckboxChange}
           />
 
           <input
+            data-testid={`item-${item.itemId}`}
             className="inputText"
             type="text"
             readOnly={isEditClicked}
             value={taskName}
             onChange={handleInputChange}
           />
-          {isPokemon && (
+          {item.isPokemon !== 0 && (
             <a>
               <img src={item.imageUrl} />
             </a>
           )}
         </div>
         <div>
-          <IconButton aria-label="delete" size="large" color="error">
-            <DeleteIcon
-              className="deleteButton"
-              onClick={() => {
-                deleteItemFromDb(item.itemId);
-              }}
-              fontSize="inherit"
-            />
+          <IconButton
+            aria-label="delete"
+            size="large"
+            color="error"
+            onClick={handleDeleteClick}
+          >
+            <DeleteIcon className="deleteButton" fontSize="inherit" />
           </IconButton>
           {isEditClicked && (
             <IconButton
@@ -104,8 +102,8 @@ const ListItem = ({
 
 ListItem.prototype = {
   item: PropTypes.object,
-  deleteItemFromDb: PropTypes.func,
-  updateStatusDb: PropTypes.func,
-  editTaskNameDb: PropTypes.func,
+  deleteItemAction: PropTypes.func,
+  editItemNameAction: PropTypes.func,
+  updateCheckBoxAction: PropTypes.func,
 };
 export default ListItem;

@@ -4,9 +4,13 @@ import { Button } from "monday-ui-react-core";
 import "monday-ui-react-core/dist/main.css";
 import PropTypes from "prop-types";
 
-const ListControls = ({ renderNewItems }) => {
+const ListControls = ({
+  showLoaderAction,
+  hideLoaderAction,
+  addItemsAction,
+  showLoader,
+}) => {
   const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleInputValue = (e) => {
     setInputValue(e.target.value.trim());
@@ -16,10 +20,10 @@ const ListControls = ({ renderNewItems }) => {
     try {
       if (e.key === "Enter") {
         e.preventDefault();
-        setLoading(true);
+        showLoaderAction();
 
-        await renderNewItems(inputValue);
-        setLoading(false);
+        await addItemsAction(inputValue);
+        hideLoaderAction()
         setInputValue("");
       }
     } catch (err) {
@@ -28,9 +32,9 @@ const ListControls = ({ renderNewItems }) => {
   };
   const handlePressClick = async () => {
     try {
-      setLoading(true);
-      await renderNewItems(inputValue);
-      setLoading(false);
+      showLoaderAction();
+      await addItemsAction(inputValue);
+      hideLoaderAction();
       setInputValue("");
     } catch (err) {
       throw new Error("failed to render items with button clicked");
@@ -41,8 +45,8 @@ const ListControls = ({ renderNewItems }) => {
     <div>
       <div className="list-controls">
         <input
+          id = "taskInput"
           type="text"
-          className="taskInput"
           placeholder="Add your new todo"
           onKeyPress={handleEnterPress}
           onChange={handleInputValue}
@@ -52,7 +56,7 @@ const ListControls = ({ renderNewItems }) => {
           id="add-button"
           type="button"
           onClick={handlePressClick}
-          loading={loading}
+          loading={showLoader}
         >
           +
         </Button>
@@ -62,7 +66,10 @@ const ListControls = ({ renderNewItems }) => {
 };
 
 ListControls.propTypes = {
-  renderNewItems: PropTypes.func,
+  showLoaderAction:PropTypes.func,
+  hideLoaderAction:PropTypes.func,
+  addItemsAction:PropTypes.func,
+  showLoader:PropTypes.bool,
 };
 
 export default ListControls;

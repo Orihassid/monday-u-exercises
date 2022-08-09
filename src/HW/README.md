@@ -1,51 +1,154 @@
-# Exercise 6 - React
-
-Let's get Reactive 🥳
+# Exercise 8 - Testing
 
 ## In this section you will practice
 
-**Initializing React project** - Use [create-react-app](https://github.com/facebook/create-react-app) to set up a basic React application
+**Setup testing for your client using jest + cypress**
 
-**React components** - Creating and using controlled and uncontrolled components
+- Jest is already installed with your react setup so no need to install it
 
-**State and Props** - Handling and passing data in and between different components
+- Under the `package.json` file go to "scripts" and append `--watchAll=false` into the "test" runner.
 
-**CSS** - Connecting CSS to components using CSS Modules
+  ```json
+  "scripts": {
+      ...,
+      "test": "react-scripts test --watchAll=false",
+      ...
+    },
+  ```
 
-**Hooks** - Using `useState`, `useCallback`, `useMemo` && `useEffect` to handle the component's state and lifecycle
+- Create a new file (or edit if already exists) called `App.test.js` under the `client/src` folder (right next to the `App.js` file) with the following content
 
-**Data fetching** - Data fetching from a component, handling communication issues and empty/loading state
+  ```javascript
+  import { render, screen } from "@testing-library/react";
+  import { BrowserRouter } from "react-router-dom";
+  import { Provider } from "react-redux";
+  import { store } from "./store";
+  import App from "./App";
+
+  test("renders learn react link", () => {
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    );
+    const linkElement = screen.getByText(/Todo App/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+  ```
+
+- Now you can run `npm run test` and see that all tests pass
 
 ## What you are going to build
 
-In the last exercise, you have made your application's data persistent using a DB.
+In the last exercise, you have changed your application to use React and Redux.
 
-Now you are going to give the client side a makeover using React.
+Now you are going to test the components you have built with:
+
+- Unit tests
+- Snapshot tests
+- Integration tests
 
 This will make your project:
-* **Easier to maintain** - Having a component for each "UI part" of our client
-* **Hooked to the DOM** - By using JSX you can directly manipulate DOM
-* **Increased performance** - React works with a Virtual DOM to improve the performance of your project
-* **"Common"** - React is wildly used in the community and has tons of info about different use-cases you may encounter while developing
+
+- **Trustworthy** - Less bugs overall that the users experience
+- **Stable** - Confidence when refactoring code / adding new code
+- **Better** - Testable code is more readable and understandable
 
 ### The requirements:
-- [x] Remove `app.use(express.static(path.join(__dirname, 'dist')))` from your `server.js` file
-- [x] Delete `src/server/dist` **ONLY** when your new client is up and running 
-- [x] Initialize your React project in the `src` folder using [create-react-app](https://create-react-app.dev/docs/getting-started/) with the name `client`
-- [x] Decompose your Todo App into components (controlled and uncontrolled)
-- [x] Re-Implement the Todo App using hooks
-- [x] Use [**propTypes** & **defaultProps**](https://reactjs.org/docs/typechecking-with-proptypes.html) to add type-checking to your components
 
-#### Your todo app is now:
-- Very easy to maintain and scale
-- Can use a vast amount of packages for almost every use-case
-- More performant out of the box
+- [x] Unit tests - test `itemsEntitiesReducer` - add 3 unit tests
+      you should create a new `__tests__` folder under the reducers folder and a new test file for it
+
+  ```
+  client/src/reducers/__tests__/items-entities-reducer.test.js
+  ```
+
+  you can use this link for some help https://redux.js.org/usage/writing-tests#reducers
+
+- [x] Snapshot tests - 2 components
+
+      ListItemComponent
+      AboutComponent
+
+  you should create 2 new test files next to the original components in a designated folder called `__tests__`
+
+  ```
+  client/src/components/list-container/list-item-component/__tests__/ListItemComponent.test.jsx
+
+  client/src/components/about-component/__tests__/AboutComponent.test.jsx
+  ```
+
+- [x] Integration tests - send 2 items to the
+
+      ListContainer
+
+  you should create a new test file next to the original components in a designated folder called `__tests__`
+
+  ```
+  client/src/components/list-container/__tests__/ListContainer.test.jsx
+  ```
+
+  copy this template to it:
+
+  ```javascript
+  import { render, screen } from "@testing-library/react";
+  import ListContainer from "../ListContainer";
+  import { Provider } from "react-redux";
+  import { store } from "../../../store";
+
+  const items = [
+    {
+      id: 56,
+      name: "Take dog out for a walk",
+      status: false,
+    },
+    {
+      id: 32,
+      name: "Do the dishes",
+      status: true,
+    },
+  ];
+
+  describe("ListContainer", () => {
+    test("should render both items (one done and one not)", () => {
+      render(
+        <Provider store={store}>
+          <ListContainer items={items} fetchItems={jest.fn(() => items)} />
+        </Provider>
+      );
+
+      // TODO: test that both items are rendered at the list
+    });
+  });
+  ```
+
+  What does the template do?
+  it renders the ListContainer with a redux store (becuase ListContainer renders some more components that rely on the store to exist)
+
+  we also send the fetchItems function this component as a mocked function that gets us the same items (becuase we dont have a real server or action that does it)
+
+- [x] Create a new test that mocks `fetchItems` and make sure it has been called (do it under the same test file as the ListContainer tests)
 
 ### Bonus
-- [x] Add error handling for communication issues with your backend (Empty state / Loader / Something else)
-- [x] Use components from the [Vibe Design System](https://github.com/mondaycom/monday-ui-react-core) (monday.com's component library)
-- [ ] Use [React Router](https://reactrouter.com/docs/en/v6) to add basic routing capabilities to your app
-  - [ ] Add Tabs / Navigation bar to help route between pages [Tabs example](https://style.monday.com/?path=/docs/navigation-tabs-tab--overview)
-  - Page suggestions
-    - [ ] Task completion statistics page - # of open tasks, total number of tasks, average tim to finish a task, etc.
-    - [ ] About page - with some fun facts and profile picture
+
+- [ ] Coverage - get to 50% coverage for `items-entities-reducer.js` file
+- [x] Add snapshot tests with more props variations
+- [x] Add an E2E test to the project using cypress
+
+**Setup cypress:**
+
+1. Copy e2e folder to your project directory (right next to the client and server folders)
+2. Start your project as you normally would for development
+3. Open a terminal under the e2e folder and run the following commands:
+
+```bash
+npm install
+npm run cypress:open
+```
+
+A window will open up, click on "E2E Testing"
+
+All done you can now write cypress tests :)
+

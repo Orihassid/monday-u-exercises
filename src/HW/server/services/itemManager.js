@@ -1,7 +1,6 @@
 
 const pokemonClinet = require("../clients/pokemonClient.js");
 const { Item } = require("../DB/models");
-const fs = require("fs").promises;
 class ItemManager {
   constructor() {
     this.itemsArr = [];
@@ -34,8 +33,8 @@ class ItemManager {
       const isExist = await this.isExistInDb(pokemon.id);
       if (!isExist) {
         const task = this.initTask(
-          true,
-          pokemon.name,
+          1,
+          `catch ${pokemon.name}`,
           pokemon.sprites.front_default,
           pokemon.id
         );
@@ -55,8 +54,8 @@ class ItemManager {
 
       pokemons.forEach((pokemon) => {
         const task = this.initTask(
-          true,
-          pokemon.name,
+          1,
+          `catch ${pokemon.name}`,
           pokemon.sprites.front_default,
           pokemon.id
         );
@@ -70,7 +69,7 @@ class ItemManager {
         pokemonId += task + " ";
       });
       const task = this.initTask(
-        false,
+        0,
         `pokemon with id: ${pokemonId} was not found`
       );
       this.itemsArr.push(task);
@@ -106,7 +105,7 @@ class ItemManager {
       if (filteredArr.length === 0) return newItemsToRender;
       return this.fetchPokemonByNumberId(filteredArr, newItemsToRender);
     } else {
-      const task = this.initTask(false, inputArr[0]);
+      const task = this.initTask(0, inputArr[0]);
       this.itemsArr.push(task);
       newItemsToRender.push(task);
       await Item.bulkCreate(newItemsToRender);

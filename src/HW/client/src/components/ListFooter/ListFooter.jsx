@@ -1,22 +1,22 @@
+import "./ListFooter.css";
+import PropTypes from "prop-types";
+const ListFooter = ({ numOfItems, clearAllItemsAction }) => {
+  const handleClearAllClick = async () => {
+    await clearAllItemsAction();
+  };
 
-import "./ListFooter.css"
-import PropTypes from 'prop-types';
-const ListFooter = ({numOfTasks,clearAllFromDb})=>{
+  return (
+    <footer>
+      <p className="count"> Item(s): {numOfItems} </p>
+      <button onClick={handleClearAllClick} className="clearAllBtn">
+        Clear All
+      </button>
+    </footer>
+  );
+};
+ListFooter.propTypes = {
+  numOfItems: PropTypes.number,
+  clearAllItemsAction: PropTypes.func,
+};
 
-   
-
-    return (
-        <footer>
-           {numOfTasks>0 && <p  className="count"> Item(s):{numOfTasks} </p>}
-            <button onClick={clearAllFromDb} className="clearAllBtn">Clear All</button>
-          </footer>
-    )
-}
-ListFooter.propTypes={
-    numOfTasks:PropTypes.number,
-    clearAllFromDb:PropTypes.func
-
-}
-
-
-export default ListFooter
+export default ListFooter;
