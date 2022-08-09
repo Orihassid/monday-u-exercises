@@ -1,0 +1,48 @@
+
+
+.new-item {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    width: 100%;
+    margin-bottom: 15px;
+    background-color: #f2f2f2;
+    padding-left: 10px;
+    height: 40px;
+    align-items: center;
+    animation: new-item-animation 0.3s linear forwards;
+  }
+  .new-item:hover{
+    background-color: #4a8ee7;
+  cursor: pointer;
+  visibility: visible;
+  }
+  
+  img{
+  
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0%;
+    margin-left: 30%;
+    }
+    .items{
+      display: flex;
+      align-items: center;
+    }
+    .inputText{
+      padding: 0;
+      outline: none;
+      border: none;
+    }
+    .deleteButton:hover{
+      cursor: pointer;
+  
+    }
+    .editButton{
+      margin-right: 10px;
+     
+    }
+    .editButton:hover{
+      cursor: pointer;
+    }
+    
