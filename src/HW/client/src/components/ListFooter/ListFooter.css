@@ -1,0 +1,30 @@
+
+@keyframes body-animation {
+  from {background-color: #ffc3a0}
+  to {background-color: #ffafbd}
+}
+
+@keyframes count-animation {
+  from {color:#4a8ee7}
+  to {color: #ffafbd}
+}
+
+.count{
+  animation-name: count-animation;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+  position: fixed;
+}
+.clearAllBtn {
+    background-color: #4a8ee7;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 10px;
+    margin: 10px 0;
+    float: right;
+    cursor: pointer;
+   
+  }
+  

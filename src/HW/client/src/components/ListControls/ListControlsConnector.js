@@ -1,0 +1,27 @@
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import ListControls from "./ListControls";
+import{showLoaderAction,hideLoaderAction} from '../../redux/actions/itemsViewsActions'
+import{addItemsAction} from '../../redux/actions/itemsEntitiesActions'
+import { getItems } from "../../redux/selectors/itemsEntitiesSelectors";
+import { getShowLoader } from "../../redux/selectors/itemsViewSelectors";
+
+const mapStateToProps = (state, ownProps) => {
+    const showLoader = getShowLoader(state);
+    const items = getItems(state)
+
+    return { showLoader,items };
+  };
+  
+  const mapDispatchToProps = (dispatch, ownProps) => {
+    return bindActionCreators(
+      {
+        showLoaderAction,hideLoaderAction,addItemsAction,
+      },
+      dispatch
+    );
+    }  
+
+
+    export default connect(mapStateToProps, mapDispatchToProps)(ListControls);
+

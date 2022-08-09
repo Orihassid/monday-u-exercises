@@ -1,53 +1,154 @@
-# Exercise 5 - Sequelize ORM
-
-It is not persisted until you persist it!
+# Exercise 8 - Testing
 
 ## In this section you will practice
 
-**Initializing Sequelize ORM** - Connect NodeJS application to your mysql DB using Sequelize ORM 
+**Setup testing for your client using jest + cypress**
 
-**Sequelize models** - Use Sequelize models to execute queries on your DB
+- Jest is already installed with your react setup so no need to install it
 
-**Migrations and seeds** - Manage DB changes using Sequelize migrations
+- Under the `package.json` file go to "scripts" and append `--watchAll=false` into the "test" runner.
+
+  ```json
+  "scripts": {
+      ...,
+      "test": "react-scripts test --watchAll=false",
+      ...
+    },
+  ```
+
+- Create a new file (or edit if already exists) called `App.test.js` under the `client/src` folder (right next to the `App.js` file) with the following content
+
+  ```javascript
+  import { render, screen } from "@testing-library/react";
+  import { BrowserRouter } from "react-router-dom";
+  import { Provider } from "react-redux";
+  import { store } from "./store";
+  import App from "./App";
+
+  test("renders learn react link", () => {
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    );
+    const linkElement = screen.getByText(/Todo App/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+  ```
+
+- Now you can run `npm run test` and see that all tests pass
 
 ## What you are going to build
 
-In the last exercise, you've added an ExpressJS server to your todo app, which allowed you to reload your todos from server. 
+In the last exercise, you have changed your application to use React and Redux.
 
-But what happens when you restart your server?! you guessed right, all todos disappeared :( 
+Now you are going to test the components you have built with:
 
-In this exercise we will add a DB to our application that will hold all items' data. This will provide us a real persistent storage that would keep our data even if our server is down. 
+- Unit tests
+- Snapshot tests
+- Integration tests
 
-You can use your ex4 solution or use the boilerplate in this folder. 
+This will make your project:
 
-### Prerequisites:
-Following pre-requisites were covered in our last workshop. 
-- Download and install [docker](https://docs.docker.com/get-docker/)
-- Open console and pull latest mysql image: ```docker pull mysql/mysql-server ```
-- Run mysql container and initialize it with the proper user, password, db name and permissions: ```docker run -p 3306:3306 --name tododb -e MYSQL_ROOT_PASSWORD=password -e MYSQL_ROOT_HOST=% -e MYSQL_DATABASE=todo_db -d mysql/mysql-server```
-- Validate container is up: ```docker ps``` 
+- **Trustworthy** - Less bugs overall that the users experience
+- **Stable** - Confidence when refactoring code / adding new code
+- **Better** - Testable code is more readable and understandable
 
 ### The requirements:
 
-- [x] Install Sequelize and mysql driver. [Sequelize- Getting Started](https://sequelize.org/docs/v6/getting-started/)
-- [x] Install Sequelize CLI. [Installing the CLI](https://sequelize.org/docs/v6/other-topics/migrations/)
-- [x] Initialize Sequelize using `npx sequelize-cli init` inside 'src/server/db' folder 
-- [x] Create Items table using [Sequelize migration](https://sequelize.org/docs/v6/other-topics/migrations/#creating-the-first-model-and-migration) - a new table with id and ItemName fields
-- [x] Modify `item_manager.js`: remove items array and modify all item operations to use Item model
-- [x] Create and run a separate migration for adding a `status` column (BOOLEAN) to Items table in your DB
-- [x] Add checkbox to each item in UI to indicate its status (Done vs not)
-- [x] Modify client and server code to support persistence of the new Item status 
+- [x] Unit tests - test `itemsEntitiesReducer` - add 3 unit tests
+      you should create a new `__tests__` folder under the reducers folder and a new test file for it
 
-Your todo app should have now an additional checkbox that marks the status of the item. Every change to the checkbox should be stored in our Items table under the status column (true or false)
+  ```
+  client/src/reducers/__tests__/items-entities-reducer.test.js
+  ```
 
-Now, even if your server is down - all your items are stored. Once the server is up again - you should be able to see all items.
+  you can use this link for some help https://redux.js.org/usage/writing-tests#reducers
 
-Here is an example how it can look on the client side:
-![](../assets/hw-5.gif)
+- [x] Snapshot tests - 2 components
+
+      ListItemComponent
+      AboutComponent
+
+  you should create 2 new test files next to the original components in a designated folder called `__tests__`
+
+  ```
+  client/src/components/list-container/list-item-component/__tests__/ListItemComponent.test.jsx
+
+  client/src/components/about-component/__tests__/AboutComponent.test.jsx
+  ```
+
+- [x] Integration tests - send 2 items to the
+
+      ListContainer
+
+  you should create a new test file next to the original components in a designated folder called `__tests__`
+
+  ```
+  client/src/components/list-container/__tests__/ListContainer.test.jsx
+  ```
+
+  copy this template to it:
+
+  ```javascript
+  import { render, screen } from "@testing-library/react";
+  import ListContainer from "../ListContainer";
+  import { Provider } from "react-redux";
+  import { store } from "../../../store";
+
+  const items = [
+    {
+      id: 56,
+      name: "Take dog out for a walk",
+      status: false,
+    },
+    {
+      id: 32,
+      name: "Do the dishes",
+      status: true,
+    },
+  ];
+
+  describe("ListContainer", () => {
+    test("should render both items (one done and one not)", () => {
+      render(
+        <Provider store={store}>
+          <ListContainer items={items} fetchItems={jest.fn(() => items)} />
+        </Provider>
+      );
+
+      // TODO: test that both items are rendered at the list
+    });
+  });
+  ```
+
+  What does the template do?
+  it renders the ListContainer with a redux store (becuase ListContainer renders some more components that rely on the store to exist)
+
+  we also send the fetchItems function this component as a mocked function that gets us the same items (becuase we dont have a real server or action that does it)
+
+- [x] Create a new test that mocks `fetchItems` and make sure it has been called (do it under the same test file as the ListContainer tests)
 
 ### Bonus
 
-- [ ] Add "Done" timestamp
-- [ ] Add index to the Items table (which columns compose the index?) 
-- [ ] Add server validation - create a new item only if not exists (Use transaction)
-- [ ] Add edit capabilities to an item. 
+- [ ] Coverage - get to 50% coverage for `items-entities-reducer.js` file
+- [x] Add snapshot tests with more props variations
+- [x] Add an E2E test to the project using cypress
+
+**Setup cypress:**
+
+1. Copy e2e folder to your project directory (right next to the client and server folders)
+2. Start your project as you normally would for development
+3. Open a terminal under the e2e folder and run the following commands:
+
+```bash
+npm install
+npm run cypress:open
+```
+
+A window will open up, click on "E2E Testing"
+
+All done you can now write cypress tests :)
+
