@@ -45,8 +45,8 @@ const ListControls = ({
     <div>
       <div className="list-controls">
         <input
+          id = "taskInput"
           type="text"
-          className="taskInput"
           placeholder="Add your new todo"
           onKeyPress={handleEnterPress}
           onChange={handleInputValue}

@@ -9,6 +9,7 @@ const List = ({ items, searchInputValue}) => {
         {items
           .filter((item) => item.itemName.includes(searchInputValue))
           .map((item) => {
+            
             return <ListItemConnector item={item} key={item.itemId} />;
           })}
       </ul>

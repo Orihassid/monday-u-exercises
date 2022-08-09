@@ -1,7 +1,6 @@
 
 const pokemonClinet = require("../clients/pokemonClient.js");
 const { Item } = require("../DB/models");
-const fs = require("fs").promises;
 class ItemManager {
   constructor() {
     this.itemsArr = [];
