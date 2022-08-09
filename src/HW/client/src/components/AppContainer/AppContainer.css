@@ -1,0 +1,39 @@
+.main-section {
+ 
+    width: 100%;
+    min-height: 100vh;
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffafbd;
+    animation-name: body-animation;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-duration: 4s;
+    background: -webkit-linear-gradient(
+      to right,
+      #ffc3a0,
+      #ffafbd
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #ffc3a0,
+      #ffafbd
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+  .todoApp {
+    background-color: #fff;
+    width: 600px;
+    padding: 25px;
+    border-radius: 5px;
+    max-height: 500px;
+   
+  }
+  .todoApp h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+    color: #4a8ee7;
+    place-items: center;
+    display: grid;
+  }
